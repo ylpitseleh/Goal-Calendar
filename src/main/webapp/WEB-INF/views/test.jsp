@@ -12,8 +12,8 @@
     <div class="col leftCol">
       <div class="content">
         <%-- <h1 class="title">임시 타이틀</h1> --%>
-        <h1 class="date">home.jsp<br>cp: ${cp}<br>serverTime: ${serverTime}</h1>
-        <a href="${cp}/test">!test 예제</a>
+        <h1 class="date">test.jsp<br>cp: ${cp}<br>serverTime: ${serverTime}</h1>
+        <a href="${cp}/">!home으로</a>
         <div class="notes">
           <p>
             <input type="text" value="" placeholder="new note" />
