@@ -1,16 +1,13 @@
 package com.prj.cal;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class CalculateCalendar {
-	//public static void main(String[] args) {
+	public static void main(String[] args) {
 		// 년와 월을 입력 받아 달력을 출력
-		/*
+		
 		int year, month;
 
 		Calendar calendar = new GregorianCalendar(Locale.KOREA);
@@ -18,7 +15,6 @@ public class CalculateCalendar {
 		month = calendar.get(Calendar.MONTH) + 1;
 
 		Calendar cal = Calendar.getInstance(); // 현재 날짜와 시간
-
 		// 해당 월의 첫번째 날짜의 요일
 		// DAY_OF_WEEK
 		cal.set(year, month - 1, 1);
@@ -43,7 +39,7 @@ public class CalculateCalendar {
 				System.out.println();
 			}
 		}
-		*/
-	//}
+		
+	}
 
 }
