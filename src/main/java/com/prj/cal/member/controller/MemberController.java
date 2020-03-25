@@ -27,7 +27,7 @@ public class MemberController {
 	
 	@ModelAttribute("cp")
 	public String getContextPath(HttpServletRequest request) {
-		return request.getContextPath();
+		return request.getContextPath(); //cp에 cal을 넣은 것.
 	}
 	
 	@ModelAttribute("serverTime")
@@ -88,7 +88,7 @@ public class MemberController {
 		Member member = (Member) session.getAttribute("member");
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("member", service.memberSearch(member));
+		mav.addObject("member", service.memberSearch(member)); //
 		
 		mav.setViewName("/member/modifyForm");
 		
@@ -108,7 +108,7 @@ public class MemberController {
 			session.setAttribute("member", mem);
 			
 			mav.addObject("memAft", mem);
-			mav.setViewName("/member/modifyOk");
+			mav.setViewName("/member/modifyOk"); //memAft를 modifyOk에서 쓸 수 있음
 		}
 		
 		return mav;
