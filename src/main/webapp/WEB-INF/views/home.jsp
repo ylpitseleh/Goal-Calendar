@@ -46,11 +46,12 @@
                         <li><a href="#" title="Wed" data-value="3">Wed</a></li>
                         <li><a href="#" title="Thu" data-value="4">Thu</a></li>
                         <li><a href="#" title="Fri" data-value="5">Fri</a></li>
-                        <li><a href="#" title="Say" data-value="6">Sat</a></li>
+                        <li><a href="#" title="Sat" data-value="6">Sat</a></li>
                         <li><a href="#" title="Sun" data-value="7">Sun</a></li>
                     </ul>
                     <div class="clearfix"></div>
                     <ul class="days">
+                    	<a href="${cp}/member/joinForm">1</a>
                         <script>
                             for( var i = 1; i <= 31; i += 1 ){
                                 var addClass = '';
