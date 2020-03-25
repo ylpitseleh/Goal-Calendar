@@ -10,15 +10,15 @@
     <div class="col leftCol">
       <div class="content">
         <%-- <h1 class="title">임시 타이틀</h1> --%>
-        <h1 class="date">home.jsp<br>cp: ${cp}<br>serverTime: ${serverTime}</h1>
-        <a href="${cp}/test.jsp">!test 예제</a>
+        <h1 class="date">testYL.jsp<br>cp: ${cp}<br>serverTime: ${serverTime}</h1>
+        <a href="${cp}">MAIN</a>
         <div class="notes">
           <p>
             <input type="text" value="" placeholder="new note" />
             <a href="#" title="Add note" class="addNote animate">+</a>
           </p>
           <ul class="noteList">
-            <li>This is home.jsp<a href="#" title="Remove note" class="removeNote animate">x</a></li>
+            <li>This is testYL.jsp<a href="#" title="Remove note" class="removeNote animate">x</a></li>
           </ul>
         </div>
       </div>

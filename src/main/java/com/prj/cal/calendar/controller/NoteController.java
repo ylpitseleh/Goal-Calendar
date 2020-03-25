@@ -41,6 +41,11 @@ public class NoteController {
 	public String memLogout(Note note) {
 		return "test";
 	}
+	
+	@RequestMapping("/testYL")
+	public String goToTest3(Note note) {
+		return "testYL";
+	}
 
 	// // Prototype Modal
 	// @RequestMapping(value = "/note/openModal", method = RequestMethod.POST)

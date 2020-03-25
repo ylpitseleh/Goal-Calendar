@@ -21,5 +21,8 @@
 		<a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp; 
 	</c:if>
 	
+	<a href="${cp}/testYL">YL CALENDAR</a> &nbsp;&nbsp;
+	
+	
 </body>
 </html>

@@ -15,7 +15,7 @@ public class DBConfig {
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
 		dataSource.setDriverClass("oracle.jdbc.driver.OracleDriver");
-		dataSource.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
+		dataSource.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:orcl");
 		dataSource.setUser("scott");
 		dataSource.setPassword("tiger");
 		dataSource.setMaxPoolSize(200);
