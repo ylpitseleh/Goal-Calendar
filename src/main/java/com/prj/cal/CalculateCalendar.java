@@ -6,40 +6,32 @@ import java.util.Locale;
 
 public class CalculateCalendar {
 	public static void main(String[] args) {
-		// ³â¿Í ¿ùÀ» ÀÔ·Â ¹Ş¾Æ ´Ş·ÂÀ» Ãâ·Â
-		
+		// ë…„ì™€ ì›”ì„ ì…ë ¥ ë°›ì•„ ë‹¬ë ¥ì„ ì¶œë ¥
 		int year, month;
-
 		Calendar calendar = new GregorianCalendar(Locale.KOREA);
 		year = calendar.get(Calendar.YEAR);
 		month = calendar.get(Calendar.MONTH) + 1;
-
-		Calendar cal = Calendar.getInstance(); // ÇöÀç ³¯Â¥¿Í ½Ã°£
-		// ÇØ´ç ¿ùÀÇ Ã¹¹øÂ° ³¯Â¥ÀÇ ¿äÀÏ
+		Calendar cal = Calendar.getInstance(); // í˜„ì¬ ë‚ ì§œì™€ ì‹œê°„
+		// í•´ë‹¹ ì›”ì˜ ì²«ë²ˆì§¸ ë‚ ì§œì˜ ìš”ì¼
 		// DAY_OF_WEEK
 		cal.set(year, month - 1, 1);
 		int dayOfweek = cal.get(Calendar.DAY_OF_WEEK) - 1; // 1~7 -> 0~6
 		// int dayOfweek = (lastYear + leapYear_cnt + dayOfYear)%7;
-
-		// ¿ù¿¡ µû¸¥ ³¯Â¥ Ãâ·Â Á¶°Ç
-		// getActualMAXIMUM -> ÇöÀç °´Ã¼ÀÇ ÃÖ´ë°ª ¹İÈ¯ / getMAXIMUM -> ÀüÃ¼ Áß, ÃÖ´ë°ª¸¸ ¹İÈ¯
+		// ì›”ì— ë”°ë¥¸ ë‚ ì§œ ì¶œë ¥ ì¡°ê±´
+		// getActualMAXIMUM -> í˜„ì¬ ê°ì²´ì˜ ìµœëŒ€ê°’ ë°˜í™˜ / getMAXIMUM -> ì „ì²´ ì¤‘, ìµœëŒ€ê°’ë§Œ ë°˜í™˜
 		int lastday = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-		System.out.printf("                     %d³â %02d¿ù\n", year, month);
-		System.out.printf("ÀÏ\t¿ù\tÈ­\t¼ö\t¸ñ\t±İ\tÅä\n");
-
-		// °ø¹é Ãâ·Â
+		System.out.printf("                     %dë…„ %02dì›”\n", year, month);
+		System.out.printf("ì¼\tì›”\tí™”\tìˆ˜\tëª©\tê¸ˆ\tí† \n");
+		// ê³µë°± ì¶œë ¥
 		for (int i = 0; i < dayOfweek; i++) {
 			System.out.print("\t");
 		}
-		// ³¯Â¥ Ãâ·Â
+		// ë‚ ì§œ ì¶œë ¥
 		for (int i = 1; i <= lastday; i++) {
 			System.out.print(i + "\t");
 			if ((dayOfweek + i) % 7 == 0) {
 				System.out.println();
 			}
 		}
-		
 	}
-
 }
