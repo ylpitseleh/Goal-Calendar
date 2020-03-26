@@ -25,7 +25,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
   </repositories>
 
 
-  <dependencies>
+  <dependencies> 
     <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>

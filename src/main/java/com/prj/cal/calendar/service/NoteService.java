@@ -1,25 +1,15 @@
 package com.prj.cal.calendar.service;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.prj.cal.calendar.Note;
+import com.prj.cal.calendar.dao.NoteDao;
 
 @Service
 public class NoteService implements INoteService {
-	//@Autowired
-	//NoteDao dDao;
+	@Autowired
+	NoteDao nDao;
 	// MemberDao mDao;
 	/*int curYear, curMonth;
 	
@@ -46,11 +36,22 @@ public class NoteService implements INoteService {
 	
 	
 	
+	
 	@Override
 	public void noteRegister(Note note){
-		return ;
+		int result = nDao.noteInsert(note);
+		
+		if (result == 0) {
+			System.out.println("Put Note Fail!!");
+		} else {
+			System.out.println("Put Note Success!!");
+		}
 	}
 
+	
+	
+	
+	
 	@Override
 	public Note noteSearch(Note note){
 		return null;

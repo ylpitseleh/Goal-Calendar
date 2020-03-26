@@ -2,9 +2,37 @@
 <%@ page session="false"%>
 <html>
 <head>
-<link href="<c:url value="/resources/css/test.css" />" rel="stylesheet">
+<link href="<c:url value="/resources/css/test.css?after" />" rel="stylesheet">
+
+<!-- <script type="text/javascript" src="JS/jquery-1.4.2.min.js"></script>  -->
+<!-- <script src="./js/jquery-1.4.2.min.js"></script>  -->
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+     $('#ibutton').click(function(e) {
+     e.preventDefault();
+     var ajaxdata = $("#note").val();
+     //var value ='note='+ajaxdata;
+
+     $.ajax({
+     url: "saveIt",
+     //type: "post",
+     dataType: "JSON",
+     data: ajaxdata,
+     cache: false,
+     success: function(data) {
+     $("#note").val('');
+     $("#message").html(data).slideDown('slow');
+     }
+     });
+});
+});
+</script>
+
 </head>
 <body>
+<a href="${cp}">MAIN</a>
 	<div class="calendar">
 
 		<div class="col leftCol">
@@ -13,15 +41,18 @@
 				<h1 class="date">
 					testYL.jsp<br>cp: ${cp}<br>serverTime: ${serverTime}
 				</h1>
-				<a href="${cp}">MAIN</a>
 				<div class="notes">
 					<p>
-						<input type="text" value="" placeholder="new note" /> <a href="#"
-							title="Add note" class="addNote animate">+</a>
+					
+						<form name="inputNote" action="saveIt" id="inputNote">
+        					<input type="text" name="note" id="note" value="" placeholder="new note"/>
+							<input type="button" id="ibutton" value="Save" p style="cursor:pointer"/>
+						</form>
 					</p>
+					<div id="message"></div>
+					
 					<ul class="noteList">
-						<li>This is testYL.jsp<a href="#" title="Remove note"
-							class="removeNote animate">x</a></li>
+							<li>This is testYL.jsp <a href="#" title="Remove note" class="removeNote animate">x</a></li>
 					</ul>
 				</div>
 			</div>
@@ -66,12 +97,10 @@
 						var date = new Date(); //today의 Date를 세어주는 역할
 						//이번 달의 첫째 날
 						//new를 쓰는 이유 : new를 쓰면 이번달의 로컬 월을 정확하게 받아온다. getMonth()는 0~11을 반환하기 때문에 new를 쓰지 않았을때 이번달을 받아오려면 +1 해줘야한다.  
-						var thisMonthDay1 = new Date(today.getFullYear(), today
-								.getMonth(), 1);
+						var thisMonthDay1 = new Date(today.getFullYear(), today.getMonth(), 1);
 						//이번 달의 마지막 날
 						//new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데 day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 제대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
-						var lastDate = new Date(today.getFullYear(), today
-								.getMonth() + 1, 0);
+						var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
 						var addSpace = '';
 						//ThisMonth.getDay() = 이번 달 1일이 무슨 요일인지

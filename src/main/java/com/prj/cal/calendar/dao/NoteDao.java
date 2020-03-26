@@ -1,6 +1,7 @@
 package com.prj.cal.calendar.dao;
 
 import com.prj.cal.calendar.Note;
+import com.prj.cal.member.Member;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,18 +28,17 @@ public class NoteDao implements INoteDao {
 	@Override
 	public int noteInsert(final Note note) {
 		int result = 0;
-		// final String sql = "INSERT INTO note (memId, memPw, memMail) values (?,?,?)";
-		final String sql = "";
-
+		final String sql = "INSERT INTO calendar (noteContent) values (?)";
 		result = template.update(sql, new PreparedStatementSetter() {
+			
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
-				// pstmt.setString(1, note.getDataId());
-				// pstmt.setString(2, note.getDataPw());
-				// pstmt.setString(3, note.getDataMail());
+				//1 = 첫 번째 ?에 note.getNoteContent()를 세팅
+				pstmt.setString(1, note.getNoteContent());
+				System.out.println(note.getNoteContent());
 			}
 		});
-
+		
 		return result;
 	}
 
