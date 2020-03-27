@@ -28,19 +28,21 @@ public class NoteDao implements INoteDao {
 	@Override
 	public int noteInsert(final Note note) {
 		int result = 0;
-		final String sql = "INSERT INTO calendar (noteId, noteContent) values (?,?)";
+		final String sql = "INSERT INTO calendar (noteId, noteProgress, noteContent) values (?,?,?)";
 		result = template.update(sql, new PreparedStatementSetter() {
-			
+
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
-				//1 = 첫 번째 ?에 note.getNoteContent()를 세팅
+				// 1 = 첫 번째 ?에 note.getNoteId()를 세팅
 				pstmt.setString(1, note.getNoteId());
-				pstmt.setString(2, note.getNoteContent());
-				System.out.println("NoteContent in Dao : "+note.getNoteContent());
-				System.out.println("NoteId in Dao : "+note.getNoteId());
+				pstmt.setString(2, Integer.toString(note.getNoteProgress()));
+				pstmt.setString(3, note.getNoteContent());
+				System.out.println("NoteId in Dao : " + note.getNoteId());
+				System.out.println("NoteProgress in Dao : " + Integer.toString(note.getNoteProgress()));
+				System.out.println("NoteContent in Dao : " + note.getNoteContent());
 			}
 		});
-		
+
 		return result;
 	}
 
@@ -49,21 +51,22 @@ public class NoteDao implements INoteDao {
 		// List<Note> note = null;
 		// final String sql = "SELECT * FROM note WHERE memId = ? AND memPw = ?";
 
-		// note = template.query(sql, new Object[] { note.getDataId(), note.getDataPw() }, new RowMapper<Note>() {
-		// 	@Override
-		// 	public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
-		// 		Note mem = new Note();
-		// 		mem.setDataId(rs.getString("memId"));
-		// 		mem.setDataPw(rs.getString("memPw"));
-		// 		mem.setDataMail(rs.getString("memMail"));
-		// 		mem.setDataPurcNum(rs.getInt("memPurcNum"));
-		// 		return mem;
-		// 	}
+		// note = template.query(sql, new Object[] { note.getDataId(), note.getDataPw()
+		// }, new RowMapper<Note>() {
+		// @Override
+		// public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
+		// Note mem = new Note();
+		// mem.setDataId(rs.getString("memId"));
+		// mem.setDataPw(rs.getString("memPw"));
+		// mem.setDataMail(rs.getString("memMail"));
+		// mem.setDataPurcNum(rs.getInt("memPurcNum"));
+		// return mem;
+		// }
 
 		// });
 
 		// if (note.isEmpty())
-		// 	return null;
+		// return null;
 
 		// return note.get(0);
 		return null;
@@ -78,12 +81,12 @@ public class NoteDao implements INoteDao {
 
 		// result = template.update(sql, new PreparedStatementSetter() {
 
-		// 	@Override
-		// 	public void setValues(PreparedStatement pstmt) throws SQLException {
-		// 		pstmt.setString(1, note.getDataPw());
-		// 		pstmt.setString(2, note.getDataMail());
-		// 		pstmt.setString(3, note.getDataId());
-		// 	}
+		// @Override
+		// public void setValues(PreparedStatement pstmt) throws SQLException {
+		// pstmt.setString(1, note.getDataPw());
+		// pstmt.setString(2, note.getDataMail());
+		// pstmt.setString(3, note.getDataId());
+		// }
 		// });
 		// return result;
 
@@ -99,11 +102,11 @@ public class NoteDao implements INoteDao {
 
 		// result = template.update(sql, new PreparedStatementSetter() {
 
-		// 	@Override
-		// 	public void setValues(PreparedStatement pstmt) throws SQLException {
-		// 		pstmt.setString(1, note.getDataId());
-		// 		pstmt.setString(2, note.getDataPw());
-		// 	}
+		// @Override
+		// public void setValues(PreparedStatement pstmt) throws SQLException {
+		// pstmt.setString(1, note.getDataId());
+		// pstmt.setString(2, note.getDataPw());
+		// }
 		// });
 
 		// return result;

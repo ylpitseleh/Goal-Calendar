@@ -50,18 +50,19 @@ public class NoteController {
 		// Object tmp_mem = session.getAttribute("member");
 		// Member mem = (Member)tmp_mem;
 		//
-		member = (Member)session.getAttribute("member");
+		member = (Member) session.getAttribute("member");
 
-		if (member == null) {
-			System.out.println("Need Login!");
-		} else {
+		try {
 			note.setNoteId(member.getMemId()); // 현재 세션의 id값을 넣어줌.
-			System.out.println("NoteID(temp) : " + member.getMemId());
+			// System.out.println("NoteID(temp) : " + member.getMemId());
 
 			service.noteRegister(note);
-
-			System.out.println("NoteContent in controller : " + note.getNoteContent());
-			System.out.println("NoteId in controller : " + note.getNoteId());
+			// System.out.println("NoteContent in controller : " + note.getNoteContent());
+			// System.out.println("NoteId in controller : " + note.getNoteId());
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException: You need to login!");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

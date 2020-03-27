@@ -1,9 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="false"%>
 <html>
 
 <head>
   <link href="<c:url value="/resources/css/test.css?after" />" rel="stylesheet">
+
+  <%-- No need to use ajax ..? --%>
 
   <!-- <script type="text/javascript" src="JS/jquery-1.4.2.min.js"></script>  -->
   <!-- <script src="./js/jquery-1.4.2.min.js"></script>  -->
@@ -13,7 +17,8 @@
     $(document).ready(function () {
       $('#ibutton').click(function (e) {
         e.preventDefault();
-        var ajaxdata = $("#noteContent").val();
+        // var ajaxdata1 = $("#noteProgress").val();
+        // var ajaxdata2 = $("#noteContent").val();
 
         $.ajax({
           url: "saveNoteContent",
@@ -29,6 +34,7 @@
       });
     });
   </script>
+
 
 </head>
 
@@ -52,12 +58,23 @@
         <!-- TEMP -->
         <!-- <h1 class="title">임시 타이틀</h1> -->
         <div class="notes">
-          <p>
           <%-- note라는 이름의 커맨드 객체를 session에 추가하였음. --%>
+          <p>
+           <%-- Using Ajax by yoolee --%>
             <form name="inputNote" action="saveNoteContent" id="inputNote" commandName="note">
+              <input type="text" name="noteProgress" id="noteProgress" value="" placeholder="rate progress" />
               <input type="text" name="noteContent" id="noteContent" value="" placeholder="new note" />
               <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
             </form>
+
+
+            <%-- Import from loginForm,
+                 Tried to submit form without refreshing, but failed.
+                 by hmin --%>
+            <%-- <form:form action="saveNoteContent" method="post" commandName="note">
+              <form:input path="noteContent" placeholder="new note" />
+              <input type="submit" value="Save" />
+            </form:form> --%>
           </p>
 
           <ul class="noteList">
@@ -88,7 +105,6 @@
         <script>
           document.querySelector('[month-value="${curMonth}"]').classList.add("selected");
         </script>
-        </ul>
         <div class="clearfix"></div>
         <ul class="weekday">
           <li><a href="#" title="Mon" data-value="1">Mon</a></li>

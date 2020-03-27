@@ -1,9 +1,9 @@
 package com.prj.cal.calendar;
 
 public class Note {
-	int noteProgress; // 0 1 2 3 4 5
-	//String noteDate; // Date noteDate;
 	private String noteId;
+	private String noteDate; // Date noteDate;
+	private int noteProgress; // 0 1 2 3 4 5
 	private String noteContent;
 
 	public String getNoteId() {
@@ -13,15 +13,6 @@ public class Note {
 		this.noteId = noteId;
 	}
 
-	public int getNoteProgress() {
-		return this.noteProgress;
-	}
-
-	public void setNoteProgress(int noteProgress) {
-		this.noteProgress = noteProgress;
-	}
-
-	/*
 	public String getNoteDate() {
 		return this.noteDate;
 	}
@@ -29,7 +20,14 @@ public class Note {
 	public void setNoteDate(String noteDate) {
 		this.noteDate = noteDate;
 	}
-	*/
+
+	public int getNoteProgress() {
+		return this.noteProgress;
+	}
+
+	public void setNoteProgress(int noteProgress) {
+		this.noteProgress = noteProgress;
+	}
 
 	public String getNoteContent() {
 		return this.noteContent;
