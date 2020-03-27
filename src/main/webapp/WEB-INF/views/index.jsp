@@ -7,22 +7,22 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
+
 	<h1>MAIN</h1>
-	
+
 	<c:if test="${empty member}">
-		<a href="${cp}/member/joinForm">JOIN</a> &nbsp;&nbsp; 
-		<a href="${cp}/member/loginForm">LOGIN</a> &nbsp;&nbsp; 
+		<a href="${cp}/member/joinForm">JOIN</a> &nbsp;&nbsp;
+		<a href="${cp}/member/loginForm">LOGIN</a> &nbsp;&nbsp;
 	</c:if>
-	
+
 	<c:if test="${!empty member}">
-		<a href="${cp}/member/modifyForm">MODIFY</a> &nbsp;&nbsp; 
+		<a href="${cp}/member/modifyForm">MODIFY</a> &nbsp;&nbsp;
 		<a href="${cp}/member/logout">LOGOUT</a> &nbsp;&nbsp;
-		<a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp; 
+		<a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp;
 	</c:if>
-	
+
 	<a href="${cp}/testYL">YL CALENDAR</a> &nbsp;&nbsp;
-	
-	
+
+
 </body>
 </html>
