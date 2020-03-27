@@ -12,18 +12,17 @@
     $(document).ready(function() {
      $('#ibutton').click(function(e) {
      e.preventDefault();
-     var ajaxdata = $("#note").val();
-     //var value ='note='+ajaxdata;
+     var ajaxdata = $("#noteContent").val();
 
      $.ajax({
-     url: "saveIt",
-     //type: "post",
+     url: "saveNoteContent",
+     type: "post",
      dataType: "JSON",
-     data: ajaxdata,
+     //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
+     data: $("#inputNote").serialize(),
      cache: false,
      success: function(data) {
-     $("#note").val('');
-     $("#message").html(data).slideDown('slow');
+     $("#noteContent").val('');
      }
      });
 });
@@ -43,13 +42,11 @@
 				</h1>
 				<div class="notes">
 					<p>
-					
-						<form name="inputNote" action="saveIt" id="inputNote">
-        					<input type="text" name="note" id="note" value="" placeholder="new note"/>
+						<form name="inputNote" action="saveNoteContent" id="inputNote" commandName="note">
+        					<input type="text" name="noteContent" id="noteContent" value="" placeholder="new note"/>
 							<input type="button" id="ibutton" value="Save" p style="cursor:pointer"/>
 						</form>
 					</p>
-					<div id="message"></div>
 					
 					<ul class="noteList">
 							<li>This is testYL.jsp <a href="#" title="Remove note" class="removeNote animate">x</a></li>

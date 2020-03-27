@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.prj.cal.calendar.Note;
 import com.prj.cal.calendar.service.NoteService;
+import com.prj.cal.member.Member;
 
 @Controller
 public class NoteController {
@@ -41,43 +42,14 @@ public class NoteController {
 
 	
 	
-	@RequestMapping(value = "/saveIt", method = RequestMethod.GET)
+	@RequestMapping(value = "/saveNoteContent", method = RequestMethod.POST)
 	@ResponseBody
-	public void saveNote(Note note, HttpServletRequest request) {
+	public void saveNote(Note note) {
 		// 필요한 로직 처리
-		//note = (Note) request.getAttribute("value");
 		service.noteRegister(note);
 		System.out.println("in controller : " + note.getNoteContent());
-		System.out.println("value : " + request.getParameter("value"));
 	}
 	
-
-	
-	
-	/*
-	@RequestMapping(value = "/modifyForm")
-	public ModelAndView modifyForm(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("member", service.memberSearch(member)); //
-		
-		mav.setViewName("/member/modifyForm");
-		
-		return mav;
-	}*/
-	
-	
-	/*
-	@RequestMapping(value = "/saveIt", method = RequestMethod.GET)
-	@ResponseBody
-	public int joinIdCheck(HttpServletRequest request, Model model) {
-
-		IDao dao = sqlSession.getMapper(IDao.class);
-		System.out.println(request.getParameter("idCheckval"));
-		int result = dao.joinIdCheck(request.getParameter("idCheckval"));
-
-		return result;
-	}
-	*/
 	
 	
 	
