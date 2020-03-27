@@ -24,123 +24,123 @@ public class MemberController {
 
 	@Autowired
 	MemberService service;
-	
+
 	@ModelAttribute("cp")
 	public String getContextPath(HttpServletRequest request) {
 		return request.getContextPath(); //cp에 cal을 넣은 것.
 	}
-	
+
 	@ModelAttribute("serverTime")
 	public String getServerTime(Locale locale) {
-		
+
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+
 		return dateFormat.format(date);
 	}
-	
+
 	// Join
 	@RequestMapping("/joinForm")
 	public String joinForm(Member member) {
 		return "/member/joinForm";
 	}
-	
+
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String joinReg(Member member) {
-		
+
 		service.memberRegister(member);
-		
+
 		return "/member/joinOk";
 	}
-	
+
 	// Login
 	@RequestMapping("/loginForm")
 	public String loginForm(Member member) {
 		return "/member/loginForm";
 	}
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String memLogin(Member member, HttpSession session) {
-		
+
 		Member mem = service.memberSearch(member);
-		if(mem == null) 
+		if(mem == null)
 			return "/member/loginForm";
 		//"member"란 키에 mem을 저장했다.
 		session.setAttribute("member", mem);
-		
+
 		return "/member/loginOk";
 	}
-	
+
 	// Logout
 	@RequestMapping("/logout")
 	public String memLogout(Member member, HttpSession session) {
-		
+
 		session.invalidate();
-		
+
 		return "/member/logoutOk";
 	}
-	
+
 	// Modify
 	@RequestMapping(value = "/modifyForm")
 	public ModelAndView modifyForm(HttpServletRequest request) {
-		
+
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("member");
-		
+
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("member", service.memberSearch(member)); //
-		
+		mav.addObject("member", service.memberSearch(member));
+
 		mav.setViewName("/member/modifyForm");
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public ModelAndView modify(Member member, HttpServletRequest request) {
-		
+
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-		
+
 		Member mem = service.memberModify(member);
 		if(mem == null) {
 			mav.setViewName("/member/modifyForm");
-		} else { 
+		} else {
 			session.setAttribute("member", mem);
-			
+
 			mav.addObject("memAft", mem);
 			mav.setViewName("/member/modifyOk"); //memAft를 modifyOk에서 쓸 수 있음
 		}
-		
+
 		return mav;
 	}
-	
+
 	// Remove
 	@RequestMapping("/removeForm")
 	public ModelAndView removeForm(HttpServletRequest request) {
-		
+
 		ModelAndView mav = new ModelAndView();
-		
+
 		HttpSession session =  request.getSession();
 		Member member = (Member) session.getAttribute("member");
-		
+
 		mav.addObject("member", member);
 		mav.setViewName("/member/removeForm");
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
 	public String memRemove(Member member, HttpServletRequest request) {
-		
+
 		int result = service.memberRemove(member);
-		
+
 		if(result == 0)
 			return "/member/removeForm";
-		
+
 		HttpSession session = request.getSession();
 		session.invalidate();
-		
+
 		return "/member/removeOk";
 	}
-	
+
 }

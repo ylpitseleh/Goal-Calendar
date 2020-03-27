@@ -53,6 +53,7 @@
         <!-- <h1 class="title">임시 타이틀</h1> -->
         <div class="notes">
           <p>
+          <%-- note라는 이름의 커맨드 객체를 session에 추가하였음. --%>
             <form name="inputNote" action="saveNoteContent" id="inputNote" commandName="note">
               <input type="text" name="noteContent" id="noteContent" value="" placeholder="new note" />
               <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />

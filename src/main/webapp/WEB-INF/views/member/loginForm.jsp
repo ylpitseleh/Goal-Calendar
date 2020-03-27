@@ -9,9 +9,10 @@
 <link rel="stylesheet" type="text/css" href="${cp}/resources/css/normal.css" />
 </head>
 <body>
-	
+
 	<h1>MEMBER LOGIN</h1>
-	
+
+  <%-- member라는 이름의 커맨드 객체를 session에 추가하였음. --%>
 	<form:form action="${cp}/member/login" method="post" commandName="member">
 		<table>
 			<tr>
@@ -27,7 +28,7 @@
 			</tr>
 		</table>
 	</form:form>
-	
+
 	<a href="${cp}/">MAIN</a>
 </body>
 </html>
