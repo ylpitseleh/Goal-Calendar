@@ -7,15 +7,14 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.prj.cal.calendar.Note;
 import com.prj.cal.calendar.service.NoteService;
@@ -44,10 +43,18 @@ public class NoteController {
 	
 	@RequestMapping(value = "/saveNoteContent", method = RequestMethod.POST)
 	@ResponseBody
-	public void saveNote(Note note) {
-		// 필요한 로직 처리
+	public void saveNote(Note note, HttpSession session, Member member) {
+		//getAttribute() 는 리턴 타입이 Object이므로 사용시 실제 할당된 객체 타입으로 casting 해야 함.
+		Object tmp_mem = session.getAttribute("member");
+		Member mem = (Member)tmp_mem;
+		note.setNoteId(mem.getMemId()); //현재 세션의 id값을 넣어줌.
+		System.out.println("NoteID(temp) : "+mem.getMemId());
+		
 		service.noteRegister(note);
-		System.out.println("in controller : " + note.getNoteContent());
+		
+		
+		System.out.println("NoteContent in controller : " + note.getNoteContent());
+		System.out.println("NoteId in controller : " + note.getNoteId());
 	}
 	
 	

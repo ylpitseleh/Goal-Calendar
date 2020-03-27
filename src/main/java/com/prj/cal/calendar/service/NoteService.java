@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.prj.cal.calendar.Note;
 import com.prj.cal.calendar.dao.NoteDao;
+import com.prj.cal.member.Member;
 
 @Service
 public class NoteService implements INoteService {
@@ -36,7 +37,7 @@ public class NoteService implements INoteService {
 	
 	
 	
-	
+	// DB에 현재 로그인된 ID(Session이용), Note Content 등록
 	@Override
 	public void noteRegister(Note note){
 		int result = nDao.noteInsert(note);
@@ -47,8 +48,6 @@ public class NoteService implements INoteService {
 			System.out.println("Put Note Success!!");
 		}
 	}
-
-	
 	
 	
 	

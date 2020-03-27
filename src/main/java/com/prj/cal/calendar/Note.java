@@ -3,7 +3,15 @@ package com.prj.cal.calendar;
 public class Note {
 	//int noteProgress; // 0 1 2 3 4 5
 	//String noteDate; // Date noteDate;
-	String noteContent;
+	private String noteId;
+	private String noteContent;
+	
+	public String getNoteId() {
+		return noteId;
+	}
+	public void setNoteId(String noteId) {
+		this.noteId = noteId;
+	}
 
 	/*public int getNoteProgress() {
 		return this.noteProgress;

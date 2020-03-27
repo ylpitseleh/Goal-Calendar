@@ -28,14 +28,16 @@ public class NoteDao implements INoteDao {
 	@Override
 	public int noteInsert(final Note note) {
 		int result = 0;
-		final String sql = "INSERT INTO calendar (noteContent) values (?)";
+		final String sql = "INSERT INTO calendar (noteId, noteContent) values (?,?)";
 		result = template.update(sql, new PreparedStatementSetter() {
 			
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
 				//1 = 첫 번째 ?에 note.getNoteContent()를 세팅
-				pstmt.setString(1, note.getNoteContent());
-				System.out.println(note.getNoteContent());
+				pstmt.setString(1, note.getNoteId());
+				pstmt.setString(2, note.getNoteContent());
+				System.out.println("NoteContent in Dao : "+note.getNoteContent());
+				System.out.println("NoteId in Dao : "+note.getNoteId());
 			}
 		});
 		

@@ -65,7 +65,7 @@ public class MemberController {
 		Member mem = service.memberSearch(member);
 		if(mem == null) 
 			return "/member/loginForm";
-		
+		//"member"란 키에 mem을 저장했다.
 		session.setAttribute("member", mem);
 		
 		return "/member/loginOk";
