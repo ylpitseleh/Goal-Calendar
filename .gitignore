@@ -1,4 +1,6 @@
 target/
+.settings/
+**/DBConfig.java
 
 # Temporary
 pom.xml
