@@ -28,18 +28,30 @@ public class NoteDao implements INoteDao {
 	@Override
 	public int noteInsert(final Note note) {
 		int result = 0;
-		final String sql = "INSERT INTO calendar (noteId, noteProgress, noteContent) values (?,?,?)";
+		final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
+
+
+
 		result = template.update(sql, new PreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
+
+
 				// 1 = 첫 번째 ?에 note.getNoteId()를 세팅
-				pstmt.setString(1, note.getNoteId());
-				pstmt.setString(2, Integer.toString(note.getNoteProgress()));
-				pstmt.setString(3, note.getNoteContent());
-				System.out.println("NoteId in Dao : " + note.getNoteId());
-				System.out.println("NoteProgress in Dao : " + Integer.toString(note.getNoteProgress()));
-				System.out.println("NoteContent in Dao : " + note.getNoteContent());
+				String noteId = note.getNoteId();
+				// INSERT INTO TABLE_NM (REG_DATE) VALUES ( TO_DATE('11-23-2012 10:26:11','MM-DD-YYYY HH24:MI:SS') )
+				String noteDate = String.format("TO_DATE('%s', 'YYYY-MM-DD HH24:MI:SS')", note.getNoteDate());
+				String noteProgress = Integer.toString(note.getNoteProgress());
+				String noteContent = note.getNoteContent();
+				pstmt.setString(1, noteId);
+				pstmt.setString(2, noteDate);
+				pstmt.setString(3, noteProgress);
+				pstmt.setString(4, noteContent);
+				System.out.println("NoteId in Dao : " + noteId);
+				System.out.println("NoteDate in Dao : " + noteDate);
+				System.out.println("NoteProgress in Dao : " + noteProgress);
+				System.out.println("NoteContent in Dao : " + noteContent);
 			}
 		});
 

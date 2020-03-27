@@ -61,6 +61,7 @@ public class MemberController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String memLogin(Member member, HttpSession session) {
+		// @@T 노트 출력 조건 noteId == memId && noteDate == selectedDate 를 memberSearch 처럼 구현 가능할 듯.
 
 		Member mem = service.memberSearch(member);
 		if(mem == null)
