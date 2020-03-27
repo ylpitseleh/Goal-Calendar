@@ -54,15 +54,9 @@ public class NoteController {
 
 		try {
 			note.setNoteId(member.getMemId()); // 현재 세션의 id값을 넣어줌.
-			// System.out.println("NoteID(temp) : " + member.getMemId());
-
-			// @@T 아래의 메소드들 사용해도 괜찮겠지..? 일단 더미데이터로 실험.
-			// INSERT INTO TABLE_NM (REG_DATE) VALUES ( TO_DATE('11-23-2012 10:26:11','MM-DD-YYYY HH24:MI:SS') )
-			note.setNoteDate("2020-03-01 23:59:59");
+			note.setNoteDate(new java.util.Date());
 
 			service.noteRegister(note);
-			// System.out.println("NoteContent in controller : " + note.getNoteContent());
-			// System.out.println("NoteId in controller : " + note.getNoteId());
 		} catch (NullPointerException e) {
 			System.out.println("NullPointerException: You need to login!");
 		} catch (Exception e) {

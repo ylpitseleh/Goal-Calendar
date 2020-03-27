@@ -29,25 +29,32 @@ public class NoteDao implements INoteDao {
 	public int noteInsert(final Note note) {
 		int result = 0;
 		final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
-
-
-
+		// final String sql = "INSERT INTO calendar (noteId, noteProgress, noteContent) values (?,?,?)";
 		result = template.update(sql, new PreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
+			/* BACKUP: Date 관련 정보들
+				// INSERT INTO TABLE_NM (REG_DATE) VALUES ( TO_DATE('11-23-2012 10:26:11','MM-DD-YYYY HH24:MI:SS') )
+				// String noteDate = String.format("TO_DATE('%s', 'YYYY-MM-DD HH24:MI:SS')", note.getNoteDate());
 
+				// java.util.Date today = new java.util.Date();
+				// java.sql.Date noteDate = new java.sql.Date(today.getTime());
+
+				// java.sql.Date noteDate = java.sql.Date.valueOf("2020-03-28");
+			 */
 
 				// 1 = 첫 번째 ?에 note.getNoteId()를 세팅
 				String noteId = note.getNoteId();
-				// INSERT INTO TABLE_NM (REG_DATE) VALUES ( TO_DATE('11-23-2012 10:26:11','MM-DD-YYYY HH24:MI:SS') )
-				String noteDate = String.format("TO_DATE('%s', 'YYYY-MM-DD HH24:MI:SS')", note.getNoteDate());
-				String noteProgress = Integer.toString(note.getNoteProgress());
+				java.sql.Date noteDate = new java.sql.Date(note.getNoteDate().getTime());
+				int noteProgress = note.getNoteProgress();
 				String noteContent = note.getNoteContent();
+
 				pstmt.setString(1, noteId);
-				pstmt.setString(2, noteDate);
-				pstmt.setString(3, noteProgress);
+				pstmt.setDate(2, noteDate);
+				pstmt.setInt(3, noteProgress);
 				pstmt.setString(4, noteContent);
+
 				System.out.println("NoteId in Dao : " + noteId);
 				System.out.println("NoteDate in Dao : " + noteDate);
 				System.out.println("NoteProgress in Dao : " + noteProgress);

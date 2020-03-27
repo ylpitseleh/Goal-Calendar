@@ -25,6 +25,7 @@
           type: "post",
           dataType: "JSON",
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
+          //  {data1: value1, data2: value2, ...}
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
@@ -59,24 +60,11 @@
         <!-- <h1 class="title">임시 타이틀</h1> -->
         <div class="notes">
           <%-- note라는 이름의 커맨드 객체를 session에 추가하였음. --%>
-          <p>
-           <%-- Using Ajax by yoolee --%>
             <form name="inputNote" action="saveNoteContent" id="inputNote" commandName="note">
               <input type="text" name="noteProgress" id="noteProgress" value="" placeholder="rate progress" />
               <input type="text" name="noteContent" id="noteContent" value="" placeholder="new note" />
               <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
             </form>
-
-
-            <%-- Import from loginForm,
-                 Tried to submit form without refreshing, but failed.
-                 by hmin --%>
-            <%-- <form:form action="saveNoteContent" method="post" commandName="note">
-              <form:input path="noteContent" placeholder="new note" />
-              <input type="submit" value="Save" />
-            </form:form> --%>
-          </p>
-
           <ul class="noteList">
             <li>This is testYL.jsp <a href="#" title="Remove note" class="removeNote animate">x</a></li>
           </ul>
