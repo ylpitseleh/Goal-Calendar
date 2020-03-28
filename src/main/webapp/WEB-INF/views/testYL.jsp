@@ -47,7 +47,15 @@
       });
 
       // @@T 날짜 클릭시 noteList 전부 지우고 선택된 날짜들 끌어와서 업데이트?
-      // !! 불가능할 듯. 결국 새로고침이 있어야겠네. notelist 파트를 day 파트처럼 동적으로 생성해야만 한다.
+      //
+      // 내가 구현할 함수
+      //
+      // querySelectAll등 js를 활용하여 <ul class="noteList"> 내부의 모든 <li> 내용을 지운다.
+      // 같은 url requestMapping을 발동시킨다.
+      // jsp에서 controller로 건네준 note 커맨드 객체의 noteDate 및 noteId와 일치하는 note들을 DB에서 읽어온다.
+      // 읽어온 note들은 list<note> notes; 에 저장한다.
+      // session에다가 notes를 등록한다.
+      // notelist 파트를 day 파트처럼 동적으로 다시 생성한다.
     });
   </script>
 </head>

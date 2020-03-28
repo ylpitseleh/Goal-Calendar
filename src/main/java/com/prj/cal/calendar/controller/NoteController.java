@@ -99,7 +99,8 @@ public class NoteController {
 	}
 
 	@RequestMapping("/testYL")
-	public String goToTestYL(Note note) {
+	// public String goToTestYL(Note note) {
+	public String goToTestYL() {
 		return "testYL";
 	}
 
