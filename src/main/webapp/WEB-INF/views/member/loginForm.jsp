@@ -12,7 +12,7 @@
 
 	<h1>MEMBER LOGIN</h1>
 
-  <%-- member라는 이름의 커맨드 객체를 session에 추가하였음. --%>
+  <%-- member라는 이름의 커맨드 객체를 Controller에 전송 --%>
 	<form:form action="${cp}/member/login" method="post" commandName="member">
 		<table>
 			<tr>

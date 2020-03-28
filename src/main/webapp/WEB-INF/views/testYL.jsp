@@ -7,14 +7,13 @@
 <head>
   <link href="<c:url value="/resources/css/test.css?after" />" rel="stylesheet">
 
-  <%-- No need to use ajax ..? --%>
-
   <!-- <script type="text/javascript" src="JS/jquery-1.4.2.min.js"></script>  -->
   <!-- <script src="./js/jquery-1.4.2.min.js"></script>  -->
   <script src="http://code.jquery.com/jquery-latest.js"></script>
 
   <script type="text/javascript">
     $(document).ready(function () {
+      // ibutton 클릭 시
       $('#ibutton').click(function (e) {
         e.preventDefault();
 
@@ -28,8 +27,7 @@
           document.querySelector("#noteId").value = "${member.memId}";
           document.querySelector("#noteDate").value = year + "-" + month + "-" + day;
           console.log("mdmId: ${member.memId}");
-        } else
-        {
+        } else {
           console.log("Need Login!");
         }
 
@@ -47,6 +45,9 @@
           }
         });
       });
+
+      // @@T 날짜 클릭시 noteList 전부 지우고 선택된 날짜들 끌어와서 업데이트?
+      // !! 불가능할 듯. 결국 새로고침이 있어야겠네. notelist 파트를 day 파트처럼 동적으로 생성해야만 한다.
     });
   </script>
 </head>
@@ -60,34 +61,51 @@
         <div class="TEMP">
           <a href="${cp}">MAIN</a>
           <p class="date">
+            === DEBUG ===<br>
             testYL.jsp<br>
-            <br>
             cp: ${cp}<br>
             serverTime: ${serverTime}<br>
-            empty member: ${empty member}<br>
-            member: ${member}
+            member: ${member}<br>
+            memId: ${member.memId}<br>
+            memPw: ${member.memPw}<br>
+            memMail: ${member.memMail}<br>
+
+            <%-- <해결 완료>
+            왜 note 는 새로고침 할 때마다 항상 note 주소가 변하고 null값만 가득 차는거지?
+            이유를 모르겠다...
+            아무튼 ${note.noteId} 결과값이 항상 null이었던 원인은 발견했네.
+
+            --%>
+            note: ${note}<br>
+            noteId: ${note.noteId}<br>
+            noteDate: ${note.noteDate}<br>
+            noteProgress: ${note.noteProgress}<br>
+            noteContent: ${note.noteContent}<br>
           </p>
         </div>
         <!-- TEMP -->
         <!-- <h1 class="title">임시 타이틀</h1> -->
         <div class="notes">
-            <script>
-              // function fillInputNote() {
-              //   if ("${member}") {
-              //     document.querySelector("#noteId").value = ${member.memId};
-              //     document.querySelector("#noteDate").value = "2020-01-31";
-              //     console.log("mdmId: ${member.memId}");
-              //   }
-              // }
-            </script>
-            <%-- note라는 이름의 커맨드 객체를 session에 추가하였음. --%>
-            <form name="inputNote" action="saveNoteContent" id="inputNote" commandName="note">
-              <input type="hidden" name="noteId" id="noteId"/>
-              <input type="hidden" name="noteDate" id="noteDate"/>
-              <input type="text" name="noteProgress" id="noteProgress" value="" placeholder="rate progress" />
-              <input type="text" name="noteContent" id="noteContent" value="" placeholder="new note" />
-              <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
-            </form>
+          <script>
+            // function fillInputNote() {
+            //   if ("${member}") {
+            //     document.querySelector("#noteId").value = ${member.memId};
+            //     document.querySelector("#noteDate").value = "2020-01-31";
+            //     console.log("mdmId: ${member.memId}");
+            //   }
+            // }
+          </script>
+          <%-- note라는 이름의 커맨드 객체를 Controller에 전송 --%>
+          <%-- <form name="inputNote" action="saveNoteContent" id="inputNote" commandName="note"> --%>
+
+          <%-- commandName="note"라고 커맨드 객체 이름을 따로 명시하지 않아도 note 커맨드 객체로 인식해서 자동으로 전송되네... 자동화 퀄 보소 --%>
+          <form name="inputNote" action="saveNoteContent" id="inputNote">
+            <input type="hidden" name="noteId" id="noteId" />
+            <input type="hidden" name="noteDate" id="noteDate" />
+            <input type="text" name="noteProgress" id="noteProgress" value="" placeholder="rate progress" />
+            <input type="text" name="noteContent" id="noteContent" value="" placeholder="new note" />
+            <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
+          </form>
 
           <ul class="noteList">
             <li>note: ${note} / note.noteDate: ${note.noteDate} <a href="#" title="Remove note" class="removeNote animate">x</a></li>
@@ -148,14 +166,14 @@
             }
 
             function callFunction(t) {
-            	// t의 자료형 : String
-            	// 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
-            	var sections = document.querySelectorAll('[day-value]');
-                for (i = 0; i < sections.length; i++){
-                    sections[i].classList.remove('selected');
-                }
-            	console.log(t);
-            	document.querySelector('[title="'+t+'"]').classList.add("selected");
+              // t의 자료형 : String
+              // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
+              var sections = document.querySelectorAll('[day-value]');
+              for (i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('selected');
+              }
+              console.log(t);
+              document.querySelector('[title="' + t + '"]').classList.add("selected");
             }
             //1일부터 마지막 일까지 돌림
             for (var i = 1; i <= lastDate.getDate(); i++) {

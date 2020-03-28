@@ -43,9 +43,9 @@ public class NoteService implements INoteService {
 		int result = nDao.noteInsert(note);
 
 		if (result == 0) {
-			System.out.println("Put Note Fail!!");
+			System.out.println("T_T Note: DB register Fail!!");
 		} else {
-			System.out.println("Put Note Success!!");
+			System.out.println("^_^ Note: DB register Success!!");
 		}
 	}
 
