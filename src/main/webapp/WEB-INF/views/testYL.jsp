@@ -75,6 +75,12 @@
             이유를 모르겠다...
             아무튼 ${note.noteId} 결과값이 항상 null이었던 원인은 발견했네.
 
+            @RequestMapping("/testYL")
+          //public String goToTestYL(Note note) {
+            public String goToTestYL() {
+              return "testYL";
+            }
+            이게 원인이었구나!! 이 빌어먹을 놈!!! 드디어 찾았다!!
             --%>
             note: ${note}<br>
             noteId: ${note.noteId}<br>
