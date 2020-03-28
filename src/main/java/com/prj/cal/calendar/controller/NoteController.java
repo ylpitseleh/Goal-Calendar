@@ -53,8 +53,15 @@ public class NoteController {
 		member = (Member) session.getAttribute("member");
 
 		try {
-			note.setNoteId(member.getMemId()); // 현재 세션의 id값을 넣어줌.
-			note.setNoteDate(new java.util.Date());
+			System.out.println("=== Note Controller data from command object(using ajax) ===");
+			System.out.println("noteId: " + note.getNoteId());
+			System.out.println("noteDate: " + note.getNoteDate());
+			System.out.println("noteProgress: " + note.getNoteProgress());
+			System.out.println("noteContent: " + note.getNoteContent());
+			System.out.println("memId: " + member.getMemId());
+			System.out.println("memPw: " + member.getMemPw());
+			System.out.println("memMail: " + member.getMemMail());
+			System.out.println("=======================");
 
 			service.noteRegister(note);
 		} catch (NullPointerException e) {

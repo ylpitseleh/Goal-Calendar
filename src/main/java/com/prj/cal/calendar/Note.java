@@ -2,7 +2,8 @@ package com.prj.cal.calendar;
 
 public class Note {
 	private String noteId;
-	private java.util.Date noteDate; // Date noteDate;
+	// private java.util.Date noteDate; // Date noteDate;
+	private String noteDate;
 	private int noteProgress; // 0 1 2 3 4 5
 	private String noteContent;
 
@@ -13,11 +14,11 @@ public class Note {
 		this.noteId = noteId;
 	}
 
-	public java.util.Date getNoteDate() {
+	public String getNoteDate() {
 		return this.noteDate;
 	}
 
-	public void setNoteDate(java.util.Date noteDate) {
+	public void setNoteDate(String noteDate) {
 		this.noteDate = noteDate;
 	}
 

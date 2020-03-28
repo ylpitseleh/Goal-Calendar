@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page session="false"%>
+<%-- <%@ page session="false"%> --%>
 <html>
 
 <head>
@@ -17,26 +17,38 @@
     $(document).ready(function () {
       $('#ibutton').click(function (e) {
         e.preventDefault();
-        // var ajaxdata1 = $("#noteProgress").val();
-        // var ajaxdata2 = $("#noteContent").val();
+
+        var year = "${curYear}"
+        var month = document.querySelector(".months li a.selected").getAttribute("month-value");
+        var day = document.querySelector(".days li a.selected").text;
+        month = month.length == 1 ? "0" + month.slice(0) : month;
+        day = day.length == 1 ? "0" + day.slice(0) : day;
+
+        if ("${member}") {
+          document.querySelector("#noteId").value = "${member.memId}";
+          document.querySelector("#noteDate").value = year + "-" + month + "-" + day;
+          console.log("mdmId: ${member.memId}");
+        } else
+        {
+          console.log("Need Login!");
+        }
 
         $.ajax({
           url: "saveNoteContent",
           type: "post",
           dataType: "JSON",
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
-          //  {data1: value1, data2: value2, ...}
+          //{data1: value1, data2: value2, ...}
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
+            $("#noteProgress").val('');
             $("#noteContent").val('');
           }
         });
       });
     });
   </script>
-
-
 </head>
 
 <body>
@@ -59,14 +71,26 @@
         <!-- TEMP -->
         <!-- <h1 class="title">임시 타이틀</h1> -->
         <div class="notes">
-          <%-- note라는 이름의 커맨드 객체를 session에 추가하였음. --%>
+            <script>
+              // function fillInputNote() {
+              //   if ("${member}") {
+              //     document.querySelector("#noteId").value = ${member.memId};
+              //     document.querySelector("#noteDate").value = "2020-01-31";
+              //     console.log("mdmId: ${member.memId}");
+              //   }
+              // }
+            </script>
+            <%-- note라는 이름의 커맨드 객체를 session에 추가하였음. --%>
             <form name="inputNote" action="saveNoteContent" id="inputNote" commandName="note">
+              <input type="hidden" name="noteId" id="noteId"/>
+              <input type="hidden" name="noteDate" id="noteDate"/>
               <input type="text" name="noteProgress" id="noteProgress" value="" placeholder="rate progress" />
               <input type="text" name="noteContent" id="noteContent" value="" placeholder="new note" />
               <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
             </form>
+
           <ul class="noteList">
-            <li>This is testYL.jsp <a href="#" title="Remove note" class="removeNote animate">x</a></li>
+            <li>note: ${note} / note.noteDate: ${note.noteDate} <a href="#" title="Remove note" class="removeNote animate">x</a></li>
           </ul>
         </div>
       </div>
@@ -94,7 +118,7 @@
           document.querySelector('[month-value="${curMonth}"]').classList.add("selected");
         </script>
         <div class="clearfix"></div>
-        <ul class="weekday">
+        <ul class="weekdays">
           <li><a href="#" title="Mon" data-value="1">Mon</a></li>
           <li><a href="#" title="Tue" data-value="2">Tue</a></li>
           <li><a href="#" title="Wed" data-value="3">Wed</a></li>
@@ -122,7 +146,7 @@
             for (i = 0; i < thisMonthDay1.getDay(); i++) { //공백을 줄 수 있는 방법이 a href 뿐인지 모르겠음
               document.write('<li><a href="#">' + ' ' + '</a></li>');
             }
-            
+
             function callFunction(t) {
             	// t의 자료형 : String
             	// 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
@@ -137,8 +161,8 @@
             for (var i = 1; i <= lastDate.getDate(); i++) {
               document.write('<li><a href="#" onclick="callFunction(title);" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
-			
-            
+
+
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
           </script>
         </ul>

@@ -158,14 +158,14 @@ a {
 }
 
 .calendar .months li,
-.calendar .weekday li,
+.calendar .weekdays li,
 .calendar .days li {
   float: left;
   text-transform: uppercase;
 }
 
 .calendar .months li a,
-.calendar .weekday li a,
+.calendar .weekdays li a,
 .calendar .days li a {
   display: block;
   color: #747978;
@@ -184,7 +184,7 @@ a {
   color: #747978;
 }
 
-.calendar .weekday li a {
+.calendar .weekdays li a {
   width: 55px;
   text-align: center;
   margin-bottom: 20px;
