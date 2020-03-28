@@ -122,11 +122,23 @@
             for (i = 0; i < thisMonthDay1.getDay(); i++) { //공백을 줄 수 있는 방법이 a href 뿐인지 모르겠음
               document.write('<li><a href="#">' + ' ' + '</a></li>');
             }
+            
+            function callFunction(t) {
+            	// t의 자료형 : String
+            	// 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
+            	var sections = document.querySelectorAll('[day-value]');
+                for (i = 0; i < sections.length; i++){
+                    sections[i].classList.remove('selected');
+                }
+            	console.log(t);
+            	document.querySelector('[title="'+t+'"]').classList.add("selected");
+            }
             //1일부터 마지막 일까지 돌림
             for (var i = 1; i <= lastDate.getDate(); i++) {
-              document.write('<li><a href="#" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
-              //document.querySelector('[day-value="${curDay}"]').classList.add("selected");
+              document.write('<li><a href="#" onclick="callFunction(title);" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
+			
+            
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
           </script>
         </ul>
