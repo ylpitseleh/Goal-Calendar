@@ -178,7 +178,8 @@
 
   </div>
 
-  <div class="TEMP Debugging">
+  <!-- DEBUG -->
+  <div class="DEBUG">
     <p class="date">
       === DEBUG ===<br>
       testYL.jsp<br>
@@ -208,6 +209,7 @@
       noteContent: ${note.noteContent}<br>
     </p>
   </div>
+
 </body>
 
 </html>
