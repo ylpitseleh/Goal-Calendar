@@ -53,14 +53,15 @@ a {
 
 /* required */
 .calendar {
-  position: absolute;
+  /* hmin> position: absolute; */
   border-radius: 4px;
   overflow: hidden;
   width: 800px;
   height: 450px;
   left: 50%;
-  margin-left: -400px;
-  margin-top: -225px;
+
+  /* hmin> margin-left: -400px; */
+  /* hmin> margin-top: -225px; */
   top: 50%;
   background-color: #ffffff;
   color: #333333;
@@ -115,7 +116,8 @@ a {
 }
 
 .calendar .notes p {
-  <!--border-bottom: solid 1px rgba(255, 255, 255, 0.4); -->
+  < !--border-bottom: solid 1px rgba(255, 255, 255, 0.4);
+  -->
 }
 
 .calendar .notes input {

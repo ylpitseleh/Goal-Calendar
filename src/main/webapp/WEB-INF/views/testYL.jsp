@@ -5,7 +5,7 @@
 <html>
 
 <head>
-  <link href="<c:url value="/resources/css/test.css?after" />" rel="stylesheet">
+  <link href="<c:url value="/resources/css/testYL.css?after" />" rel="stylesheet">
 
   <!-- <script type="text/javascript" src="JS/jquery-1.4.2.min.js"></script>  -->
   <!-- <script src="./js/jquery-1.4.2.min.js"></script>  -->
@@ -61,43 +61,12 @@
 </head>
 
 <body>
+  <a href="${cp}">MAIN</a>
+
   <div class="calendar">
 
     <div class="col leftCol">
       <div class="content">
-        <!-- TEMP -->
-        <div class="TEMP">
-          <a href="${cp}">MAIN</a>
-          <p class="date">
-            === DEBUG ===<br>
-            testYL.jsp<br>
-            cp: ${cp}<br>
-            serverTime: ${serverTime}<br>
-            member: ${member}<br>
-            memId: ${member.memId}<br>
-            memPw: ${member.memPw}<br>
-            memMail: ${member.memMail}<br>
-
-            <%-- <해결 완료>
-            왜 note 는 새로고침 할 때마다 항상 note 주소가 변하고 null값만 가득 차는거지?
-            이유를 모르겠다...
-            아무튼 ${note.noteId} 결과값이 항상 null이었던 원인은 발견했네.
-
-            @RequestMapping("/testYL")
-          //public String goToTestYL(Note note) {
-            public String goToTestYL() {
-              return "testYL";
-            }
-            이게 원인이었구나!! 이 빌어먹을 놈!!! 드디어 찾았다!!
-            --%>
-            note: ${note}<br>
-            noteId: ${note.noteId}<br>
-            noteDate: ${note.noteDate}<br>
-            noteProgress: ${note.noteProgress}<br>
-            noteContent: ${note.noteContent}<br>
-          </p>
-        </div>
-        <!-- TEMP -->
         <!-- <h1 class="title">임시 타이틀</h1> -->
         <div class="notes">
           <script>
@@ -125,7 +94,7 @@
           </form>
 
           <ul class="noteList">
-            <li>note: ${note} / note.noteDate: ${note.noteDate} <a href="#" title="Remove note" class="removeNote animate">x</a></li>
+            <!-- <li>note: ${note} / note.noteDate: ${note.noteDate} <a href="#" title="Remove note" class="removeNote animate">x</a></li> -->
           </ul>
         </div>
       </div>
@@ -207,6 +176,37 @@
 
     <div class="clearfix"></div>
 
+  </div>
+
+  <div class="TEMP Debugging">
+    <p class="date">
+      === DEBUG ===<br>
+      testYL.jsp<br>
+      cp: ${cp}<br>
+      serverTime: ${serverTime}<br>
+      member: ${member}<br>
+      memId: ${member.memId}<br>
+      memPw: ${member.memPw}<br>
+      memMail: ${member.memMail}<br>
+
+      <%-- <해결 완료>
+    왜 note 는 새로고침 할 때마다 항상 note 주소가 변하고 null값만 가득 차는거지?
+    이유를 모르겠다...
+    아무튼 ${note.noteId} 결과값이 항상 null이었던 원인은 발견했네.
+
+    @RequestMapping("/testYL")
+  //public String goToTestYL(Note note) {
+    public String goToTestYL() {
+      return "testYL";
+    }
+    이게 원인이었구나!! 이 빌어먹을 놈!!! 드디어 찾았다!!
+    --%>
+      note: ${note}<br>
+      noteId: ${note.noteId}<br>
+      noteDate: ${note.noteDate}<br>
+      noteProgress: ${note.noteProgress}<br>
+      noteContent: ${note.noteContent}<br>
+    </p>
   </div>
 </body>
 
