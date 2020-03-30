@@ -116,7 +116,10 @@
           <form name="inputNote" action="saveNoteContent" id="inputNote">
             <input type="hidden" name="noteId" id="noteId" />
             <input type="hidden" name="noteDate" id="noteDate" />
-            <input type="text" name="noteProgress" id="noteProgress" value="" placeholder="rate progress" />
+            <input type="number" name="noteProgress" id="noteProgress" value="" placeholder="rate progress" min="0" max="5" step="1" oninput="
+            if(this.value > 5) value = 5;
+            if(this.value < 0) value = 0;
+            " />
             <input type="text" name="noteContent" id="noteContent" value="" placeholder="new note" />
             <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
           </form>
