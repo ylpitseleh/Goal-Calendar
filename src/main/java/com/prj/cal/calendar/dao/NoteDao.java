@@ -83,7 +83,7 @@ public class NoteDao implements INoteDao {
 
 		final String sql = "SELECT * FROM calendar";
 
-		
+
 		List<Note> notes = template.query(sql, new Object[] { note.getNoteId(), note.getNoteDate(), note.getNoteProgress(), note.getNoteContent() }, new RowMapper<Note>() {
 
 			@Override
@@ -105,33 +105,33 @@ public class NoteDao implements INoteDao {
 	public List<Note> noteSelectAll() {
 
 		final String sql = "SELECT * FROM calendar";
-		
-		List<Note> notes = template.query(sql, new RowMapper() {
 
+		List<Note> notes = template.query(sql, new RowMapper<Note>() {
+			@Override
 			public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Note note = new Note();
-				
+
 				note.setNoteId(rs.getString("noteId"));
 				note.setNoteDate(rs.getString("noteDate"));
 				note.setNoteProgress(rs.getInt("noteProgress"));
 				note.setNoteContent(rs.getString("noteContent"));
-				
+
 				return note;
 			}
-			
+
 		});
 		if(notes.isEmpty())
 			return null;
 
 		return notes;
 	}
-	
-	
+
+
 	@Override
 	public Note noteSelect(final Note note) {
 
 		List<Note> notes = null;
-		
+
 		//여기 수정
 		final String sql = "SELECT * FROM calendar";
 

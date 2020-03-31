@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +41,8 @@ public class NoteController {
 
 		return dateFormat.format(date);
 	}
-	//@ResponseBody : 자바 객체를 HTTP 응답 객체로 전송할 수 있다.
+
+	// @ResponseBody : 자바 객체를 HTTP 응답 객체로 전송할 수 있다.
 	@RequestMapping(value = "/saveNoteContent", method = RequestMethod.POST)
 	@ResponseBody
 	public void saveNote(Note note, Member member, HttpSession session) {
@@ -102,22 +104,47 @@ public class NoteController {
 
 	@RequestMapping("/testYL")
 	public ModelAndView goToTestYL(Note note) {
-		//파라미터 Note note 추가했음 
-		List<Note> noteList = service.noteSearchAll(note);
-		
-		//noteList.getNoteProgress();
-		for(int i=0; i<noteList.size(); i++) {
-			System.out.println("노트 내용 ("+i+") : "+noteList.get(i).getNoteContent());
-		}
 		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject("noteList", service.noteSearchAll(note));
-		mav.setViewName("testYL");
+		try {
+			// 파라미터 Note note 추가했음
+			List<Note> noteList = service.noteSearchAll(note);
 
+			// noteList.getNoteProgress();
+			for (int i = 0; i < noteList.size(); i++) {
+				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			}
+
+			mav.addObject("noteList", service.noteSearchAll(note));
+		} catch (NullPointerException e) {
+			System.out.println("NullpointerException: There is no note in DB!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mav.setViewName("testYL");
 		return mav;
-		//return "testYL";
+		// return "testYL";
 	}
-	
+
+	@RequestMapping(value = "/testYLReloadDB", method = RequestMethod.POST)
+	@ResponseBody
+	public void testYLReloadDB(Note note, Model model) {
+		try {
+			// 파라미터 Note note 추가했음
+			List<Note> noteList = service.noteSearchAll(note);
+
+			// noteList.getNoteProgress();
+			for (int i = 0; i < noteList.size(); i++) {
+				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			}
+
+			model.addAttribute("noteList", service.noteSearchAll(note));
+		} catch (NullPointerException e) {
+			System.out.println("NullpointerException: There is no note in DB!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {
 		int curYear_int;
@@ -152,19 +179,17 @@ public class NoteController {
 		curDay = Integer.toString(curDay_int);
 		return curDay;
 	}
-	
+
 	@ModelAttribute("noteContent")
 	public void getNoteProgress(Note note, HttpSession session) {
-		
-		/*List<Note> noteList = service.noteSearchAll(note);
-		
-		//noteList.getNoteProgress();
-		for(int i=0; i<noteList.size(); i++) {
-			System.out.println("노트 내용 ("+i+") : "+noteList.get(i).getNoteContent());
-		}*/
-		
-	}
-	
 
+		/*
+		 * List<Note> noteList = service.noteSearchAll(note);
+		 *
+		 * //noteList.getNoteProgress(); for(int i=0; i<noteList.size(); i++) {
+		 * System.out.println("노트 내용 ("+i+") : "+noteList.get(i).getNoteContent()); }
+		 */
+
+	}
 
 }

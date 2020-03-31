@@ -13,10 +13,56 @@
 
   <script type="text/javascript">
     $(document).ready(function () {
+
+      function updateNoteList() {
+        $.ajax({
+          url: "testYLReloadDB",
+          type: "post",
+          //dataType: "JSON",
+          //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
+          //{data1: value1, data2: value2, ...}
+          success: function () {
+            document.querySelectorAll('.noteList li').forEach(el => el.remove());
+            // Spring 내부 브라우저에서는 ES6 문법이 지원 안 된다...IE11인가 보다.
+            // IE11은 어떻게 ES6 지원율이 0%지? 빌어먹을 만악의 근원
+            //
+            // 이렇게 변형 시키면 될까 싶었는데, 오히려 이건 안 먹힌다. 뭐지?
+            // var noteList = document.querySelectorAll('.noteList li');
+            // for (i = 0; i < noteList.length; i++) {
+            //   noteList[0].remove();
+            // }
+
+            <c:forEach items="${noteList}" var="noteUnit">
+              var html = "<li>";
+              html += "Id:${noteUnit.noteId} / ";
+              html += "Date: ${noteUnit.noteDate} / ";
+              html += "Progress: ${noteUnit.noteProgress} / ";
+              html += "Content: ${noteUnit.noteContent}";
+              html += "</li>";
+              document.querySelector('.noteList').innerHTML += html;
+            </c:forEach>
+
+            alert("Reloading all note DB success! (No need to login yet)");
+          },
+          error: function (request, status, error) {
+            alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+          }
+        });
+      }
+
+      updateNoteList();
+
+      $('.reloadTrigger').click(function (e) {
+        e.preventDefault();
+
+        updateNoteList();
+      });
+
+
       // ibutton 클릭 시
       $('#ibutton').click(function (e) {
         e.preventDefault();
-		//selected된 날짜 넣어주기
+        //selected된 날짜 넣어주기
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         var day = document.querySelector(".days li a.selected").text;
@@ -31,7 +77,7 @@
           console.log("Need Login!");
           alert("You need to login.");
         }
-		/*
+        /*
 			url: 통신을 원하고자 하는 URL 주소(필수 입력 값)
         	data: 서버로 보낼 데이터
         	type: GET, POST 등의 통신 방식 지정
@@ -51,33 +97,37 @@
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
-        	  alert(data.noteId);
+            alert(data.noteId);
             $("#noteProgress").val('');
             $("#noteContent").val('');
             successFunction();
           },
-          error:function(request,status,error){
-              alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+          error: function (request, status, error) {
+            alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
+        });
       });
-      });
-    
+
+
       function successFunction() {
-    	  //day-value가 day이면 색깔 설정
-    	  console.log(day);
-    	  //var day = document.querySelector(".days li a.selected").text;
-    	  
-    	  $(".days li a.selected").css("background-color","#E8F8F5");
-      }
+        //day-value가 day이면 색깔 설정
+        var day = document.querySelector(".days li a.selected").text;
+        console.log(day);
+
+        $(".days li a.selected").css("background-color", "#E8F8F5");
+      };
+
+
     });
-      
-	/*
+
+
+    /*
 	success : function(data) { 통신이 성공적으로 이루어졌을 때 }
-    complete : function(data) { 통신이 실패했어도 완료가 되었을 때 } 
+    complete : function(data) { 통신이 실패했어도 완료가 되었을 때 }
 	complete or success 둘 중 하나만 써야 함.
 	error : function(xhr, status, error) { alert("에러 발생"); }
 	*/
-      /*
+    /*
       $('#execute').click(function(){ //ID가 execute인 버튼을 클릭했을때 function 실행
         $.ajax({ //ajax 통신을 한다.
             url:'./time2.php',
@@ -91,18 +141,18 @@
     })
     });
        */
-      // @@T 날짜 클릭시 noteList 전부 지우고 선택된 날짜들 끌어와서 업데이트?
-      //
-      // 내가 구현할 함수
-      //
-      // querySelectAll등 js를 활용하여 <ul class="noteList"> 내부의 모든 <li> 내용을 지운다.
-      // 같은 url requestMapping을 발동시킨다.
-      // jsp에서 controller로 건네준 note 커맨드 객체의 noteDate 및 noteId와 일치하는 note들을 DB에서 읽어온다.
-      // 읽어온 note들은 list<note> notes; 에 저장한다.
-      // session에다가 notes를 등록한다.
-      // notelist 파트를 day 파트처럼 동적으로 다시 생성한다.
+    // @@T 날짜 클릭시 noteList 전부 지우고 선택된 날짜들 끌어와서 업데이트?
+    //
+    // 내가 구현할 함수
+    //
+    // querySelectAll등 js를 활용하여 <ul class="noteList"> 내부의 모든 <li> 내용을 지운다.
+    // 같은 url requestMapping을 발동시킨다.
+    // jsp에서 controller로 건네준 note 커맨드 객체의 noteDate 및 noteId와 일치하는 note들을 DB에서 읽어온다.
+    // 읽어온 note들은 list<note> notes; 에 저장한다.
+    // session에다가 notes를 등록한다.
+    // notelist 파트를 day 파트처럼 동적으로 다시 생성한다.
   </script>
-  
+
 </head>
 
 <body>
@@ -150,31 +200,31 @@
         <h2 class="curYear">${curYear}</h2>
 
         <ul class="months">
-          <li><a href="#" title="Jan" month-value="1">Jan</a></li>
-          <li><a href="#" title="Feb" month-value="2">Feb</a></li>
-          <li><a href="#" title="Mar" month-value="3">Mar</a></li>
-          <li><a href="#" title="Apr" month-value="4">Apr</a></li>
-          <li><a href="#" title="May" month-value="5">May</a></li>
-          <li><a href="#" title="Jun" month-value="6">Jun</a></li>
-          <li><a href="#" title="Jul" month-value="7">Jul</a></li>
-          <li><a href="#" title="Aug" month-value="8">Aug</a></li>
-          <li><a href="#" title="Sep" month-value="9">Sep</a></li>
-          <li><a href="#" title="Oct" month-value="10">Oct</a></li>
-          <li><a href="#" title="Nov" month-value="11">Nov</a></li>
-          <li><a href="#" title="Dec" month-value="12">Dec</a></li>
+          <li><a class="reloadTrigger" href="#" title="Jan" month-value="1">Jan</a></li>
+          <li><a class="reloadTrigger" href="#" title="Feb" month-value="2">Feb</a></li>
+          <li><a class="reloadTrigger" href="#" title="Mar" month-value="3">Mar</a></li>
+          <li><a class="reloadTrigger" href="#" title="Apr" month-value="4">Apr</a></li>
+          <li><a class="reloadTrigger" href="#" title="May" month-value="5">May</a></li>
+          <li><a class="reloadTrigger" href="#" title="Jun" month-value="6">Jun</a></li>
+          <li><a class="reloadTrigger" href="#" title="Jul" month-value="7">Jul</a></li>
+          <li><a class="reloadTrigger" href="#" title="Aug" month-value="8">Aug</a></li>
+          <li><a class="reloadTrigger" href="#" title="Sep" month-value="9">Sep</a></li>
+          <li><a class="reloadTrigger" href="#" title="Oct" month-value="10">Oct</a></li>
+          <li><a class="reloadTrigger" href="#" title="Nov" month-value="11">Nov</a></li>
+          <li><a class="reloadTrigger" href="#" title="Dec" month-value="12">Dec</a></li>
         </ul>
         <script>
           document.querySelector('[month-value="${curMonth}"]').classList.add("selected");
         </script>
         <div class="clearfix"></div>
         <ul class="weekdays">
-          <li><a href="#" title="Mon" data-value="1">Mon</a></li>
-          <li><a href="#" title="Tue" data-value="2">Tue</a></li>
-          <li><a href="#" title="Wed" data-value="3">Wed</a></li>
-          <li><a href="#" title="Thu" data-value="4">Thu</a></li>
-          <li><a href="#" title="Fri" data-value="5">Fri</a></li>
-          <li><a href="#" title="Say" data-value="6">Sat</a></li>
-          <li><a href="#" title="Sun" data-value="7">Sun</a></li>
+          <li><a class="reloadTrigger" href="#" title="Mon" data-value="1">Mon</a></li>
+          <li><a class="reloadTrigger" href="#" title="Tue" data-value="2">Tue</a></li>
+          <li><a class="reloadTrigger" href="#" title="Wed" data-value="3">Wed</a></li>
+          <li><a class="reloadTrigger" href="#" title="Thu" data-value="4">Thu</a></li>
+          <li><a class="reloadTrigger" href="#" title="Fri" data-value="5">Fri</a></li>
+          <li><a class="reloadTrigger" href="#" title="Say" data-value="6">Sat</a></li>
+          <li><a class="reloadTrigger" href="#" title="Sun" data-value="7">Sun</a></li>
         </ul>
         <div class="clearfix"></div>
         <ul class="days">
@@ -208,12 +258,11 @@
             }
             //1일부터 마지막 일까지 돌림
             for (var i = 1; i <= lastDate.getDate(); i++) {
-              document.write('<li><a href="#" onclick="callFunction(title);" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              document.write('<li><a class="reloadTrigger" href="#" onclick="callFunction(title);" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
 
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
-            
           </script>
         </ul>
         <div class="clearfix"></div>
@@ -235,7 +284,7 @@
       memId: ${member.memId}<br>
       memPw: ${member.memPw}<br>
       memMail: ${member.memMail}<br>
-		
+
       <%-- <해결 완료>
     왜 note 는 새로고침 할 때마다 항상 note 주소가 변하고 null값만 가득 차는거지?
     이유를 모르겠다...
@@ -253,9 +302,9 @@
       noteDate: ${note.noteDate}<br>
       noteProgress: ${note.noteProgress}<br>
       noteContent: ${note.noteContent}<br>
-      
+
       <c:forEach items="${noteList}" var="noteUnit">
-            ${noteUnit.noteContent}
+        ${noteUnit.noteContent}
       </c:forEach>
     </p>
   </div>
