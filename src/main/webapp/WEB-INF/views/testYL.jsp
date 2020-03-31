@@ -9,14 +9,14 @@
 
   <!-- <script type="text/javascript" src="JS/jquery-1.4.2.min.js"></script>  -->
   <!-- <script src="./js/jquery-1.4.2.min.js"></script>  -->
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.js?ver=123"></script>
 
   <script type="text/javascript">
     $(document).ready(function () {
       // ibutton 클릭 시
       $('#ibutton').click(function (e) {
         e.preventDefault();
-
+		//selected된 날짜 넣어주기
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         var day = document.querySelector(".days li a.selected").text;
@@ -26,26 +26,59 @@
         if ("${member}") {
           document.querySelector("#noteId").value = "${member.memId}";
           document.querySelector("#noteDate").value = year + "-" + month + "-" + day;
-          console.log("mdmId: ${member.memId}");
+          console.log("memId: ${member.memId}");
         } else {
           console.log("Need Login!");
+          alert("You need to login.");
         }
-
+		/*
+			url: 통신을 원하고자 하는 URL 주소(필수 입력 값)
+        	data: 서버로 보낼 데이터
+        	type: GET, POST 등의 통신 방식 지정
+        	dataType: 통신의 결과로 넘어올 데이터의 종류 지정
+        	success(data): 통신 성공시 호출 해야하는 함수를 지정. 매개변수 결과로 넘어온 데이터를 받음.
+        	error: 통신 실패시 호출 해야하는 함수 지정
+        	complete: 통신 성공 여부와 관계없이 통신이 끝난 후 호출 해야하는 함수를 지정
+        	beforeSend: 통신 전에 호출 해야하는 함수를 지정
+        	async: 비동기(true), 동기(true) 여부를 지정
+        	*/
         $.ajax({
           url: "saveNoteContent",
           type: "post",
-          dataType: "JSON",
+          //dataType: "JSON",
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
           //{data1: value1, data2: value2, ...}
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
+        	  alert(data.noteId);
             $("#noteProgress").val('');
             $("#noteContent").val('');
+          },
+          error:function(request,status,error){
+              alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
           }
-        });
       });
-
+      });
+	/*
+	success : function(data) { 통신이 성공적으로 이루어졌을 때 }
+    complete : function(data) { 통신이 실패했어도 완료가 되었을 때 } 
+	complete or success 둘 중 하나만 써야 함.
+	error : function(xhr, status, error) { alert("에러 발생"); }
+	*/
+      /*
+      $('#execute').click(function(){ //ID가 execute인 버튼을 클릭했을때 function 실행
+        $.ajax({ //ajax 통신을 한다.
+            url:'./time2.php',
+            type:'post', //default는 get
+            data:$('form').serialize(), //서버로 전송할 데이터
+            success:function(data){
+                $('#time').text(data);
+            }
+        //성공했을떄 id가 time이라는 엘리먼트에 text로 추가해라.
+        })
+    })
+      */
       // @@T 날짜 클릭시 noteList 전부 지우고 선택된 날짜들 끌어와서 업데이트?
       //
       // 내가 구현할 함수

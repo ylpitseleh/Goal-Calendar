@@ -38,7 +38,7 @@ public class NoteController {
 
 		return dateFormat.format(date);
 	}
-
+	//@ResponseBody : 자바 객체를 HTTP 응답 객체로 전송할 수 있다.
 	@RequestMapping(value = "/saveNoteContent", method = RequestMethod.POST)
 	@ResponseBody
 	public void saveNote(Note note, Member member, HttpSession session) {
