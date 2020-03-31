@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.prj.cal.calendar.Note;
 import com.prj.cal.calendar.service.NoteService;
@@ -99,11 +101,23 @@ public class NoteController {
 	}
 
 	@RequestMapping("/testYL")
-	// public String goToTestYL(Note note) {
-	public String goToTestYL() {
-		return "testYL";
-	}
+	public ModelAndView goToTestYL(Note note) {
+		//파라미터 Note note 추가했음 
+		List<Note> noteList = service.noteSearchAll(note);
+		
+		//noteList.getNoteProgress();
+		for(int i=0; i<noteList.size(); i++) {
+			System.out.println("노트 내용 ("+i+") : "+noteList.get(i).getNoteContent());
+		}
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("noteList", service.noteSearchAll(note));
+		mav.setViewName("testYL");
 
+		return mav;
+		//return "testYL";
+	}
+	
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {
 		int curYear_int;
@@ -138,5 +152,19 @@ public class NoteController {
 		curDay = Integer.toString(curDay_int);
 		return curDay;
 	}
+	
+	@ModelAttribute("noteContent")
+	public void getNoteProgress(Note note, HttpSession session) {
+		
+		/*List<Note> noteList = service.noteSearchAll(note);
+		
+		//noteList.getNoteProgress();
+		for(int i=0; i<noteList.size(); i++) {
+			System.out.println("노트 내용 ("+i+") : "+noteList.get(i).getNoteContent());
+		}*/
+		
+	}
+	
+
 
 }

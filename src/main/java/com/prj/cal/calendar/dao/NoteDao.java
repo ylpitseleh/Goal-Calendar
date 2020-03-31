@@ -1,23 +1,21 @@
 package com.prj.cal.calendar.dao;
 
-import com.prj.cal.calendar.Note;
-import com.prj.cal.member.Member;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.prj.cal.calendar.Note;
+import com.prj.cal.member.Member;
 
 @Repository
 public class NoteDao implements INoteDao {
@@ -80,30 +78,82 @@ public class NoteDao implements INoteDao {
 		return result;
 	}
 
+	/*@Override
+	public List<Note> noteSelectAll(final Note note) {
+
+		final String sql = "SELECT * FROM calendar";
+
+		
+		List<Note> notes = template.query(sql, new Object[] { note.getNoteId(), note.getNoteDate(), note.getNoteProgress(), note.getNoteContent() }, new RowMapper<Note>() {
+
+			@Override
+			public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Note note = new Note();
+				note.setNoteId(rs.getString("noteId"));
+				note.setNoteDate(rs.getString("noteDate"));
+				note.setNoteProgress(rs.getInt("noteProgress"));
+				note.setNoteContent(rs.getString("noteContent"));
+				return note;
+			}
+		});
+		if(notes.isEmpty())
+			return null;
+
+		return notes;
+	}*/
+	@Override
+	public List<Note> noteSelectAll() {
+
+		final String sql = "SELECT * FROM calendar";
+		
+		List<Note> notes = template.query(sql, new RowMapper() {
+
+			public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Note note = new Note();
+				
+				note.setNoteId(rs.getString("noteId"));
+				note.setNoteDate(rs.getString("noteDate"));
+				note.setNoteProgress(rs.getInt("noteProgress"));
+				note.setNoteContent(rs.getString("noteContent"));
+				
+				return note;
+			}
+			
+		});
+		if(notes.isEmpty())
+			return null;
+
+		return notes;
+	}
+	
+	
 	@Override
 	public Note noteSelect(final Note note) {
-		// List<Note> note = null;
-		// final String sql = "SELECT * FROM note WHERE memId = ? AND memPw = ?";
 
-		// note = template.query(sql, new Object[] { note.getDataId(), note.getDataPw()
-		// }, new RowMapper<Note>() {
-		// @Override
-		// public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
-		// Note mem = new Note();
-		// mem.setDataId(rs.getString("memId"));
-		// mem.setDataPw(rs.getString("memPw"));
-		// mem.setDataMail(rs.getString("memMail"));
-		// mem.setDataPurcNum(rs.getInt("memPurcNum"));
-		// return mem;
-		// }
+		List<Note> notes = null;
+		
+		//여기 수정
+		final String sql = "SELECT * FROM calendar";
 
-		// });
+				notes = template.query(sql, new Object[] { note.getNoteId(), note.getNoteDate(), note.getNoteProgress(), note.getNoteContent() }, new RowMapper<Note>() {
 
-		// if (note.isEmpty())
-		// return null;
+			@Override
+			public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Note note = new Note();
+				note.setNoteId(rs.getString("noteId"));
+				note.setNoteDate(rs.getString("noteDate"));
+				note.setNoteProgress(rs.getInt("noteProgress"));
+				note.setNoteContent(rs.getString("noteContent"));
+				return note;
+			}
 
-		// return note.get(0);
-		return null;
+		});
+
+		if (notes.isEmpty())
+			return null;
+
+		return note;
+
 	}
 
 	@Override

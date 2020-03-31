@@ -1,11 +1,12 @@
 package com.prj.cal.calendar.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.prj.cal.calendar.Note;
 import com.prj.cal.calendar.dao.NoteDao;
-import com.prj.cal.member.Member;
 
 @Service
 public class NoteService implements INoteService {
@@ -51,8 +52,26 @@ public class NoteService implements INoteService {
 
 	@Override
 	public Note noteSearch(Note note){
-		return null;
+		Note noteList = nDao.noteSelect(note);
+		
+		if(noteList == null) {
+			System.out.println("Note is empty.");
+		}
+		
+		return noteList;
 	}
+	
+	@Override
+	public List<Note> noteSearchAll(Note note){
+		List<Note> noteList = nDao.noteSelectAll();
+		
+		if(noteList == null) {
+			System.out.println("Note is empty.");
+		}
+		
+		return noteList;
+	}
+	
 
 	@Override
 	public Note noteModify(Note note){

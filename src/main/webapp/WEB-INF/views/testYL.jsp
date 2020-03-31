@@ -54,12 +54,23 @@
         	  alert(data.noteId);
             $("#noteProgress").val('');
             $("#noteContent").val('');
+            successFunction();
           },
           error:function(request,status,error){
               alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
           }
       });
       });
+    
+      function successFunction() {
+    	  //day-value가 day이면 색깔 설정
+    	  console.log(day);
+    	  //var day = document.querySelector(".days li a.selected").text;
+    	  
+    	  $(".days li a.selected").css("background-color","#E8F8F5");
+      }
+    });
+      
 	/*
 	success : function(data) { 통신이 성공적으로 이루어졌을 때 }
     complete : function(data) { 통신이 실패했어도 완료가 되었을 때 } 
@@ -78,7 +89,8 @@
         //성공했을떄 id가 time이라는 엘리먼트에 text로 추가해라.
         })
     })
-      */
+    });
+       */
       // @@T 날짜 클릭시 noteList 전부 지우고 선택된 날짜들 끌어와서 업데이트?
       //
       // 내가 구현할 함수
@@ -89,8 +101,8 @@
       // 읽어온 note들은 list<note> notes; 에 저장한다.
       // session에다가 notes를 등록한다.
       // notelist 파트를 day 파트처럼 동적으로 다시 생성한다.
-    });
   </script>
+  
 </head>
 
 <body>
@@ -201,6 +213,7 @@
 
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
+            
           </script>
         </ul>
         <div class="clearfix"></div>
@@ -222,7 +235,7 @@
       memId: ${member.memId}<br>
       memPw: ${member.memPw}<br>
       memMail: ${member.memMail}<br>
-
+		
       <%-- <해결 완료>
     왜 note 는 새로고침 할 때마다 항상 note 주소가 변하고 null값만 가득 차는거지?
     이유를 모르겠다...
@@ -240,6 +253,10 @@
       noteDate: ${note.noteDate}<br>
       noteProgress: ${note.noteProgress}<br>
       noteContent: ${note.noteContent}<br>
+      
+      <c:forEach items="${noteList}" var="noteUnit">
+            ${noteUnit.noteContent}
+      </c:forEach>
     </p>
   </div>
 
