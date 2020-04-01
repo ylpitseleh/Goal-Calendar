@@ -1,11 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%-- <%@ page session="false"%> --%>
 <html>
 
 <head>
-  <link href="<c:url value="/resources/css/testYL.css?after" />" rel="stylesheet">
+  <link href="<c:url value="/resources/css/testYL.css?ver=1" />"
+  rel="stylesheet">
 
   <!-- <script type="text/javascript" src="JS/jquery-1.4.2.min.js"></script>  -->
   <!-- <script src="./js/jquery-1.4.2.min.js"></script>  -->
@@ -25,7 +27,11 @@
           // url: "testYLReloadDBALL",
           url: "testYLReloadDBMatching",
           type: "post",
-          data: {'year': year, 'month': month, 'day': day},
+          data: {
+            'year': year,
+            'month': month,
+            'day': day
+          },
 
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
           //{data1: value1, data2: value2, ...}
@@ -40,8 +46,7 @@
             // 그냥 jQuery로 땜빵하자...
             $(".noteList li").remove();
 
-            if (data != "")
-            {
+            if (data != "") {
               var strs = data.split("|");
               var html = "<li>";
               html += "Id: " + strs[0] + "<br>";
@@ -89,13 +94,14 @@
       // ibutton 클릭 시
       $('#ibutton').click(function (e) {
         e.preventDefault();
-        //selected된 날짜 넣어주기
+        /* selected된 날짜 넣어주기 */
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         var day = document.querySelector(".days li a.selected").text;
         month = month.length == 1 ? "0" + month.slice(0) : month;
         day = day.length == 1 ? "0" + day.slice(0) : day;
 
+        /* noteId, noteDate에 현재 로그인 된Id, selected 된 날짜 넣어주기 */
         if ("${member}") {
           document.querySelector("#noteId").value = "${member.memId}";
           document.querySelector("#noteDate").value = year + "-" + month + "-" + day;
@@ -139,7 +145,9 @@
       function successFunction() {
         //day-value가 day이면 색깔 설정
         var day = document.querySelector(".days li a.selected").text;
+        day = day.length == 1 ? "0" + day.slice(0) : day;
         console.log(day);
+        //var day = document.querySelector(".days li a.selected").text;
 
         $(".days li a.selected").css("background-color", "#E8F8F5");
       };
@@ -207,11 +215,13 @@
           <form name="inputNote" action="saveNoteContent" id="inputNote">
             <input type="hidden" name="noteId" id="noteId" />
             <input type="hidden" name="noteDate" id="noteDate" />
-            <input type="number" name="noteProgress" id="noteProgress" value="" placeholder="rate progress" min="0" max="5" step="1" oninput="
-            if(this.value > 5) value = 5;
-            if(this.value < 0) value = 0;
-            " />
-            <input type="text" name="noteContent" id="noteContent" value="" placeholder="new note" />
+            <div class="slidecontainer">
+              <input type="range" name="noteProgress" id="noteProgress" value="0" placeholder="rate progress" min="0" max="5" step="1" class="slider" />
+            </div>
+            <br>
+            <span>0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 80&nbsp;&nbsp;&nbsp;&nbsp;100 (%)</span>
+            <input type="text" name="noteContent" id="noteContent" value="" placeholder="New note" />
             <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
           </form>
 
@@ -285,11 +295,64 @@
             }
             //1일부터 마지막 일까지 돌림
             for (var i = 1; i <= lastDate.getDate(); i++) {
-              document.write('<li><a class="reloadTrigger" href="#" onclick="callFunction(title);" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              //document.write('<li><a href="#" onclick="callFunction(title);" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              document.write('<li><a href="#" onclick="callFunction(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
 
-
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
+
+
+           	/* noteProgress 수치만큼 날짜에 background-color 입히기 */
+
+       		//JSON.parse() = String 객체를 json 객체로 형변환 시켜준다.
+            var json_arr = JSON.parse('${jsonList}');
+            for(var i=0; i<json_arr.length; i++) { // DB에 저장된 모든 noteList 개수만큼 반복
+            	// id 확인
+            	if ("${member.memId}" == "") { //현재 로그인 상태가 아니면
+            		continue ;
+            	}
+    			if ("${member.memId}" != json_arr[i].noteId)
+    				continue ;
+
+            	// 날짜 확인
+            	var monthValue = json_arr[i].noteDate.substring(5,7);
+            	if(monthValue.charAt(0) == '0') {
+            		monthValue = monthValue.substring(1,2);
+            	}
+
+            	var monthSelected = document.querySelector(".months li a.selected").getAttribute("month-value");
+				if (monthSelected != monthValue) { //현재 selected된 monthSelected와 noteList의 monthValue가 같은지 확인
+            		continue ;
+            	}
+
+            	var dayValue = json_arr[i].noteDate.substring(8,10);
+            	if(dayValue.charAt(0) == '0') {
+            		dayValue = dayValue.substring(1,2);
+            	}
+
+
+            	// noteProgress값에 해당하는 backgroundColor 지정
+            	if (json_arr[i].noteProgress == 1) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#E8F8F5";
+            	}
+            	else if (json_arr[i].noteProgress == 2) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#D1F2EB";
+            	}
+            	else if (json_arr[i].noteProgress == 3) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#A3E4D7";
+            	}
+            	else if (json_arr[i].noteProgress == 4) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#76D7C4";
+            	}
+            	else if (json_arr[i].noteProgress == 5) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#48C9B0";
+            	}
+            }
           </script>
         </ul>
         <div class="clearfix"></div>
