@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -105,93 +107,105 @@ public class NoteController {
 		return "test";
 	}
 
+	// @RequestMapping("/testYL")
+	// public ModelAndView goToTestYL(Note note) {
+	// 	ModelAndView mav = new ModelAndView();
+	// 	try {
+	// 		// 파라미터 Note note 추가했음
+	// 		List<Note> noteList = service.noteSearchAll();
+
+	// 		// noteList.getNoteProgress();
+	// 		for (int i = 0; i < noteList.size(); i++) {
+	// 			System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+	// 		}
+
+	// 		mav.addObject("noteList", noteList);
+	// 	} catch (NullPointerException e) {
+	// 		System.out.println("NullpointerException: There isn't any note in DB!");
+	// 		e.printStackTrace();
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace();
+	// 	}
+	// 	mav.setViewName("testYL");
+	// 	return mav;
+	// 	// return "testYL";
+	// }
+
 	@RequestMapping("/testYL")
-	public ModelAndView goToTestYL(Note note) {
-		ModelAndView mav = new ModelAndView();
-		try {
-			// 파라미터 Note note 추가했음
-			List<Note> noteList = service.noteSearchAll();
-
-			// noteList.getNoteProgress();
-			for (int i = 0; i < noteList.size(); i++) {
-				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			}
-
-			mav.addObject("noteList", noteList);
-		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: There isn't any note in DB!");
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		mav.setViewName("testYL");
-		return mav;
-		// return "testYL";
+	public String goToTestYL(Note note) {
+		return "testYL";
 	}
 
-	@RequestMapping(value = "/testYLReloadDBALL", method = RequestMethod.POST)
-	@ResponseBody
-	public void testYLReloadDBALL(Model model) {
-		try {
-			// 파라미터 Note note 추가했음
-			List<Note> noteList = service.noteSearchAll();
+	// @RequestMapping(value = "/testYLReloadDBALL", method = RequestMethod.POST)
+	// @ResponseBody
+	// public void testYLReloadDBALL(Model model) {
+	// 	try {
+	// 		List<Note> noteList = service.noteSearchAll();
 
-			// noteList.getNoteProgress();
-			for (int i = 0; i < noteList.size(); i++) {
-				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			}
+	// 		// noteList.getNoteProgress();
+	// 		for (int i = 0; i < noteList.size(); i++) {
+	// 			System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+	// 		}
 
-			model.addAttribute("noteList", noteList);
-		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: There isn't any note in DB!");
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	// 		model.addAttribute("noteList", noteList);
+	// 	} catch (NullPointerException e) {
+	// 		System.out.println("NullpointerException: There isn't any note in DB!");
+	// 		e.printStackTrace();
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace();
+	// 	}
+	// }
 
 	@RequestMapping(value = "/testYLReloadDBMatching", method = RequestMethod.POST)
 	@ResponseBody
-	public void testYLReloadDBMatching(Model model) {
+	public String testYLReloadDBMatching(Model model, HttpSession session, Member member,
+	@RequestParam String year, @RequestParam String month, @RequestParam String day) {
 
-		List<Note> noteList = new ArrayList<Note>();
 		Note noteToSearch = new Note();
 
 		try {
-
-			// @@T 테스트용 더미 데이터!!! 나중에 값 구해서 집어넣어야 함.
-			noteToSearch.setNoteId("a"); // ((Member)session.getAttribute("member")).getMemId());
-			noteToSearch.setNoteDate("2020-04-01");
+			member = (Member) session.getAttribute("member");
+			noteToSearch.setNoteId(member.getMemId());
+			noteToSearch.setNoteDate(year + "-" + month + "-" + day);
 			// SELECT * FROM calendar WHERE noteId = ? AND noteDate = ?
 			// 이므로, 아래의 값들은 필요 없다.
 			// noteToSearch.setNoteProgress("");
 			// noteToSearch.setNoteContent("");
 
 			Note noteMatched = service.noteSearch(noteToSearch);
+			System.out.println("Searched NoteId: " + noteToSearch.getNoteId());
+			System.out.println("Searched NoteDate: " + noteToSearch.getNoteDate());
 
 			if (noteMatched != null)
 			{
-				System.out.println("Matched NoteId: " + noteMatched.getNoteId());
-				System.out.println("Matched NoteDate: " + noteMatched.getNoteDate());
-				System.out.println("Matched NoteProgress: " + noteMatched.getNoteProgress());
-				System.out.println("Matched NoteContent: " + noteMatched.getNoteContent());
+				ArrayList<String> noteStr = new ArrayList<String>();
+				noteStr.add(noteMatched.getNoteId());
+				noteStr.add(noteMatched.getNoteDate());
+				noteStr.add(Integer.toString(noteMatched.getNoteProgress()));
+				noteStr.add(noteMatched.getNoteContent());
 
-				// @@T testYL.jsp 에서 <c:forEach> 를 그대로 사용하기 위해 임시로 사용했음. 나중에 리팩토링 필요.
-				noteList.add(noteMatched);
-				model.addAttribute("noteList", noteList);
+				System.out.println("Matched NoteId: " + noteStr.get(0));
+				System.out.println("Matched NoteDate: " + noteStr.get(1));
+				System.out.println("Matched NoteProgress: " + noteStr.get(2));
+				System.out.println("Matched NoteContent: " + noteStr.get(3));
 
-				// model.addAttribute("noteMatched", noteMatched);
-				// model.addAttribute("noteMatched_noteId", noteMatched.getNoteId());
-				// model.addAttribute("noteMatched_noteDate", noteMatched.getNoteDate());
-				// model.addAttribute("noteMatched_noteProgress", noteMatched.getNoteProgress());
-				// model.addAttribute("noteMatched_noteContent", noteMatched.getNoteContent());
+				String rtn = "";
+				rtn += noteStr.get(0) + "|";
+				rtn += noteStr.get(1) + "|";
+				rtn += noteStr.get(2) + "|";
+				rtn += noteStr.get(3);
+				return rtn;
 			}
 		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: There is no matching note in DB!");
+			System.out.println("NullpointerException: You need to login!");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("There is no matching note in DB!");
+		// System.out.println("Some error occured in NoteController testYLReloadDBMatching method");
+		return "";
 	}
 
 	@ModelAttribute("curYear")

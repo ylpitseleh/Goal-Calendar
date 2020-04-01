@@ -15,45 +15,61 @@
     $(document).ready(function () {
 
       function updateNoteList() {
+        var year = "${curYear}"
+        var month = document.querySelector(".months li a.selected").getAttribute("month-value");
+        var day = document.querySelector(".days li a.selected").text;
+        month = month.length == 1 ? "0" + month.slice(0) : month;
+        day = day.length == 1 ? "0" + day.slice(0) : day;
+
         $.ajax({
           // url: "testYLReloadDBALL",
           url: "testYLReloadDBMatching",
           type: "post",
-          //dataType: "JSON",
+          data: {'year': year, 'month': month, 'day': day},
+
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
           //{data1: value1, data2: value2, ...}
-          success: function () {
-            // @@T noteSearchAll 에서 noteSearch로 바꿔야 함!!
+          success: function (data) {
             // alert("Reloading all note DB success! (No need to login)");
-            alert("Loading matching note from DB success! (matched with dummy data (id:a / date: 2020-04-01))");
+            // alert("Loading matching note from DB success!: " + data);
 
             // document.querySelectorAll('.noteList li').forEach(el => el.remove());
             // Spring 내부 브라우저에서는 ES6 문법이 지원 안 된다...IE11인가 보다.
             // IE11은 어떻게 ES6 지원율이 0%지? 빌어먹을 만악의 근원
             // ES6 쓰려면 호환성 때문에 Babel 써서 ES6 -> ES5로 polyfill 해야되잖아...
-            var noteList = document.querySelectorAll('.noteList li');
-            for (i = 0; i < noteList.length; i++) {
-              noteList[i].remove();
-            }
+            // 그냥 jQuery로 땜빵하자...
+            $(".noteList li").remove();
 
-            <c:forEach items="${noteList}" var="noteUnit">
+            if (data != "")
+            {
+              var strs = data.split("|");
               var html = "<li>";
-              html += "Id:${noteUnit.noteId} / ";
-              html += "Date: ${noteUnit.noteDate} / ";
-              html += "Progress: ${noteUnit.noteProgress} / ";
-              html += "Content: ${noteUnit.noteContent}";
+              html += "Id: " + strs[0] + "<br>";
+              html += "Date: " + strs[1] + "<br>";
+              html += "Progress: " + strs[2] + "<br>";
+              html += "Content: " + strs[3] + "";
               html += "</li>";
               document.querySelector('.noteList').innerHTML += html;
-            </c:forEach>
-            // @@T 나중에 NoteController의 testYLReloadDBMatching 수정하면 아래의 내용으로 적용
-            // var html = "<li>";
-            // html += "Id: ${noteMatched.noteId} / ";
-            // html += "Date: ${noteMatched.noteDate} / ";
-            // html += "Progress: ${noteMatched.noteProgress} / ";
-            // html += "Content: ${noteMatched.noteContent}";
-            // html += "</li>";
-            // document.querySelector('.noteList').innerHTML += html;
+            }
+            // for(var i = 0; i < data.length; i++) {
+            //   var html = "<li>";
+            //   html += "Id: " + data[0].noteId + "<br>";
+            //   html += "Date: " + data[1].noteDate + "<br>";
+            //   html += "Progress: " + data[2].noteProgress + "<br>";
+            //   html += "Content: " + data[3].noteContent + "";
+            //   html += "</li>";
+            //   document.querySelector('.noteList').innerHTML += html;
+            // }
 
+            // <c:forEach items="${noteList}" var="noteUnit">
+            //   var html = "<li>";
+            //   html += "Id:${noteUnit.noteId}<br>";
+            //   html += "Date: ${noteUnit.noteDate}<br>";
+            //   html += "Progress: ${noteUnit.noteProgress}<br>";
+            //   html += "Content: ${noteUnit.noteContent}";
+            //   html += "</li>";
+            //   document.querySelector('.noteList').innerHTML += html;
+            // </c:forEach>
           },
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
