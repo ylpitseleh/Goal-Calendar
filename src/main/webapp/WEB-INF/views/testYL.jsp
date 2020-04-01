@@ -296,7 +296,7 @@
             //1일부터 마지막 일까지 돌림
             for (var i = 1; i <= lastDate.getDate(); i++) {
               //document.write('<li><a href="#" onclick="callFunction(title);" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
-              document.write('<li><a href="#" onclick="callFunction(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              document.write('<li><a class="reloadTrigger" href="#" onclick="callFunction(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
