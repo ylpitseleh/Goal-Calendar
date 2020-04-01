@@ -21,6 +21,21 @@ import com.prj.cal.member.Member;
 public class NoteDao implements INoteDao {
 	private JdbcTemplate template;
 
+	//	CREATE TABLE Calendar (
+	//		noteId VARCHAR2(15),
+	//		noteDate DATE,
+	//		noteContent VARCHAR2(150),
+	//		noteProgress NUMBER(1),
+	//	  PRIMARY KEY (noteId, noteDate)
+	//	);
+	//
+	//	------------
+	//	CREATE TABLE Member (
+	//		memId VARCHAR2(15) CONSTRAINT memId_pk PRIMARY KEY,
+	//		memPw VARCHAR2(20),
+	//		memMail VARCHAR2(30)
+	//	);
+
 	@Autowired
 	public NoteDao(ComboPooledDataSource dataSource) {
 		this.template = new JdbcTemplate(dataSource);
@@ -29,9 +44,32 @@ public class NoteDao implements INoteDao {
 	@Override
 	public int noteInsert(final Note note) {
 		int result = 0;
+
+		//	begin
+		//	   insert into t (mykey, mystuff)
+		//	      values ('X', 123);
+		//	exception
+		//	   when dup_val_on_index then
+		//	      update t
+		//	      set    mystuff = 123
+		//	      where  mykey = 'X';
+		//	end;
+
+
+		//@formatter:off
+		// final String sql =
+		// "BEGIN \n"+
+		// "	INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) \n"+
+		// "		values (?,?,?,?); \n"+
+		// "EXCEPTION \n"+
+		// "	WHEN dup_val_on_index THEN \n"+
+		// "		UPDATE calendar \n"+
+		// "		SET"
+		// ;
+		//@formatter:on
+
 		final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
-		// final String sql = "INSERT INTO calendar (noteId, noteProgress, noteContent)
-		// values (?,?,?)";
+
 		result = template.update(sql, new PreparedStatementSetter() {
 
 			@Override
