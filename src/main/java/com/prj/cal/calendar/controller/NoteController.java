@@ -1,6 +1,7 @@
 package com.prj.cal.calendar.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -92,6 +94,7 @@ public class NoteController {
 			session.setAttribute("note", note);
 		} catch (NullPointerException e) {
 			System.out.println("NullPointerException: You need to login!");
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -116,7 +119,8 @@ public class NoteController {
 
 			mav.addObject("noteList", noteList);
 		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: There is no note in DB!");
+			System.out.println("NullpointerException: There isn't any note in DB!");
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -139,33 +143,56 @@ public class NoteController {
 
 			model.addAttribute("noteList", noteList);
 		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: There is no note in DB!");
+			System.out.println("NullpointerException: There isn't any note in DB!");
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	// @RequestMapping(value = "/testYLReloadDBMatching", method = RequestMethod.POST)
-	// @ResponseBody
-	// public void testYLReloadDBMatching(Model model) {
-	// 	try {
-	// 		Note noteToSearch = new Note();
+	@RequestMapping(value = "/testYLReloadDBMatching", method = RequestMethod.POST)
+	@ResponseBody
+	public void testYLReloadDBMatching(Model model) {
 
-	// 		// @@T 테스트용 더미 데이터!!!
-	// 		noteToSearch.setNoteId("a");
-	// 		noteToSearch.setNoteDate("2020.03.31");
+		List<Note> noteList = new ArrayList<Note>();
+		Note noteToSearch = new Note();
 
-	// 		Note noteMatched = service.noteSearch(noteToSearch);
+		try {
 
-	// 		System.out.println("노트 내용: " + noteMatched.getNoteContent());
+			// @@T 테스트용 더미 데이터!!! 나중에 값 구해서 집어넣어야 함.
+			noteToSearch.setNoteId("a"); // ((Member)session.getAttribute("member")).getMemId());
+			noteToSearch.setNoteDate("2020-04-01");
+			// SELECT * FROM calendar WHERE noteId = ? AND noteDate = ?
+			// 이므로, 아래의 값들은 필요 없다.
+			// noteToSearch.setNoteProgress("");
+			// noteToSearch.setNoteContent("");
 
-	// 		model.addAttribute("noteMatched", noteMatched);
-	// 	} catch (NullPointerException e) {
-	// 		System.out.println("NullpointerException: There is no note in DB!");
-	// 	} catch (Exception e) {
-	// 		e.printStackTrace();
-	// 	}
-	// }
+			Note noteMatched = service.noteSearch(noteToSearch);
+
+			if (noteMatched != null)
+			{
+				System.out.println("Matched NoteId: " + noteMatched.getNoteId());
+				System.out.println("Matched NoteDate: " + noteMatched.getNoteDate());
+				System.out.println("Matched NoteProgress: " + noteMatched.getNoteProgress());
+				System.out.println("Matched NoteContent: " + noteMatched.getNoteContent());
+
+				// @@T testYL.jsp 에서 <c:forEach> 를 그대로 사용하기 위해 임시로 사용했음. 나중에 리팩토링 필요.
+				noteList.add(noteMatched);
+				model.addAttribute("noteList", noteList);
+
+				// model.addAttribute("noteMatched", noteMatched);
+				// model.addAttribute("noteMatched_noteId", noteMatched.getNoteId());
+				// model.addAttribute("noteMatched_noteDate", noteMatched.getNoteDate());
+				// model.addAttribute("noteMatched_noteProgress", noteMatched.getNoteProgress());
+				// model.addAttribute("noteMatched_noteContent", noteMatched.getNoteContent());
+			}
+		} catch (NullPointerException e) {
+			System.out.println("NullpointerException: There is no matching note in DB!");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {

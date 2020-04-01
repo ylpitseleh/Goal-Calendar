@@ -69,6 +69,9 @@ public class NoteDao implements INoteDao {
 					System.out.println("NoteProgress in DB : " + noteProgress);
 					System.out.println("NoteContent in DB : " + noteContent);
 				} catch (ParseException e) {
+					System.out.println("ParseException: Need to modify some parsing process!");
+					e.printStackTrace();
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
@@ -123,31 +126,43 @@ public class NoteDao implements INoteDao {
 	}
 
 	@Override
-	public Note noteSelect(final Note note) {
+	public Note noteSelect(final Note noteToSearch) {
 
 		List<Note> notes = null;
 
 		final String sql = "SELECT * FROM calendar WHERE noteId = ? AND noteDate = ?";
 
-		notes = template.query(sql, new Object[] { note.getNoteId(), note.getNoteDate() }, new RowMapper<Note>() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			String noteId = noteToSearch.getNoteId();
 
-			@Override
-			public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Note note = new Note();
-				note.setNoteId(rs.getString("noteId"));
-				note.setNoteDate(rs.getString("noteDate"));
-				note.setNoteProgress(rs.getInt("noteProgress"));
-				note.setNoteContent(rs.getString("noteContent"));
-				return note;
-			}
+			java.util.Date date = formatter.parse(noteToSearch.getNoteDate());
+			java.sql.Date noteDate = new java.sql.Date(date.getTime());
 
-		});
+			notes = template.query(sql, new Object[] { noteId, noteDate }, new RowMapper<Note>() {
 
-		if (notes.isEmpty())
-			return null;
+				@Override
+				public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Note note = new Note();
+					note.setNoteId(rs.getString("noteId"));
+					note.setNoteDate(rs.getString("noteDate"));
+					note.setNoteProgress(rs.getInt("noteProgress"));
+					note.setNoteContent(rs.getString("noteContent"));
+					return note;
+				}
+			});
 
-		return note;
+			if (notes.isEmpty())
+				return null;
 
+		} catch (ParseException e) {
+			System.out.println("ParseException: Need to modify some parsing process!");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return notes.get(0);
 	}
 
 	@Override

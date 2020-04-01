@@ -16,18 +16,21 @@
 
       function updateNoteList() {
         $.ajax({
-          url: "testYLReloadDBALL",
+          // url: "testYLReloadDBALL",
+          url: "testYLReloadDBMatching",
           type: "post",
           //dataType: "JSON",
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
           //{data1: value1, data2: value2, ...}
           success: function () {
             // @@T noteSearchAll 에서 noteSearch로 바꿔야 함!!
-            alert("Reloading all note DB success! (No need to login yet)");
+            // alert("Reloading all note DB success! (No need to login)");
+            alert("Loading matching note from DB success! (matched with dummy data (id:a / date: 2020-04-01))");
 
             // document.querySelectorAll('.noteList li').forEach(el => el.remove());
             // Spring 내부 브라우저에서는 ES6 문법이 지원 안 된다...IE11인가 보다.
             // IE11은 어떻게 ES6 지원율이 0%지? 빌어먹을 만악의 근원
+            // ES6 쓰려면 호환성 때문에 Babel 써서 ES6 -> ES5로 polyfill 해야되잖아...
             var noteList = document.querySelectorAll('.noteList li');
             for (i = 0; i < noteList.length; i++) {
               noteList[i].remove();
@@ -42,6 +45,14 @@
               html += "</li>";
               document.querySelector('.noteList').innerHTML += html;
             </c:forEach>
+            // @@T 나중에 NoteController의 testYLReloadDBMatching 수정하면 아래의 내용으로 적용
+            // var html = "<li>";
+            // html += "Id: ${noteMatched.noteId} / ";
+            // html += "Date: ${noteMatched.noteDate} / ";
+            // html += "Progress: ${noteMatched.noteProgress} / ";
+            // html += "Content: ${noteMatched.noteContent}";
+            // html += "</li>";
+            // document.querySelector('.noteList').innerHTML += html;
 
           },
           error: function (request, status, error) {
