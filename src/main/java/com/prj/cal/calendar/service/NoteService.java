@@ -51,27 +51,27 @@ public class NoteService implements INoteService {
 	}
 
 	@Override
-	public Note noteSearch(Note note){
-		Note noteList = nDao.noteSelect(note);
-		
-		if(noteList == null) {
+	public Note noteSearch(Note noteToSearch){
+		Note noteMatched = nDao.noteSelect(noteToSearch);
+
+		if(noteMatched == null) {
 			System.out.println("Note is empty.");
 		}
-		
-		return noteList;
+
+		return noteMatched;
 	}
-	
+
 	@Override
-	public List<Note> noteSearchAll(Note note){
+	public List<Note> noteSearchAll(){
 		List<Note> noteList = nDao.noteSelectAll();
-		
+
 		if(noteList == null) {
 			System.out.println("Note is empty.");
 		}
-		
+
 		return noteList;
 	}
-	
+
 
 	@Override
 	public Note noteModify(Note note){

@@ -22,6 +22,7 @@
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
           //{data1: value1, data2: value2, ...}
           success: function () {
+            // @@T noteSearchAll 에서 noteSearch로 바꿔야 함!!
             alert("Reloading all note DB success! (No need to login yet)");
 
             // document.querySelectorAll('.noteList li').forEach(el => el.remove());

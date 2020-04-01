@@ -107,7 +107,7 @@ public class NoteController {
 		ModelAndView mav = new ModelAndView();
 		try {
 			// 파라미터 Note note 추가했음
-			List<Note> noteList = service.noteSearchAll(note);
+			List<Note> noteList = service.noteSearchAll();
 
 			// noteList.getNoteProgress();
 			for (int i = 0; i < noteList.size(); i++) {
@@ -127,10 +127,10 @@ public class NoteController {
 
 	@RequestMapping(value = "/testYLReloadDBALL", method = RequestMethod.POST)
 	@ResponseBody
-	public void testYLReloadDBALL(Note note, Model model) {
+	public void testYLReloadDBALL(Model model) {
 		try {
 			// 파라미터 Note note 추가했음
-			List<Note> noteList = service.noteSearchAll(note);
+			List<Note> noteList = service.noteSearchAll();
 
 			// noteList.getNoteProgress();
 			for (int i = 0; i < noteList.size(); i++) {
@@ -144,6 +144,28 @@ public class NoteController {
 			e.printStackTrace();
 		}
 	}
+
+	// @RequestMapping(value = "/testYLReloadDBMatching", method = RequestMethod.POST)
+	// @ResponseBody
+	// public void testYLReloadDBMatching(Model model) {
+	// 	try {
+	// 		Note noteToSearch = new Note();
+
+	// 		// @@T 테스트용 더미 데이터!!!
+	// 		noteToSearch.setNoteId("a");
+	// 		noteToSearch.setNoteDate("2020.03.31");
+
+	// 		Note noteMatched = service.noteSearch(noteToSearch);
+
+	// 		System.out.println("노트 내용: " + noteMatched.getNoteContent());
+
+	// 		model.addAttribute("noteMatched", noteMatched);
+	// 	} catch (NullPointerException e) {
+	// 		System.out.println("NullpointerException: There is no note in DB!");
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace();
+	// 	}
+	// }
 
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {
