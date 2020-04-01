@@ -44,54 +44,19 @@ public class NoteDao implements INoteDao {
 	@Override
 	public int noteInsert(final Note note) {
 		int result = 0;
-
-		//	begin
-		//	   insert into t (mykey, mystuff)
-		//	      values ('X', 123);
-		//	exception
-		//	   when dup_val_on_index then
-		//	      update t
-		//	      set    mystuff = 123
-		//	      where  mykey = 'X';
-		//	end;
-
-
-		//@formatter:off
-		// final String sql =
-		// "BEGIN \n"+
-		// "	INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) \n"+
-		// "		values (?,?,?,?); \n"+
-		// "EXCEPTION \n"+
-		// "	WHEN dup_val_on_index THEN \n"+
-		// "		UPDATE calendar \n"+
-		// "		SET"
-		// ;
-		//@formatter:on
-
 		final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
 
 		result = template.update(sql, new PreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
-				/*
-				 * BACKUP: Date 관련 정보들 // INSERT INTO TABLE_NM (REG_DATE) VALUES (
-				 * TO_DATE('11-23-2012 10:26:11','MM-DD-YYYY HH24:MI:SS') ) // String noteDate =
-				 * String.format("TO_DATE('%s', 'YYYY-MM-DD HH24:MI:SS')", note.getNoteDate());
-				 *
-				 * // java.util.Date today = new java.util.Date(); // java.sql.Date noteDate =
-				 * new java.sql.Date(today.getTime());
-				 *
-				 * // java.sql.Date noteDate = java.sql.Date.valueOf("2020-03-28"); //
-				 * java.sql.Date noteDate = new java.sql.Date(note.getNoteDate().getTime());
-				 */
-
+				
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					String noteId = note.getNoteId();
 
-					java.util.Date date = formatter.parse(note.getNoteDate());
-					java.sql.Date noteDate = new java.sql.Date(date.getTime());
+					java.util.Date date = formatter.parse(note.getNoteDate()); 
+					java.sql.Date noteDate = new java.sql.Date(date.getTime()); // DB에 넣기 위한 date 형변환
 
 					int noteProgress = note.getNoteProgress();
 					String noteContent = note.getNoteContent();
@@ -119,25 +84,6 @@ public class NoteDao implements INoteDao {
 		return result;
 	}
 
-	/*
-	 * @Override public List<Note> noteSelectAll(final Note note) {
-	 *
-	 * final String sql = "SELECT * FROM calendar";
-	 *
-	 *
-	 * List<Note> notes = template.query(sql, new Object[] { note.getNoteId(),
-	 * note.getNoteDate(), note.getNoteProgress(), note.getNoteContent() }, new
-	 * RowMapper<Note>() {
-	 *
-	 * @Override public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
-	 * Note note = new Note(); note.setNoteId(rs.getString("noteId"));
-	 * note.setNoteDate(rs.getString("noteDate"));
-	 * note.setNoteProgress(rs.getInt("noteProgress"));
-	 * note.setNoteContent(rs.getString("noteContent")); return note; } });
-	 * if(notes.isEmpty()) return null;
-	 *
-	 * return notes; }
-	 */
 	@Override
 	public List<Note> noteSelectAll() {
 

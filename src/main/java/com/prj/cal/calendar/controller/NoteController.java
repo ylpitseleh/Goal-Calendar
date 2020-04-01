@@ -139,40 +139,50 @@ public class NoteController {
 		}
 		mav.setViewName("testYL");
 		return mav;
-		// return "testYL";
 	}
+	
+	/* Ajax 쓸 때는 @RequestMapping, @ResponseBody 세트로 사용.
+	 * ResposeBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
+	@RequestMapping(value = "/loadNoteListByMonth", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView loadNoteListByMonth(Model model, HttpSession session, Member member, @RequestParam String year,
+			@RequestParam String month, @RequestParam String day) {
 
-	// @RequestMapping("/testYL")
-	// public String goToTestYL(Note note) {
-	// 	return "testYL";
-	// }
+		ModelAndView mav = new ModelAndView();
 
-	// @RequestMapping(value = "/testYLReloadDBALL", method = RequestMethod.POST)
-	// @ResponseBody
-	// public void testYLReloadDBALL(Model model) {
-	// 	try {
-	// 		List<Note> noteList = service.noteSearchAll();
+		try {
+			//파라미터 Note note 추가했음
+			List<Note> noteList = service.noteSearchAll();
+			//noteList.getNoteProgress();
+			for (int i = 0; i < noteList.size(); i++) {
+				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			}
+			/* DB에 저장된 noteList를 Javascript에서 사용하기 위해 JSON으로 변환 */
 
-	// 		// noteList.getNoteProgress();
-	// 		for (int i = 0; i < noteList.size(); i++) {
-	// 			System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-	// 		}
+			mav.addObject("jsonList", JSONArray.fromObject(noteList));
+			mav.addObject("noteList", noteList);
 
-	// 		model.addAttribute("noteList", noteList);
-	// 	} catch (NullPointerException e) {
-	// 		System.out.println("NullpointerException: There isn't any note in DB!");
-	// 		e.printStackTrace();
-	// 	} catch (Exception e) {
-	// 		e.printStackTrace();
-	// 	}
-	// }
+			// noteList.getNoteProgress();
+			for (int i = 0; i < noteList.size(); i++) {
+				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			}
 
+			mav.addObject("noteList", noteList);
+		} catch (NullPointerException e) {
+			System.out.println("NullpointerException: There isn't any note in DB!");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mav.setViewName("testYL");
+		return mav;
+	}
+	
+	
 	@RequestMapping(value = "/testYLReloadDBMatching", method = RequestMethod.POST)
 	@ResponseBody
 	public String testYLReloadDBMatching(Model model, HttpSession session, Member member, @RequestParam String year,
 			@RequestParam String month, @RequestParam String day) {
-
-		////////////////////////////////////////////////////////////////////////////////
 
 		Note noteToSearch = new Note();
 
@@ -216,9 +226,9 @@ public class NoteController {
 		}
 
 		System.out.println("There is no matching note in DB!");
-		// System.out.println("Some error occured in NoteController testYLReloadDBMatching method");
 		return "";
 	}
+	
 
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {
@@ -253,18 +263,6 @@ public class NoteController {
 		curDay_int = calendar.get(Calendar.DAY_OF_MONTH);
 		curDay = Integer.toString(curDay_int);
 		return curDay;
-	}
-
-	@ModelAttribute("noteContent")
-	public void getNoteProgress(Note note, HttpSession session) {
-
-		/*
-		 * List<Note> noteList = service.noteSearchAll(note);
-		 *
-		 * //noteList.getNoteProgress(); for(int i=0; i<noteList.size(); i++) {
-		 * System.out.println("노트 내용 ("+i+") : "+noteList.get(i).getNoteContent()); }
-		 */
-
 	}
 
 }

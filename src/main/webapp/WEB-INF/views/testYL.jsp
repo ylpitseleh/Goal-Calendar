@@ -9,22 +9,28 @@
   <link href="<c:url value="/resources/css/testYL.css?ver=1" />"
   rel="stylesheet">
 
-  <!-- <script type="text/javascript" src="JS/jquery-1.4.2.min.js"></script>  -->
-  <!-- <script src="./js/jquery-1.4.2.min.js"></script>  -->
   <script src="http://code.jquery.com/jquery-latest.js?ver=123"></script>
 
   <script type="text/javascript">
+  // https://learn.jquery.com/using-jquery-core/document-ready/
     $(document).ready(function () {
-
-      function updateNoteList() {
+    	/* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
+        1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
+        2. 그 값들을 $.ajax를 통해 post 방식으로 testYLReloadDBMatching url로 request 한 후
+        3. NoteController.java의 testYLReloadDBMatching 메소드에서 @RequestParam으로 값을 넘겨 받으면
+        4. 거기서 noteId와 noteDate값을 구한 후 이 둘이 매칭되는 노트를 DB로부터 가져온다.
+        5. 이후 가져온 노트와 관련된 데이터를 @ResponseBody 로 리턴하면
+        6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.
+        7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
+         */
+    	function updateNoteList() {
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         var day = document.querySelector(".days li a.selected").text;
         month = month.length == 1 ? "0" + month.slice(0) : month;
         day = day.length == 1 ? "0" + day.slice(0) : day;
-
+		
         $.ajax({
-          // url: "testYLReloadDBALL",
           url: "testYLReloadDBMatching",
           type: "post",
           data: {
@@ -36,14 +42,6 @@
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
           //{data1: value1, data2: value2, ...}
           success: function (data) {
-            // alert("Reloading all note DB success! (No need to login)");
-            // alert("Loading matching note from DB success!: " + data);
-
-            // document.querySelectorAll('.noteList li').forEach(el => el.remove());
-            // Spring 내부 브라우저에서는 ES6 문법이 지원 안 된다...IE11인가 보다.
-            // IE11은 어떻게 ES6 지원율이 0%지? 빌어먹을 만악의 근원
-            // ES6 쓰려면 호환성 때문에 Babel 써서 ES6 -> ES5로 polyfill 해야되잖아...
-            // 그냥 jQuery로 땜빵하자...
             $(".noteList li").remove();
 
             if (data != "") {
@@ -56,38 +54,55 @@
               html += "</li>";
               document.querySelector('.noteList').innerHTML += html;
             }
-            // for(var i = 0; i < data.length; i++) {
-            //   var html = "<li>";
-            //   html += "Id: " + data[0].noteId + "<br>";
-            //   html += "Date: " + data[1].noteDate + "<br>";
-            //   html += "Progress: " + data[2].noteProgress + "<br>";
-            //   html += "Content: " + data[3].noteContent + "";
-            //   html += "</li>";
-            //   document.querySelector('.noteList').innerHTML += html;
-            // }
-
-            // <c:forEach items="${noteList}" var="noteUnit">
-            //   var html = "<li>";
-            //   html += "Id:${noteUnit.noteId}<br>";
-            //   html += "Date: ${noteUnit.noteDate}<br>";
-            //   html += "Progress: ${noteUnit.noteProgress}<br>";
-            //   html += "Content: ${noteUnit.noteContent}";
-            //   html += "</li>";
-            //   document.querySelector('.noteList').innerHTML += html;
-            // </c:forEach>
+           
           },
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
       }
+      
+      function updateProgressColors() {
+          var year = "${curYear}"
+          var month = document.querySelector(".months li a.selected").getAttribute("month-value");
+          
+          $.ajax({
+            url: "loadNoteListByMonth",
+            type: "post",
+            data: {
+              'year': year,
+              'month': month,
+            },
 
+            //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
+            //{data1: value1, data2: value2, ...}
+            success: function (data) {
+              $(".noteList li").remove();
+
+              if (data != "") {
+                var strs = data.split("|");
+                var html = "<li>";
+                html += "Id: " + strs[0] + "<br>";
+                html += "Date: " + strs[1] + "<br>";
+                html += "Progress: " + strs[2] + "<br>";
+                html += "Content: " + strs[3] + "";
+                html += "</li>";
+                document.querySelector('.noteList').innerHTML += html;
+              }
+             
+            },
+            error: function (request, status, error) {
+              alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+            }
+          });
+          }
+      
       updateNoteList();
-
+      updateProgressColors();
       $('.reloadTrigger').click(function (e) {
         e.preventDefault();
-
         updateNoteList();
+        updateProgressColors();
       });
 
 
@@ -110,30 +125,20 @@
           console.log("Need Login!");
           alert("You need to login.");
         }
-        /*
-			url: 통신을 원하고자 하는 URL 주소(필수 입력 값)
-        	data: 서버로 보낼 데이터
-        	type: GET, POST 등의 통신 방식 지정
-        	dataType: 통신의 결과로 넘어올 데이터의 종류 지정
-        	success(data): 통신 성공시 호출 해야하는 함수를 지정. 매개변수 결과로 넘어온 데이터를 받음.
-        	error: 통신 실패시 호출 해야하는 함수 지정
-        	complete: 통신 성공 여부와 관계없이 통신이 끝난 후 호출 해야하는 함수를 지정
-        	beforeSend: 통신 전에 호출 해야하는 함수를 지정
-        	async: 비동기(true), 동기(true) 여부를 지정
-        	*/
+        
+        /* form 태그를 통해 input 값으로 들어온 noteProgress와 noteContent를 비동기 POST 방식으로 전송*/
         $.ajax({
           url: "saveNoteContent",
           type: "post",
-          //dataType: "JSON",
+          //dataType: "JSON", dataType 주석 처리 하니 에러 없어짐
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
-          //{data1: value1, data2: value2, ...}
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
             alert("data.noteId: " + data.noteId);
+            successFunction();
             $("#noteProgress").val('');
             $("#noteContent").val('');
-            successFunction();
           },
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
@@ -143,49 +148,25 @@
 
 
       function successFunction() {
-        //day-value가 day이면 색깔 설정
-        var day = document.querySelector(".days li a.selected").text;
-        day = day.length == 1 ? "0" + day.slice(0) : day;
-        console.log(day);
-        //var day = document.querySelector(".days li a.selected").text;
-
-        $(".days li a.selected").css("background-color", "#E8F8F5");
+        /* 사용자가 입력한 noteProgress(0~5)만큼 색깔 지정(비동기 방식. 새로고침 하지 않아도 적용됨) */
+        if (document.querySelector("#noteProgress").value == "1") {
+        	$(".days li a.selected").css("background-color", "#E8F8F5");
+        }
+        else if (document.querySelector("#noteProgress").value == "2") {
+        	$(".days li a.selected").css("background-color", "#D1F2EB");
+        }
+        else if (document.querySelector("#noteProgress").value == "3") {
+        	$(".days li a.selected").css("background-color", "#A3E4D7");
+        }
+        else if (document.querySelector("#noteProgress").value == "4") {
+        	$(".days li a.selected").css("background-color", "#76D7C4");
+        }
+        else if (document.querySelector("#noteProgress").value == "5") {
+        	$(".days li a.selected").css("background-color", "#48C9B0");
+        }
       };
-
-
     });
 
-
-    /*
-	success : function(data) { 통신이 성공적으로 이루어졌을 때 }
-    complete : function(data) { 통신이 실패했어도 완료가 되었을 때 }
-	complete or success 둘 중 하나만 써야 함.
-	error : function(xhr, status, error) { alert("에러 발생"); }
-	*/
-    /*
-      $('#execute').click(function(){ //ID가 execute인 버튼을 클릭했을때 function 실행
-        $.ajax({ //ajax 통신을 한다.
-            url:'./time2.php',
-            type:'post', //default는 get
-            data:$('form').serialize(), //서버로 전송할 데이터
-            success:function(data){
-                $('#time').text(data);
-            }
-        //성공했을떄 id가 time이라는 엘리먼트에 text로 추가해라.
-        })
-    })
-    });
-       */
-    // @@T 날짜 클릭시 noteList 전부 지우고 선택된 날짜들 끌어와서 업데이트?
-    //
-    // 내가 구현할 함수
-    //
-    // querySelectAll등 js를 활용하여 <ul class="noteList"> 내부의 모든 <li> 내용을 지운다.
-    // 같은 url requestMapping을 발동시킨다.
-    // jsp에서 controller로 건네준 note 커맨드 객체의 noteDate 및 noteId와 일치하는 note들을 DB에서 읽어온다.
-    // 읽어온 note들은 list<note> notes; 에 저장한다.
-    // session에다가 notes를 등록한다.
-    // notelist 파트를 day 파트처럼 동적으로 다시 생성한다.
   </script>
 
 </head>
@@ -197,21 +178,7 @@
 
     <div class="col leftCol">
       <div class="content">
-        <!-- <h1 class="title">임시 타이틀</h1> -->
         <div class="notes">
-          <script>
-            // function fillInputNote() {
-            //   if ("${member}") {
-            //     document.querySelector("#noteId").value = ${member.memId};
-            //     document.querySelector("#noteDate").value = "2020-01-31";
-            //     console.log("mdmId: ${member.memId}");
-            //   }
-            // }
-          </script>
-          <%-- note라는 이름의 커맨드 객체를 Controller에 전송 --%>
-          <%-- <form name="inputNote" action="saveNoteContent" id="inputNote" commandName="note"> --%>
-
-          <%-- commandName="note"라고 커맨드 객체 이름을 따로 명시하지 않아도 note 커맨드 객체로 인식해서 자동으로 전송되네... 자동화 퀄 보소 --%>
           <form name="inputNote" action="saveNoteContent" id="inputNote">
             <input type="hidden" name="noteId" id="noteId" />
             <input type="hidden" name="noteDate" id="noteDate" />
@@ -225,9 +192,10 @@
             <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
           </form>
 
+		<!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
           <ul class="noteList">
-            <!-- <li>note: ${note} / note.noteDate: ${note.noteDate} <a href="#" title="Remove note" class="removeNote animate">x</a></li> -->
           </ul>
+          
         </div>
       </div>
     </div>
@@ -295,7 +263,6 @@
             }
             //1일부터 마지막 일까지 돌림
             for (var i = 1; i <= lastDate.getDate(); i++) {
-              //document.write('<li><a href="#" onclick="callFunction(title);" title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
               document.write('<li><a class="reloadTrigger" href="#" onclick="callFunction(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
 
@@ -363,41 +330,6 @@
 
   </div>
 
-  <!-- DEBUG -->
-  <div class="DEBUG">
-    <p class="date">
-      === DEBUG ===<br>
-      testYL.jsp<br>
-      cp: ${cp}<br>
-      serverTime: ${serverTime}<br>
-      member: ${member}<br>
-      memId: ${member.memId}<br>
-      memPw: ${member.memPw}<br>
-      memMail: ${member.memMail}<br>
-
-      <%-- <해결 완료>
-    왜 note 는 새로고침 할 때마다 항상 note 주소가 변하고 null값만 가득 차는거지?
-    이유를 모르겠다...
-    아무튼 ${note.noteId} 결과값이 항상 null이었던 원인은 발견했네.
-
-    @RequestMapping("/testYL")
-  //public String goToTestYL(Note note) {
-    public String goToTestYL() {
-      return "testYL";
-    }
-    이게 원인이었구나!! 이 빌어먹을 놈!!! 드디어 찾았다!!
-    --%>
-      note: ${note}<br>
-      noteId: ${note.noteId}<br>
-      noteDate: ${note.noteDate}<br>
-      noteProgress: ${note.noteProgress}<br>
-      noteContent: ${note.noteContent}<br>
-
-      <c:forEach items="${noteList}" var="noteUnit">
-        ${noteUnit.noteContent}
-      </c:forEach>
-    </p>
-  </div>
 
 </body>
 
