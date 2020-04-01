@@ -16,21 +16,21 @@
 
       function updateNoteList() {
         $.ajax({
-          url: "testYLReloadDB",
+          url: "testYLReloadDBALL",
           type: "post",
           //dataType: "JSON",
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
           //{data1: value1, data2: value2, ...}
           success: function () {
-            document.querySelectorAll('.noteList li').forEach(el => el.remove());
+            alert("Reloading all note DB success! (No need to login yet)");
+
+            // document.querySelectorAll('.noteList li').forEach(el => el.remove());
             // Spring 내부 브라우저에서는 ES6 문법이 지원 안 된다...IE11인가 보다.
             // IE11은 어떻게 ES6 지원율이 0%지? 빌어먹을 만악의 근원
-            //
-            // 이렇게 변형 시키면 될까 싶었는데, 오히려 이건 안 먹힌다. 뭐지?
-            // var noteList = document.querySelectorAll('.noteList li');
-            // for (i = 0; i < noteList.length; i++) {
-            //   noteList[0].remove();
-            // }
+            var noteList = document.querySelectorAll('.noteList li');
+            for (i = 0; i < noteList.length; i++) {
+              noteList[i].remove();
+            }
 
             <c:forEach items="${noteList}" var="noteUnit">
               var html = "<li>";
@@ -42,7 +42,6 @@
               document.querySelector('.noteList').innerHTML += html;
             </c:forEach>
 
-            alert("Reloading all note DB success! (No need to login yet)");
           },
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
@@ -97,7 +96,7 @@
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
-            alert(data.noteId);
+            alert("data.noteId: " + data.noteId);
             $("#noteProgress").val('');
             $("#noteContent").val('');
             successFunction();

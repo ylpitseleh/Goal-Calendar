@@ -114,7 +114,7 @@ public class NoteController {
 				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
 			}
 
-			mav.addObject("noteList", service.noteSearchAll(note));
+			mav.addObject("noteList", noteList);
 		} catch (NullPointerException e) {
 			System.out.println("NullpointerException: There is no note in DB!");
 		} catch (Exception e) {
@@ -125,9 +125,9 @@ public class NoteController {
 		// return "testYL";
 	}
 
-	@RequestMapping(value = "/testYLReloadDB", method = RequestMethod.POST)
+	@RequestMapping(value = "/testYLReloadDBALL", method = RequestMethod.POST)
 	@ResponseBody
-	public void testYLReloadDB(Note note, Model model) {
+	public void testYLReloadDBALL(Note note, Model model) {
 		try {
 			// 파라미터 Note note 추가했음
 			List<Note> noteList = service.noteSearchAll(note);
@@ -137,7 +137,7 @@ public class NoteController {
 				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
 			}
 
-			model.addAttribute("noteList", service.noteSearchAll(note));
+			model.addAttribute("noteList", noteList);
 		} catch (NullPointerException e) {
 			System.out.println("NullpointerException: There is no note in DB!");
 		} catch (Exception e) {
