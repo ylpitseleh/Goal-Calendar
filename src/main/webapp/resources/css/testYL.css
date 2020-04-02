@@ -265,21 +265,18 @@ a {
 }
 
 /* placeholder color */
-/*::-webkit-input-placeholder {
-  color: #ffffff;
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #ffafaf;
 }
-
-:-moz-placeholder {
-  color: #ffffff;
+::-moz-placeholder { /* Firefox 19+ */
+  color: #ffafaf;
 }
-
-::-moz-placeholder {
-  color: #ffffff;
+:-ms-input-placeholder { /* IE 10+ */
+  color: #ffafaf;
 }
-
-:-ms-input-placeholder {
-  color: #ffffff;
-} */
+:-moz-placeholder { /* Firefox 18- */
+  color: #ffafaf;
+}
 
 /* Range Slider(noteProgress) */
 .slidecontainer {
