@@ -47,7 +47,6 @@
 
             if (strs != "") {
               document.querySelector("#noteProgress").value = strs[2];
-              document.querySelector("#noteContent").value = strs[3];
 
               // .noteList는 이제 디버깅 용도일 뿐!!
               $(".noteList li").remove();
@@ -282,60 +281,8 @@
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
 
-
             /* noteProgress 수치만큼 날짜에 background-color 입히기 */
 
-            //JSON.parse() = String 객체를 json 객체로 형변환 시켜준다.
-
-
-            /*  var json_arr = JSON.parse('${jsonList}');
-            for(var i=0; i<json_arr.length; i++) { // DB에 저장된 모든 noteList 개수만큼 반복
-            	// id 확인
-            	if ("${member.memId}" == "") { //현재 로그인 상태가 아니면
-            		continue ;
-            	}
-    			if ("${member.memId}" != json_arr[i].noteId)
-    				continue ;
-
-            	// 날짜 확인
-            	var monthValue = json_arr[i].noteDate.substring(5,7);
-            	if(monthValue.charAt(0) == '0') {
-            		monthValue = monthValue.substring(1,2);
-            	}
-
-            	var monthSelected = document.querySelector(".months li a.selected").getAttribute("month-value");
-				if (monthSelected != monthValue) { //현재 selected된 monthSelected와 noteList의 monthValue가 같은지 확인
-            		continue ;
-            	}
-
-            	var dayValue = json_arr[i].noteDate.substring(8,10);
-            	if(dayValue.charAt(0) == '0') {
-            		dayValue = dayValue.substring(1,2);
-            	}
-
-
-            	// noteProgress값에 해당하는 backgroundColor 지정
-            	if (json_arr[i].noteProgress == 1) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#E8F8F5";
-            	}
-            	else if (json_arr[i].noteProgress == 2) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#D1F2EB";
-            	}
-            	else if (json_arr[i].noteProgress == 3) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#A3E4D7";
-            	}
-            	else if (json_arr[i].noteProgress == 4) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#76D7C4";
-            	}
-            	else if (json_arr[i].noteProgress == 5) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#48C9B0";
-            	}
-            } */
           </script>
         </ul>
         <div class="clearfix"></div>

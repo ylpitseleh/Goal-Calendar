@@ -116,6 +116,8 @@ public class NoteController {
 
 	/* Ajax 쓸 때는 @RequestMapping, @ResponseBody 세트로 사용.
 	 * ResposeBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
+	@RequestMapping(value = "/loadNoteListByMonth", method = RequestMethod.POST)
+	@ResponseBody
 	public String loadNoteListByMonth(HttpSession session, Member member, @RequestParam String year,
 			@RequestParam String month) {
 		Note noteToSearch = new Note();
