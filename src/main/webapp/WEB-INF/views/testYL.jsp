@@ -43,20 +43,24 @@
             var strs = data.split("|");
             // strs = [noteId, noteDate, noteProgress, noteContent];
 
-            document.querySelector("#noteProgress").value = strs[2];
-            document.querySelector("#noteContent").value = strs[3];
-
-            // .noteList는 이제 디버깅 용도일 뿐!!
-            $(".noteList li").remove();
             if (strs != "") {
-              var html = "<li>";
-              html += "<br>=== Debugging ===<br>"
+              document.querySelector("#noteProgress").value = strs[2];
+              document.querySelector("#noteContent").value = strs[3];
+
+              // .noteList는 이제 디버깅 용도일 뿐!!
+              $(".noteList li").remove();
+              var html = "<li class='notes'>\n<p>";
+              html += "<br>=== Debugging ===<br>";
               html += "Id: " + strs[0] + "<br>";
               html += "Date: " + strs[1] + "<br>";
               html += "Progress: " + strs[2] + "<br>";
               html += "Content: " + strs[3] + "";
-              html += "</li>";
+              html += "</p>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
+            } else
+            {
+              document.querySelector("#noteProgress").value = "";
+              document.querySelector("#noteContent").value = "";
             }
           },
 
@@ -89,8 +93,10 @@
 
       updateNoteList();
       updateProgressColors();
+
       $('.reloadTrigger').click(function (e) {
         e.preventDefault();
+
         updateNoteList();
         updateProgressColors();
       });
@@ -125,10 +131,8 @@
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
-            alert("data.noteId: " + data.noteId);
+            alert("Save Success!");
             successFunction();
-            $("#noteProgress").val('');
-            $("#noteContent").val('');
           },
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
@@ -173,7 +177,7 @@
             <br>
             <span>0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 80&nbsp;&nbsp;&nbsp;&nbsp;100 (%)</span>
-            <input type="text" name="noteContent" id="noteContent" value="" placeholder="New note" />
+            <input type="text" name="noteContent" id="noteContent" value="" placeholder="내용을 입력해주세요." />
             <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
           </form>
 

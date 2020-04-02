@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.prj.cal.calendar.Note;
-import com.prj.cal.member.Member;
 
 @Repository
 public class NoteDao implements INoteDao {
@@ -45,17 +44,19 @@ public class NoteDao implements INoteDao {
 	public int noteInsert(final Note note) {
 		int result = 0;
 		final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
+		// final String sql = "UPDATE member SET memPw = ?, memMail = ? WHERE memId = ?";
+		// if exists UPDATE, else INSERT
 
 		result = template.update(sql, new PreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
-				
+
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					String noteId = note.getNoteId();
 
-					java.util.Date date = formatter.parse(note.getNoteDate()); 
+					java.util.Date date = formatter.parse(note.getNoteDate());
 					java.sql.Date noteDate = new java.sql.Date(date.getTime()); // DB에 넣기 위한 date 형변환
 
 					int noteProgress = note.getNoteProgress();
