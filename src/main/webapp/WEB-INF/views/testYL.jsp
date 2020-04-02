@@ -26,6 +26,7 @@
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
          */
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      /* SAVE 버튼*/
       function updateNoteList() {
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
@@ -140,7 +141,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       /* SAVE 버튼 클릭 시 */
-      $('#ibutton').click(function (e) {
+      $('#saveButton').click(function (e) {
         e.preventDefault();
         /* selected된 날짜 넣어주기 */
         var year = "${curYear}"
@@ -248,8 +249,9 @@
             <br>
             <span>0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 80&nbsp;&nbsp;&nbsp;&nbsp;100 (%)</span>
-            <input type="text" name="noteContent" id="noteContent" value="" placeholder="New note" />
-            <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
+            <textarea name="noteContent" id="noteContent" value="" placeholder="New note" ></textarea>
+            <!-- <input type="text" name="noteContent" id="noteContent" value="" placeholder="New note" />  -->
+            <input type="button" id="saveButton" value="Save" p style="cursor:pointer" />
           </form>
 
           <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
@@ -262,7 +264,7 @@
           		<!-- <ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul> -->
           		<!-- <ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul> -->
 
-          		<!-- <input type="button" id="ibutton" value="Save" p style="cursor:pointer" /> -->
+          		<!-- <input type="button" id="saveButton" value="Save" p style="cursor:pointer" /> -->
 
           		<ul class="noteList">
            		</ul>

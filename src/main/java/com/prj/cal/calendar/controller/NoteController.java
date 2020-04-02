@@ -46,7 +46,7 @@ public class NoteController {
 	}
 
 	// @ResponseBody : 자바 객체를 HTTP 응답 객체로 전송할 수 있다.
-	@RequestMapping(value = "/saveNoteContent", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveNoteContent", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
 	public void saveNote(Note note, Member member, HttpSession session) {
 		// Member member 는 아무런 값도 할당되지 않은 커맨드 객체이다. (Null값만 들어있는 상태)
@@ -116,7 +116,7 @@ public class NoteController {
 
 	/* Ajax 쓸 때는 @RequestMapping, @ResponseBody 세트로 사용.
 	 * ResposeBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
-	@RequestMapping(value = "/loadNoteListByMonth", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadNoteListByMonth", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
 	public String loadNoteListByMonth(HttpSession session, Member member, @RequestParam String year,
 			@RequestParam String month) {
@@ -149,7 +149,7 @@ public class NoteController {
 		return "";
 	}
 
-	@RequestMapping(value = "/loadNoteListByDate", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadNoteListByDate", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
 	public String loadNoteListByDate(Model model, HttpSession session, Member member, @RequestParam String year,
 			@RequestParam String month, @RequestParam String day) {
@@ -200,19 +200,19 @@ public class NoteController {
 	}
 	
 	
-	@RequestMapping(value = "/deleteNote", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteNote", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteNote(Model model, HttpSession session, Member member, @RequestParam String year,
 			@RequestParam String month, @RequestParam String day) {
 
 		Note noteDelete = new Note();
-		int result = 0;
 		try {
 			member = (Member) session.getAttribute("member");
 			noteDelete.setNoteId(member.getMemId());
 			noteDelete.setNoteDate(year + "-" + month + "-" + day);
 			
-			result = service.noteRemove(noteDelete);
+			service.noteRemove(noteDelete);
+			
 
 		} catch (NullPointerException e) {
 			System.out.println("Delete request - NullpointerException: You need to login!");

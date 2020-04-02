@@ -18,7 +18,7 @@ body {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-input {
+input, textarea {
   font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -103,6 +103,7 @@ a {
 
 .calendar .notes p,
 .calendar .notes input,
+.calendar .notes textarea,
 .calendar .noteList li {
   font-weight: 300;
   font-size: 14px;
@@ -112,7 +113,8 @@ a {
 
 }
 
-.calendar .notes input {
+.calendar .notes input,
+.calendar .notes textarea {
   border: none;
 }
 
@@ -131,11 +133,11 @@ a {
    font-weight: bold;
 
    position: relative;
-   top:10px;
+   top:-10px;
 }
-#ibutton {
+#saveButton {
    position: relative;
-   top:10px;
+   top:-10px;
    width: 100%;
    height: 6%;
 
@@ -148,7 +150,7 @@ a {
    border-radius: 4px;
    cursor: pointer;
 }
-#ibutton:hover {
+#saveButton:hover {
    background-color: #d1d1b8;
 }
 
@@ -281,7 +283,7 @@ a {
   -webkit-transition: .2s; /* 0.2 seconds transition on hover */
   transition: opacity .2s;
   position: relative;
-  top: 10px; left: -10px;
+  top: -10px; left: -10px;
 }
 
 /* Mouse-over effects */
@@ -310,6 +312,8 @@ span {
    color: white;
    width: 400px;
    display: inline-block;
+   position: relative;
+   top:-15px;
 }
 
 /* Postit Decoration */
@@ -321,7 +325,7 @@ span {
   border:1px solid #9ed7db;
   border-bottom-right-radius: 60px 20px;
   position: relative;
-  top: -30px;
+  top: -48px;
   left:-50px;
   text-align: center;
   display: inline-block;
