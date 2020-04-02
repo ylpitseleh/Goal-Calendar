@@ -125,7 +125,7 @@
 
       $('.modifyButton').click(function (e) {
         $("#noteContent").val(
-          $(".post-it li p").text()
+          $(".postIt li p").text()
         );
         $("#noteContent").focus();
       });
@@ -212,7 +212,7 @@
 
           <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
           <!-- 현재는 디버그용으로 용도가 바뀌었음!!! -->
-          <div class="post-it blue" id="post-it blue">
+          <div class="postIt blue" id="postIt blue">
           	<div class="contents" id="contents">
           		<input type="button" id="deleteButton" title="Remove note" class="deleteButton" p style="cursor:pointer" value="X" />
           		<input type="button" id="modifyButton" title="Modify note" class="modifyButton" p style="cursor:pointer" value="Modify" />
