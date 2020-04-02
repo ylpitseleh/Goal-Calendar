@@ -128,11 +128,8 @@ public class NoteController {
 			noteToSearch.setNoteDate(year + "-" + month);
 
 			List<Note> noteList = service.noteSearchAll(noteToSearch);
-			for (int i = 0; i < noteList.size(); i++) {
-				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			}
 			if (!noteList.isEmpty()) {
-				System.out.println("noteList에는 분명히 값이 들어가있다.");
+				System.out.println("noteList has data.");
 
 				/* DB에 저장된 noteList를 Javascript에서 사용하기 위해 JSON으로 변환 */
 				//GSON : Java객체 <-> JSON 상호 변환 해주는 라이브러리

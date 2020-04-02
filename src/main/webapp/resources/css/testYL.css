@@ -44,13 +44,6 @@ a {
   clear: both;
 }
 
-.animate {
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-
 /* required */
 .calendar {
   position: absolute;
@@ -120,8 +113,6 @@ a {
 }
 
 .calendar .notes input {
-  background-color: #F48989;
-  color: #ffffff;
   border: none;
 }
 
@@ -161,18 +152,26 @@ a {
    background-color: #d1d1b8;
 }
 
-.calendar .addNote,
-.calendar .removeNote {
+.calendar .deleteButton,
+.calendar .modifyButton {
+  background-color: #9ed7db;
   float: right;
   color: rgba(255, 255, 255, 0.6);
   font-weight: bold;
   margin-left: 20px;
+  
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
-.calendar .addNote:hover,
-.calendar .removeNote:hover {
+.calendar .deleteButton:hover,
+.calendar .modifyButton:hover {
   color: #ffffff;
 }
+
+
+
 
 .calendar .addNote {
   font-size: 16px;

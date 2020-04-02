@@ -45,11 +45,11 @@
             var strs = data.split("|");
             // strs = [noteId, noteDate, noteProgress, noteContent];
 
+            $(".noteList li").remove();
             if (strs != "") {
               document.querySelector("#noteProgress").value = strs[2];
 
               // .noteList는 이제 디버깅 용도일 뿐!!
-              $(".noteList li").remove();
               var html = "<li class='notes'>\n<p>";
               html += "<br>=== Debugging ===<br>";
               html += "Id: " + strs[0] + "<br>";
@@ -208,10 +208,15 @@
           <!-- 현재는 디버그용으로 용도가 바뀌었음!!! -->
           <div class="post-it blue" id="post-it blue">
           	<div class="contents" id="contents">
-          		<ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul>
-          		<ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul>
+          		<input type="button" id="deleteButton" title="Remove note" class="deleteButton" p style="cursor:pointer" value="X" />
+          		<input type="button" id="modifyButton" title="Modify note" class="modifyButton" p style="cursor:pointer" value="Modify" />
           		
-          		<ul class="noteList debugging">
+          		<!-- <ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul> -->
+          		<!-- <ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul> -->
+          		
+          		<!-- <input type="button" id="ibutton" value="Save" p style="cursor:pointer" /> -->
+          		
+          		<ul class="noteList">
            		</ul>
            	</div>
           </div>
