@@ -200,14 +200,21 @@
             <br>
             <span>0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 80&nbsp;&nbsp;&nbsp;&nbsp;100 (%)</span>
-            <input type="text" name="noteContent" id="noteContent" value="" placeholder="내용을 입력해주세요." />
+            <input type="text" name="noteContent" id="noteContent" value="" placeholder="New note" />
             <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
           </form>
 
           <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
           <!-- 현재는 디버그용으로 용도가 바뀌었음!!! -->
-          <ul class="noteList debugging">
-          </ul>
+          <div class="post-it blue" id="post-it blue">
+          	<div class="contents" id="contents">
+          		<ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul>
+          		<ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul>
+          		
+          		<ul class="noteList debugging">
+           		</ul>
+           	</div>
+          </div>
 
         </div>
       </div>
@@ -281,7 +288,6 @@
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
 
-            /* noteProgress 수치만큼 날짜에 background-color 입히기 */
 
           </script>
         </ul>

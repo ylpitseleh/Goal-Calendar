@@ -116,7 +116,7 @@ a {
 }
 
 .calendar .notes p {
-  border-bottom: solid 1px rgba(255, 255, 255, 0.4);
+  
 }
 
 .calendar .notes input {
@@ -164,7 +164,7 @@ a {
 .calendar .addNote,
 .calendar .removeNote {
   float: right;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: bold;
   margin-left: 20px;
 }
@@ -264,19 +264,6 @@ a {
   color: #F5A1A3;
 }
 
-/* placeholder color */
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #ffafaf;
-}
-::-moz-placeholder { /* Firefox 19+ */
-  color: #ffafaf;
-}
-:-ms-input-placeholder { /* IE 10+ */
-  color: #ffafaf;
-}
-:-moz-placeholder { /* Firefox 18- */
-  color: #ffafaf;
-}
 
 /* Range Slider(noteProgress) */
 .slidecontainer {
@@ -325,3 +312,45 @@ span {
    width: 400px;
    display: inline-block;
 }
+
+/* Postit Decoration */
+.post-it {
+  height: 115px;
+  width: 220px;
+  margin: 50px;
+  padding: 25px 10px 10px 10px;
+  border:1px solid #9ed7db;
+  border-bottom-right-radius: 60px 20px;
+  position: relative; 
+  top: -30px;
+  left:-50px;
+  text-align: center;
+  display: inline-block;
+  word-wrap: break-word;
+}
+
+.post-it:after {     
+  content: "";
+  position:absolute;
+  z-index:-1;
+  right:-0px; bottom:20px;
+  width:200px;
+  height: 25px;
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow:2px 15px 5px rgba(0, 0, 0, 0.40);
+  transform: matrix(-1, -0.1, 0, 1, 0, 0);
+}
+
+.blue {
+  background: linear-gradient(135deg, #9ed7db 81%,#9ed7db  82%,#a5e4e8 82%,#c2f9fc 100%);
+    border-top:60px solid #9ed7db;
+}
+ 
+#contents {
+	position: relative;
+	top: -80px;
+}
+}
+
+
+
