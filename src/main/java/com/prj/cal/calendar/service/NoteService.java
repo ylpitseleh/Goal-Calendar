@@ -50,12 +50,20 @@ public class NoteService implements INoteService {
 
 	@Override
 	public Note noteModify(Note note){
+		
 		return null;
 	}
 
 	@Override
 	public int noteRemove(Note note){
-		return 0;
+		int result = nDao.noteDelete(note);
+
+		if (result == 0) {
+			System.out.println("T_T Note: DB remove Fail!!");
+		} else {
+			System.out.println("^_^ Note: DB remove Success!!");
+		}
+		return result;
 	}
 
 }

@@ -25,6 +25,7 @@
         6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
          */
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       function updateNoteList() {
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
@@ -61,6 +62,7 @@
             } else {
               document.querySelector("#noteProgress").value = "";
               document.querySelector("#noteContent").value = "";
+              $(".noteList li").remove();
             }
           },
 
@@ -69,7 +71,7 @@
           }
         });
       }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       /* 페이지를 로드할 때마다 DB에서 현재 로그인 id, year, month와 일치하는 note들을 모두 찾아와서 noteProgress value별로 색깔을 입혀줌. */
       function updateProgressColors() {
         var year = "${curYear}"
@@ -111,8 +113,10 @@
           }
         });
       }
+      
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+	// 함수 호출	
       updateNoteList();
       updateProgressColors();
 
@@ -122,9 +126,20 @@
         updateNoteList();
         updateProgressColors();
       });
+      
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-      // ibutton 클릭 시
+      /* modifyButton 누르면 noteContent(입력창)의 값을 post-it값으로 바꾸고 커서 포커싱 */
+      $('.modifyButton').click(function (e) {         
+    	 $("#noteContent").val(           
+    		$(".noteList li p").text()         
+    	);         
+    	 $("#noteContent").focus();       
+      });
+      
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      
+      /* SAVE 버튼 클릭 시 */
       $('#ibutton').click(function (e) {
         e.preventDefault();
         /* selected된 날짜 넣어주기 */
@@ -161,23 +176,56 @@
           }
         });
       });
-
-
       function successFunction() {
-        /* 사용자가 입력한 noteProgress(0~5)만큼 색깔 지정(비동기 방식. 새로고침 하지 않아도 적용됨) */
-        var color = "";
-        if (document.querySelector("#noteProgress").value == "1")
-          color = "#E8F8F5";
-        else if (document.querySelector("#noteProgress").value == "2")
-          color = "#D1F2EB";
-        else if (document.querySelector("#noteProgress").value == "3")
-          color = "#A3E4D7";
-        else if (document.querySelector("#noteProgress").value == "4")
-          color = "#76D7C4";
-        else if (document.querySelector("#noteProgress").value == "5")
-          color = "#48C9B0";
-        $(".days li a.selected").css("background-color", color);
-      };
+          /* 사용자가 입력한 noteProgress(0~5)만큼 색깔 지정(비동기 방식. 새로고침 하지 않아도 적용됨) */
+          var color = "";
+          if (document.querySelector("#noteProgress").value == "1")
+            color = "#E8F8F5";
+          else if (document.querySelector("#noteProgress").value == "2")
+            color = "#D1F2EB";
+          else if (document.querySelector("#noteProgress").value == "3")
+            color = "#A3E4D7";
+          else if (document.querySelector("#noteProgress").value == "4")
+            color = "#76D7C4";
+          else if (document.querySelector("#noteProgress").value == "5")
+            color = "#48C9B0";
+          $(".days li a.selected").css("background-color", color);
+        };
+        
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+      
+   // deleteButton 클릭 시
+      $('#deleteButton').click(function (e) {
+        e.preventDefault();
+        /* selected된 날짜 넣어주기 */
+        var year = "${curYear}"
+        var month = document.querySelector(".months li a.selected").getAttribute("month-value");
+        var day = document.querySelector(".days li a.selected").text;
+        month = month.length == 1 ? "0" + month.slice(0) : month;
+        day = day.length == 1 ? "0" + day.slice(0) : day;
+
+        $.ajax({
+          url: "deleteNote",
+          type: "post",
+          //dataType: "JSON", dataType 주석 처리 하니 에러 없어짐 //왜인지 알아보자!
+          //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
+          data: {
+            'year': year,
+            'month': month,
+            'day': day
+          },
+          cache: false,
+          success: function (data) {
+        	  $(".noteList li").remove();
+        	  $(".days li a.selected").css("background-color", "#ffffff");
+              alert("데이터가 정상적으로 삭제되었습니다.");
+          },
+          error: function (request, status, error) {
+            alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+          }
+        });
+      })
+      
     });
   </script>
 
@@ -206,7 +254,7 @@
 
           <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
           <!-- 현재는 디버그용으로 용도가 바뀌었음!!! -->
-          <div class="post-it blue" id="post-it blue">
+          <div class="postIt" id="postIt">
           	<div class="contents" id="contents">
           		<input type="button" id="deleteButton" title="Remove note" class="deleteButton" p style="cursor:pointer" value="X" />
           		<input type="button" id="modifyButton" title="Modify note" class="modifyButton" p style="cursor:pointer" value="Modify" />

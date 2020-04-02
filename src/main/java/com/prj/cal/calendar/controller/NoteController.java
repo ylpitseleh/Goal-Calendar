@@ -198,6 +198,32 @@ public class NoteController {
 		System.out.println("There is no matching note with in DB for selected Date!");
 		return "";
 	}
+	
+	
+	@RequestMapping(value = "/deleteNote", method = RequestMethod.POST)
+	@ResponseBody
+	public void deleteNote(Model model, HttpSession session, Member member, @RequestParam String year,
+			@RequestParam String month, @RequestParam String day) {
+
+		Note noteDelete = new Note();
+		int result = 0;
+		try {
+			member = (Member) session.getAttribute("member");
+			noteDelete.setNoteId(member.getMemId());
+			noteDelete.setNoteDate(year + "-" + month + "-" + day);
+			
+			result = service.noteRemove(noteDelete);
+
+		} catch (NullPointerException e) {
+			System.out.println("Delete request - NullpointerException: You need to login!");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {

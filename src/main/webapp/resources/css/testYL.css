@@ -313,7 +313,7 @@ span {
 }
 
 /* Postit Decoration */
-.post-it {
+.postIt {
   height: 115px;
   width: 220px;
   margin: 50px;
@@ -326,9 +326,12 @@ span {
   text-align: center;
   display: inline-block;
   word-wrap: break-word;
+  
+  background: linear-gradient(135deg, #9ed7db 81%,#9ed7db  82%,#a5e4e8 82%,#c2f9fc 100%);
+    border-top:60px solid #9ed7db;
 }
 
-.post-it:after {     
+.postIt:after {     
   content: "";
   position:absolute;
   z-index:-1;
@@ -340,10 +343,7 @@ span {
   transform: matrix(-1, -0.1, 0, 1, 0, 0);
 }
 
-.blue {
-  background: linear-gradient(135deg, #9ed7db 81%,#9ed7db  82%,#a5e4e8 82%,#c2f9fc 100%);
-    border-top:60px solid #9ed7db;
-}
+
  
 #contents {
 	position: relative;

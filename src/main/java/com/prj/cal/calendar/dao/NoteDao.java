@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.prj.cal.calendar.Note;
+import com.prj.cal.member.Member;
 
 @Repository
 public class NoteDao implements INoteDao {
@@ -159,49 +160,47 @@ public class NoteDao implements INoteDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return notes.get(0);
 	}
 
+	
+	
 	@Override
 	public int noteUpdate(final Note note) {
-
-		// int result = 0;
-
-		// final String sql = "UPDATE note SET memPw = ?, memMail = ? WHERE memId = ?";
-
-		// result = template.update(sql, new PreparedStatementSetter() {
-
-		// @Override
-		// public void setValues(PreparedStatement pstmt) throws SQLException {
-		// pstmt.setString(1, note.getDataPw());
-		// pstmt.setString(2, note.getDataMail());
-		// pstmt.setString(3, note.getDataId());
-		// }
-		// });
-		// return result;
-
+		
+		
 		return 0;
 	}
 
+	
+	
+	
 	@Override
 	public int noteDelete(final Note note) {
+		int result = 0;
+		final String sql = "DELETE calendar WHERE noteId = ? AND noteDate = ?";
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			java.util.Date date = formatter.parse(note.getNoteDate());
+			java.sql.Date noteDate = new java.sql.Date(date.getTime());
+			
+			result = template.update(sql, new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement pstmt) throws SQLException {
+				pstmt.setString(1,  note.getNoteId());
+				pstmt.setDate(2,  noteDate);
+			}
+		});
+			return result;
+		}catch (ParseException e) {
+			System.out.println("Delete request - ParseException: Need to modify some parsing process!");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		// int result = 0;
-
-		// final String sql = "DELETE note WHERE memId = ? AND memPw = ?";
-
-		// result = template.update(sql, new PreparedStatementSetter() {
-
-		// @Override
-		// public void setValues(PreparedStatement pstmt) throws SQLException {
-		// pstmt.setString(1, note.getDataId());
-		// pstmt.setString(2, note.getDataPw());
-		// }
-		// });
-
-		// return result;
-
-		return 0;
+		return result;
 	}
+		
+	
 }
