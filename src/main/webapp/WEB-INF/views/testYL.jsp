@@ -6,10 +6,12 @@
 <html>
 
 <head>
-  <link href="<c:url value="/resources/css/testYL.css?ver=1" />"
-  rel="stylesheet">
-
-  <script src="http://code.jquery.com/jquery-latest.js?ver=123"></script>
+  <!-- QueryString으로 랜덤한 값을 붙임으로써, 이미 캐시로 저장된 css와 js파일이 아닌 새로운 파일을 계속 읽도록 함.
+      이게 귀찮으면, xml configuration에서 webServer의 캐시 기능 자체를 off할 수도 있다.
+      참고: https://stackoverflow.com/questions/12717993/stylesheet-not-updating
+  -->
+  <link href="<c:url value='/resources/css/testYL.css?${serverTime}' />" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
 
   <script type="text/javascript">
     // https://learn.jquery.com/using-jquery-core/document-ready/
@@ -57,8 +59,7 @@
               html += "Content: " + strs[3] + "";
               html += "</p>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
-            } else
-            {
+            } else {
               document.querySelector("#noteProgress").value = "";
               document.querySelector("#noteContent").value = "";
             }
