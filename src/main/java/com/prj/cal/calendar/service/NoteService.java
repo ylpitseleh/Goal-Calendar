@@ -16,7 +16,7 @@ public class NoteService implements INoteService {
 	// DB에 현재 로그인된 ID(Session이용), Note Content 등록
 	@Override
 	public void noteRegister(Note note){
-		int result = nDao.noteInsert(note);
+		int result = nDao.noteInsertOrUpdate(note);
 
 		if (result == 0) {
 			System.out.println("T_T Note: DB register Fail!!");
@@ -50,7 +50,7 @@ public class NoteService implements INoteService {
 
 	@Override
 	public Note noteModify(Note note){
-		
+
 		return null;
 	}
 
