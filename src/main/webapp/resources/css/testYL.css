@@ -129,7 +129,7 @@ a {
    position: relative;
    top:10px;
 }
-#ibutton {
+#saveButton {
    position: relative;
    top:10px;
    width: 100%;
@@ -144,7 +144,7 @@ a {
    border-radius: 4px;
    cursor: pointer;
 }
-#ibutton:hover {
+#saveButton:hover {
    background-color: #d1d1b8;
 }
 
