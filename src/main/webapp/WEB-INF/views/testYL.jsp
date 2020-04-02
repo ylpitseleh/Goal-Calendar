@@ -25,8 +25,7 @@
         6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
          */
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      /* SAVE 버튼*/
+      //////////////////////////////////////////////////////////////////////////
       function updateNoteList() {
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
@@ -72,7 +71,7 @@
           }
         });
       }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
       /* 페이지를 로드할 때마다 DB에서 현재 로그인 id, year, month와 일치하는 note들을 모두 찾아와서 noteProgress value별로 색깔을 입혀줌. */
       function updateProgressColors() {
         var year = "${curYear}"
@@ -115,30 +114,43 @@
         });
       }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
 
-	// 함수 호출
+      // 함수 호출
       updateNoteList();
       updateProgressColors();
 
       $('.reloadTrigger').click(function (e) {
+        // function stringifyEvent(e) {
+        //   const obj = {};
+        //   for (let k in e) {
+        //     obj[k] = e[k];
+        //   }
+        //   return JSON.stringify(obj, (k, v) => {
+        //     if (v instanceof Node) return 'Node';
+        //     if (v instanceof Window) return 'Window';
+        //     return v;
+        //   }, ' ');
+        // }
+        // alert("디버깅!\n" + stringifyEvent(e));
+
         e.preventDefault();
 
         updateNoteList();
         updateProgressColors();
       });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
 
       /* modifyButton 누르면 noteContent(입력창)의 값을 post-it값으로 바꾸고 커서 포커싱 */
       $('.modifyButton').click(function (e) {
-    	 $("#noteContent").val(
-    		$(".noteList li p").text()
-    	);
-    	 $("#noteContent").focus();
+        $("#noteContent").val(
+          $(".noteList li p").text()
+        );
+        $("#noteContent").focus();
       });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
 
       /* SAVE 버튼 클릭 시 */
       $('#saveButton').click(function (e) {
@@ -169,33 +181,37 @@
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
-            alert("Save Success!");
+            // alert("Save Success!");
             successFunction();
+
+            updateNoteList();
+            updateProgressColors();
           },
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
       });
+
       function successFunction() {
-          /* 사용자가 입력한 noteProgress(0~5)만큼 색깔 지정(비동기 방식. 새로고침 하지 않아도 적용됨) */
-          var color = "";
-          if (document.querySelector("#noteProgress").value == "1")
-            color = "#E8F8F5";
-          else if (document.querySelector("#noteProgress").value == "2")
-            color = "#D1F2EB";
-          else if (document.querySelector("#noteProgress").value == "3")
-            color = "#A3E4D7";
-          else if (document.querySelector("#noteProgress").value == "4")
-            color = "#76D7C4";
-          else if (document.querySelector("#noteProgress").value == "5")
-            color = "#48C9B0";
-          $(".days li a.selected").css("background-color", color);
-        };
+        /* 사용자가 입력한 noteProgress(0~5)만큼 색깔 지정(비동기 방식. 새로고침 하지 않아도 적용됨) */
+        var color = "";
+        if (document.querySelector("#noteProgress").value == "1")
+          color = "#E8F8F5";
+        else if (document.querySelector("#noteProgress").value == "2")
+          color = "#D1F2EB";
+        else if (document.querySelector("#noteProgress").value == "3")
+          color = "#A3E4D7";
+        else if (document.querySelector("#noteProgress").value == "4")
+          color = "#76D7C4";
+        else if (document.querySelector("#noteProgress").value == "5")
+          color = "#48C9B0";
+        $(".days li a.selected").css("background-color", color);
+      };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
 
-   // deleteButton 클릭 시
+      // deleteButton 클릭 시
       $('#deleteButton').click(function (e) {
         e.preventDefault();
         /* selected된 날짜 넣어주기 */
@@ -217,9 +233,9 @@
           },
           cache: false,
           success: function (data) {
-        	  $(".noteList li").remove();
-        	  $(".days li a.selected").css("background-color", "#ffffff");
-              alert("데이터가 정상적으로 삭제되었습니다.");
+            $(".noteList li").remove();
+            $(".days li a.selected").css("background-color", "#ffffff");
+            alert("데이터가 정상적으로 삭제되었습니다.");
           },
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
@@ -257,18 +273,18 @@
           <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
           <!-- 현재는 디버그용으로 용도가 바뀌었음!!! -->
           <div class="postIt" id="postIt">
-          	<div class="contents" id="contents">
-          		<input type="button" id="deleteButton" title="Remove note" class="deleteButton" p style="cursor:pointer" value="X" />
-          		<input type="button" id="modifyButton" title="Modify note" class="modifyButton" p style="cursor:pointer" value="Modify" />
+            <div class="contents" id="contents">
+              <input type="button" id="deleteButton" title="Remove note" class="deleteButton" p style="cursor:pointer" value="X" />
+              <input type="button" id="modifyButton" title="Modify note" class="modifyButton" p style="cursor:pointer" value="Modify" />
 
-          		<!-- <ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul> -->
-          		<!-- <ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul> -->
+              <!-- <ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul> -->
+              <!-- <ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul> -->
 
           		<!-- <input type="button" id="saveButton" value="Save" p style="cursor:pointer" /> -->
 
-          		<ul class="noteList">
-           		</ul>
-           	</div>
+              <ul class="noteList">
+              </ul>
+            </div>
           </div>
 
         </div>
@@ -342,8 +358,6 @@
             }
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
-
-
           </script>
         </ul>
         <div class="clearfix"></div>

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.prj.cal.calendar.Note;
-import com.prj.cal.member.Member;
 
 @Repository
 public class NoteDao implements INoteDao {
@@ -42,11 +41,43 @@ public class NoteDao implements INoteDao {
 	}
 
 	@Override
-	public int noteInsert(final Note note) {
+	public int noteInsertOrUpdate(final Note note) {
 		int result = 0;
-		final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
+
+		// https://yamea-guide.tistory.com/entry/Oracle-값이-존재하는지-확인-후-insert-update-하기
+		//	MERGE INTO
+		//		TBL_NAME -- table명
+		//	USING DUAL
+		//		ON (column1 = '존재하는지 확인할 값')
+		//	WHEN MATCHED THEN -- 존재하는 경우 실행
+		//		UPDATE SET
+		//			column2 = 'update할 값1',
+		//			column3 = 'update할 값2'
+		//	WHEN NOT MATCHED THEN -- 존재하지 않는 경우 실행
+		//		INSERT
+		//			(column1, column2, column3)
+		//		VALUES
+		//			('존재하는지 확인할 값','insert할 값1', 'insert할 값2')
+
+		// @formatter:off
+		final String sql =
+			"MERGE INTO\n" +
+			"	calendar\n" +
+			"USING DUAL\n" +
+			"	ON (noteId = ? and noteDate = ?)\n" +
+			"WHEN MATCHED THEN\n" +
+			"	UPDATE SET\n" +
+			"		noteProgress = ?, noteContent = ?\n" +
+			"WHEN NOT MATCHED THEN\n" +
+			"	INSERT\n" +
+			"		(noteId, noteDate, noteProgress, noteContent)\n" +
+			"	VALUES\n" +
+			"		(?, ?, ?, ?)\n"
+			;
+		// @formatter:on
+
+		// final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
 		// final String sql = "UPDATE member SET memPw = ?, memMail = ? WHERE memId = ?";
-		// if exists UPDATE, else INSERT
 
 		result = template.update(sql, new PreparedStatementSetter() {
 
@@ -68,6 +99,12 @@ public class NoteDao implements INoteDao {
 					pstmt.setDate(2, noteDate);
 					pstmt.setInt(3, noteProgress);
 					pstmt.setString(4, noteContent);
+
+					// 아래 4줄 없애려면 https://stackoverflow.com/questions/2309970/named-parameters-in-jdbc 참고
+					pstmt.setString(5, noteId);
+					pstmt.setDate(6, noteDate);
+					pstmt.setInt(7, noteProgress);
+					pstmt.setString(8, noteContent);
 
 					System.out.println("NoteId in DB : " + noteId);
 					System.out.println("NoteDate in DB : " + noteDate);
@@ -163,18 +200,6 @@ public class NoteDao implements INoteDao {
 		return notes.get(0);
 	}
 
-	
-	
-	@Override
-	public int noteUpdate(final Note note) {
-		
-		
-		return 0;
-	}
-
-	
-	
-	
 	@Override
 	public int noteDelete(final Note note) {
 		int result = 0;
@@ -183,16 +208,16 @@ public class NoteDao implements INoteDao {
 		try {
 			java.util.Date date = formatter.parse(note.getNoteDate());
 			java.sql.Date noteDate = new java.sql.Date(date.getTime());
-			
+
 			result = template.update(sql, new PreparedStatementSetter() {
-			@Override
-			public void setValues(PreparedStatement pstmt) throws SQLException {
-				pstmt.setString(1,  note.getNoteId());
-				pstmt.setDate(2,  noteDate);
-			}
-		});
+				@Override
+				public void setValues(PreparedStatement pstmt) throws SQLException {
+					pstmt.setString(1, note.getNoteId());
+					pstmt.setDate(2, noteDate);
+				}
+			});
 			return result;
-		}catch (ParseException e) {
+		} catch (ParseException e) {
 			System.out.println("Delete request - ParseException: Need to modify some parsing process!");
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -201,6 +226,5 @@ public class NoteDao implements INoteDao {
 
 		return result;
 	}
-		
-	
+
 }
