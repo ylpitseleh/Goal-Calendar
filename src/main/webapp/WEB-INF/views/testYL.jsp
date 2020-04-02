@@ -43,6 +43,9 @@
           },
 
           success: function (data) {
+            $("#noteContent").val("");
+            $("#noteContent").focus();
+
             var strs = data.split("|");
             // strs = [noteId, noteDate, noteProgress, noteContent];
 
@@ -265,7 +268,7 @@
             <br>
             <span>0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 80&nbsp;&nbsp;&nbsp;&nbsp;100 (%)</span>
-            <textarea name="noteContent" id="noteContent" value="" placeholder="New note" ></textarea>
+            <textarea name="noteContent" id="noteContent" value="" placeholder="New note"></textarea>
             <!-- <input type="text" name="noteContent" id="noteContent" value="" placeholder="New note" />  -->
             <input type="button" id="saveButton" value="Save" p style="cursor:pointer" />
           </form>
@@ -280,7 +283,7 @@
               <!-- <ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul> -->
               <!-- <ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul> -->
 
-          		<!-- <input type="button" id="saveButton" value="Save" p style="cursor:pointer" /> -->
+              <!-- <input type="button" id="saveButton" value="Save" p style="cursor:pointer" /> -->
 
               <ul class="noteList">
               </ul>
