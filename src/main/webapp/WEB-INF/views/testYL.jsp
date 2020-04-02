@@ -123,6 +123,12 @@
         updateProgressColors();
       });
 
+      $('.modifyButton').click(function (e) {
+        $("#noteContent").val(
+          $(".post-it li p").text()
+        );
+        $("#noteContent").focus();
+      });
 
       // ibutton 클릭 시
       $('#ibutton').click(function (e) {
@@ -210,12 +216,12 @@
           	<div class="contents" id="contents">
           		<input type="button" id="deleteButton" title="Remove note" class="deleteButton" p style="cursor:pointer" value="X" />
           		<input type="button" id="modifyButton" title="Modify note" class="modifyButton" p style="cursor:pointer" value="Modify" />
-          		
+
           		<!-- <ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul> -->
           		<!-- <ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul> -->
-          		
+
           		<!-- <input type="button" id="ibutton" value="Save" p style="cursor:pointer" /> -->
-          		
+
           		<ul class="noteList">
            		</ul>
            	</div>
