@@ -12,9 +12,9 @@
   <script src="http://code.jquery.com/jquery-latest.js?ver=123"></script>
 
   <script type="text/javascript">
-  // https://learn.jquery.com/using-jquery-core/document-ready/
+    // https://learn.jquery.com/using-jquery-core/document-ready/
     $(document).ready(function () {
-    	/* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
+      /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
         1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
         2. 그 값들을 $.ajax를 통해 post 방식으로 testYLReloadDBMatching url로 request 한 후
         3. NoteController.java의 testYLReloadDBMatching 메소드에서 @RequestParam으로 값을 넘겨 받으면
@@ -23,7 +23,7 @@
         6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
          */
-    	function updateNoteList() {
+      function updateNoteList() {
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         var day = document.querySelector(".days li a.selected").text;
@@ -31,7 +31,7 @@
         day = day.length == 1 ? "0" + day.slice(0) : day;
 
         $.ajax({
-          url: "testYLReloadDBMatching",
+          url: "loadNoteListByDate",
           type: "post",
           data: {
             'year': year,
@@ -39,8 +39,6 @@
             'day': day
           },
 
-          //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
-          //{data1: value1, data2: value2, ...}
           success: function (data) {
             $(".noteList li").remove();
 
@@ -54,8 +52,8 @@
               html += "</li>";
               document.querySelector('.noteList').innerHTML += html;
             }
-
           },
+
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
@@ -63,27 +61,25 @@
       }
 
       function updateProgressColors() {
-          var year = "${curYear}"
-          var month = document.querySelector(".months li a.selected").getAttribute("month-value");
+        var year = "${curYear}"
+        var month = document.querySelector(".months li a.selected").getAttribute("month-value");
 
-          $.ajax({
-            url: "loadNoteListByMonth",
-            type: "post",
-            data: {
-              'year': year,
-              'month': month,
-            },
+        $.ajax({
+          url: "loadNoteListByMonth",
+          type: "post",
+          data: {
+            'year': year,
+            'month': month,
+          },
 
-            //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
-            //{data1: value1, data2: value2, ...}
-            success: function (data) {
+          success: function (data) {
 
-            },
-            error: function (request, status, error) {
-              alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
-            }
-          });
+          },
+          error: function (request, status, error) {
+            alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
+        });
+      }
 
       updateNoteList();
       updateProgressColors();
@@ -118,7 +114,7 @@
         $.ajax({
           url: "saveNoteContent",
           type: "post",
-          //dataType: "JSON", dataType 주석 처리 하니 에러 없어짐
+          //dataType: "JSON", dataType 주석 처리 하니 에러 없어짐 //왜인지 알아보자!
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
           data: $("#inputNote").serialize(),
           cache: false,
@@ -138,23 +134,18 @@
       function successFunction() {
         /* 사용자가 입력한 noteProgress(0~5)만큼 색깔 지정(비동기 방식. 새로고침 하지 않아도 적용됨) */
         if (document.querySelector("#noteProgress").value == "1") {
-        	$(".days li a.selected").css("background-color", "#E8F8F5");
-        }
-        else if (document.querySelector("#noteProgress").value == "2") {
-        	$(".days li a.selected").css("background-color", "#D1F2EB");
-        }
-        else if (document.querySelector("#noteProgress").value == "3") {
-        	$(".days li a.selected").css("background-color", "#A3E4D7");
-        }
-        else if (document.querySelector("#noteProgress").value == "4") {
-        	$(".days li a.selected").css("background-color", "#76D7C4");
-        }
-        else if (document.querySelector("#noteProgress").value == "5") {
-        	$(".days li a.selected").css("background-color", "#48C9B0");
+          $(".days li a.selected").css("background-color", "#E8F8F5");
+        } else if (document.querySelector("#noteProgress").value == "2") {
+          $(".days li a.selected").css("background-color", "#D1F2EB");
+        } else if (document.querySelector("#noteProgress").value == "3") {
+          $(".days li a.selected").css("background-color", "#A3E4D7");
+        } else if (document.querySelector("#noteProgress").value == "4") {
+          $(".days li a.selected").css("background-color", "#76D7C4");
+        } else if (document.querySelector("#noteProgress").value == "5") {
+          $(".days li a.selected").css("background-color", "#48C9B0");
         }
       };
     });
-
   </script>
 
 </head>
@@ -180,7 +171,7 @@
             <input type="button" id="ibutton" value="Save" p style="cursor:pointer" />
           </form>
 
-		<!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
+          <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
           <ul class="noteList">
           </ul>
 
@@ -257,56 +248,52 @@
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
 
 
-           	/* noteProgress 수치만큼 날짜에 background-color 입히기 */
+            /* noteProgress 수치만큼 날짜에 background-color 입히기 */
 
-       		//JSON.parse() = String 객체를 json 객체로 형변환 시켜준다.
+            //JSON.parse() = String 객체를 json 객체로 형변환 시켜준다.
             var json_arr = JSON.parse('${jsonList}');
-            for(var i=0; i<json_arr.length; i++) { // DB에 저장된 모든 noteList 개수만큼 반복
-            	// id 확인
-            	if ("${member.memId}" == "") { //현재 로그인 상태가 아니면
-            		continue ;
-            	}
-    			if ("${member.memId}" != json_arr[i].noteId)
-    				continue ;
+            for (var i = 0; i < json_arr.length; i++) { // DB에 저장된 모든 noteList 개수만큼 반복
+              // id 확인
+              if ("${member.memId}" == "") { //현재 로그인 상태가 아니면
+                continue;
+              }
+              if ("${member.memId}" != json_arr[i].noteId)
+                continue;
 
-            	// 날짜 확인
-            	var monthValue = json_arr[i].noteDate.substring(5,7);
-            	if(monthValue.charAt(0) == '0') {
-            		monthValue = monthValue.substring(1,2);
-            	}
+              // 날짜 확인
+              var monthValue = json_arr[i].noteDate.substring(5, 7);
+              if (monthValue.charAt(0) == '0') {
+                monthValue = monthValue.substring(1, 2);
+              }
 
-            	var monthSelected = document.querySelector(".months li a.selected").getAttribute("month-value");
-				if (monthSelected != monthValue) { //현재 selected된 monthSelected와 noteList의 monthValue가 같은지 확인
-            		continue ;
-            	}
+              var monthSelected = document.querySelector(".months li a.selected").getAttribute("month-value");
+              if (monthSelected != monthValue) { //현재 selected된 monthSelected와 noteList의 monthValue가 같은지 확인
+                continue;
+              }
 
-            	var dayValue = json_arr[i].noteDate.substring(8,10);
-            	if(dayValue.charAt(0) == '0') {
-            		dayValue = dayValue.substring(1,2);
-            	}
+              var dayValue = json_arr[i].noteDate.substring(8, 10);
+              if (dayValue.charAt(0) == '0') {
+                dayValue = dayValue.substring(1, 2);
+              }
 
 
-            	// noteProgress값에 해당하는 backgroundColor 지정
-            	if (json_arr[i].noteProgress == 1) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#E8F8F5";
-            	}
-            	else if (json_arr[i].noteProgress == 2) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#D1F2EB";
-            	}
-            	else if (json_arr[i].noteProgress == 3) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#A3E4D7";
-            	}
-            	else if (json_arr[i].noteProgress == 4) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#76D7C4";
-            	}
-            	else if (json_arr[i].noteProgress == 5) {
-            		var el = document.getElementById(dayValue);
-            		el.style.backgroundColor="#48C9B0";
-            	}
+              // noteProgress값에 해당하는 backgroundColor 지정
+              if (json_arr[i].noteProgress == 1) {
+                var el = document.getElementById(dayValue);
+                el.style.backgroundColor = "#E8F8F5";
+              } else if (json_arr[i].noteProgress == 2) {
+                var el = document.getElementById(dayValue);
+                el.style.backgroundColor = "#D1F2EB";
+              } else if (json_arr[i].noteProgress == 3) {
+                var el = document.getElementById(dayValue);
+                el.style.backgroundColor = "#A3E4D7";
+              } else if (json_arr[i].noteProgress == 4) {
+                var el = document.getElementById(dayValue);
+                el.style.backgroundColor = "#76D7C4";
+              } else if (json_arr[i].noteProgress == 5) {
+                var el = document.getElementById(dayValue);
+                el.style.backgroundColor = "#48C9B0";
+              }
             }
           </script>
         </ul>

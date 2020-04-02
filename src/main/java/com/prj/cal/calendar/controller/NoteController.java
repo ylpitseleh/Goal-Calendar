@@ -178,10 +178,9 @@ public class NoteController {
 		return mav;
 	}
 
-
-	@RequestMapping(value = "/testYLReloadDBMatching", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadNoteListByDate", method = RequestMethod.POST)
 	@ResponseBody
-	public String testYLReloadDBMatching(Model model, HttpSession session, Member member, @RequestParam String year,
+	public String loadNoteListByDate(Model model, HttpSession session, Member member, @RequestParam String year,
 			@RequestParam String month, @RequestParam String day) {
 
 		Note noteToSearch = new Note();
@@ -228,7 +227,6 @@ public class NoteController {
 		System.out.println("There is no matching note in DB!");
 		return "";
 	}
-
 
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {

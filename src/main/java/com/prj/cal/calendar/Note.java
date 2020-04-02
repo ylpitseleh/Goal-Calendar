@@ -10,6 +10,7 @@ public class Note {
 	public String getNoteId() {
 		return noteId;
 	}
+
 	public void setNoteId(String noteId) {
 		this.noteId = noteId;
 	}
