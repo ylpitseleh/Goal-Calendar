@@ -29,7 +29,7 @@
         var day = document.querySelector(".days li a.selected").text;
         month = month.length == 1 ? "0" + month.slice(0) : month;
         day = day.length == 1 ? "0" + day.slice(0) : day;
-		
+
         $.ajax({
           url: "testYLReloadDBMatching",
           type: "post",
@@ -54,18 +54,18 @@
               html += "</li>";
               document.querySelector('.noteList').innerHTML += html;
             }
-           
+
           },
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
       }
-      
+
       function updateProgressColors() {
           var year = "${curYear}"
           var month = document.querySelector(".months li a.selected").getAttribute("month-value");
-          
+
           $.ajax({
             url: "loadNoteListByMonth",
             type: "post",
@@ -77,26 +77,14 @@
             //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
             //{data1: value1, data2: value2, ...}
             success: function (data) {
-              $(".noteList li").remove();
 
-              if (data != "") {
-                var strs = data.split("|");
-                var html = "<li>";
-                html += "Id: " + strs[0] + "<br>";
-                html += "Date: " + strs[1] + "<br>";
-                html += "Progress: " + strs[2] + "<br>";
-                html += "Content: " + strs[3] + "";
-                html += "</li>";
-                document.querySelector('.noteList').innerHTML += html;
-              }
-             
             },
             error: function (request, status, error) {
               alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
             }
           });
           }
-      
+
       updateNoteList();
       updateProgressColors();
       $('.reloadTrigger').click(function (e) {
@@ -125,7 +113,7 @@
           console.log("Need Login!");
           alert("You need to login.");
         }
-        
+
         /* form 태그를 통해 input 값으로 들어온 noteProgress와 noteContent를 비동기 POST 방식으로 전송*/
         $.ajax({
           url: "saveNoteContent",
@@ -195,7 +183,7 @@
 		<!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
           <ul class="noteList">
           </ul>
-          
+
         </div>
       </div>
     </div>

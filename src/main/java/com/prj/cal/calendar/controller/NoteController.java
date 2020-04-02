@@ -117,18 +117,18 @@ public class NoteController {
 			//파라미터 Note note 추가했음
 			List<Note> noteList = service.noteSearchAll();
 			//noteList.getNoteProgress();
-			for (int i = 0; i < noteList.size(); i++) {
-				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			}
+			// for (int i = 0; i < noteList.size(); i++) {
+			// 	System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			// }
 			/* DB에 저장된 noteList를 Javascript에서 사용하기 위해 JSON으로 변환 */
 
 			mav.addObject("jsonList", JSONArray.fromObject(noteList));
 			mav.addObject("noteList", noteList);
 
 			// noteList.getNoteProgress();
-			for (int i = 0; i < noteList.size(); i++) {
-				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			}
+			// for (int i = 0; i < noteList.size(); i++) {
+			// 	System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			// }
 
 			mav.addObject("noteList", noteList);
 		} catch (NullPointerException e) {
@@ -140,13 +140,13 @@ public class NoteController {
 		mav.setViewName("testYL");
 		return mav;
 	}
-	
+
 	/* Ajax 쓸 때는 @RequestMapping, @ResponseBody 세트로 사용.
 	 * ResposeBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
 	@RequestMapping(value = "/loadNoteListByMonth", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView loadNoteListByMonth(Model model, HttpSession session, Member member, @RequestParam String year,
-			@RequestParam String month, @RequestParam String day) {
+			@RequestParam String month) {
 
 		ModelAndView mav = new ModelAndView();
 
@@ -154,18 +154,18 @@ public class NoteController {
 			//파라미터 Note note 추가했음
 			List<Note> noteList = service.noteSearchAll();
 			//noteList.getNoteProgress();
-			for (int i = 0; i < noteList.size(); i++) {
-				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			}
+			// for (int i = 0; i < noteList.size(); i++) {
+			// 	System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			// }
 			/* DB에 저장된 noteList를 Javascript에서 사용하기 위해 JSON으로 변환 */
 
 			mav.addObject("jsonList", JSONArray.fromObject(noteList));
 			mav.addObject("noteList", noteList);
 
 			// noteList.getNoteProgress();
-			for (int i = 0; i < noteList.size(); i++) {
-				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			}
+			// for (int i = 0; i < noteList.size(); i++) {
+			// 	System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			// }
 
 			mav.addObject("noteList", noteList);
 		} catch (NullPointerException e) {
@@ -177,8 +177,8 @@ public class NoteController {
 		mav.setViewName("testYL");
 		return mav;
 	}
-	
-	
+
+
 	@RequestMapping(value = "/testYLReloadDBMatching", method = RequestMethod.POST)
 	@ResponseBody
 	public String testYLReloadDBMatching(Model model, HttpSession session, Member member, @RequestParam String year,
@@ -228,7 +228,7 @@ public class NoteController {
 		System.out.println("There is no matching note in DB!");
 		return "";
 	}
-	
+
 
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {
