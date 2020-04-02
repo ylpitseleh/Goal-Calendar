@@ -113,10 +113,10 @@
           }
         });
       }
-      
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// 함수 호출	
+	// 함수 호출
       updateNoteList();
       updateProgressColors();
 
@@ -126,19 +126,19 @@
         updateNoteList();
         updateProgressColors();
       });
-      
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       /* modifyButton 누르면 noteContent(입력창)의 값을 post-it값으로 바꾸고 커서 포커싱 */
-      $('.modifyButton').click(function (e) {         
-    	 $("#noteContent").val(           
-    		$(".noteList li p").text()         
-    	);         
-    	 $("#noteContent").focus();       
+      $('.modifyButton').click(function (e) {
+    	 $("#noteContent").val(
+    		$(".noteList li p").text()
+    	);
+    	 $("#noteContent").focus();
       });
-      
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      
+
       /* SAVE 버튼 클릭 시 */
       $('#ibutton').click(function (e) {
         e.preventDefault();
@@ -191,9 +191,9 @@
             color = "#48C9B0";
           $(".days li a.selected").css("background-color", color);
         };
-        
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-      
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    // deleteButton 클릭 시
       $('#deleteButton').click(function (e) {
         e.preventDefault();
@@ -225,7 +225,7 @@
           }
         });
       })
-      
+
     });
   </script>
 
@@ -258,12 +258,12 @@
           	<div class="contents" id="contents">
           		<input type="button" id="deleteButton" title="Remove note" class="deleteButton" p style="cursor:pointer" value="X" />
           		<input type="button" id="modifyButton" title="Modify note" class="modifyButton" p style="cursor:pointer" value="Modify" />
-          		
+
           		<!-- <ul><li><a href="#" title="Remove note" class="removeNote animate">X</a></li></ul> -->
           		<!-- <ul><li><a href="#" title="Modify note" class="removeNote animate">Modify</a></li></ul> -->
-          		
+
           		<!-- <input type="button" id="ibutton" value="Save" p style="cursor:pointer" /> -->
-          		
+
           		<ul class="noteList">
            		</ul>
            	</div>

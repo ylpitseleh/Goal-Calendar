@@ -109,7 +109,7 @@ a {
 }
 
 .calendar .notes p {
-  
+
 }
 
 .calendar .notes input {
@@ -159,7 +159,7 @@ a {
   color: rgba(255, 255, 255, 0.6);
   font-weight: bold;
   margin-left: 20px;
-  
+
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
@@ -320,18 +320,18 @@ span {
   padding: 25px 10px 10px 10px;
   border:1px solid #9ed7db;
   border-bottom-right-radius: 60px 20px;
-  position: relative; 
+  position: relative;
   top: -30px;
   left:-50px;
   text-align: center;
   display: inline-block;
   word-wrap: break-word;
-  
+
   background: linear-gradient(135deg, #9ed7db 81%,#9ed7db  82%,#a5e4e8 82%,#c2f9fc 100%);
     border-top:60px solid #9ed7db;
 }
 
-.postIt:after {     
+.postIt:after {
   content: "";
   position:absolute;
   z-index:-1;
@@ -344,12 +344,8 @@ span {
 }
 
 
- 
+
 #contents {
 	position: relative;
 	top: -80px;
 }
-}
-
-
-
