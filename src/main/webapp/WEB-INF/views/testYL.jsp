@@ -40,11 +40,17 @@
           },
 
           success: function (data) {
-            $(".noteList li").remove();
+            var strs = data.split("|");
+            // strs = [noteId, noteDate, noteProgress, noteContent];
 
-            if (data != "") {
-              var strs = data.split("|");
+            document.querySelector("#noteProgress").value = strs[2];
+            document.querySelector("#noteContent").value = strs[3];
+
+            // .noteList는 이제 디버깅 용도일 뿐!!
+            $(".noteList li").remove();
+            if (strs != "") {
               var html = "<li>";
+              html += "<br>=== Debugging ===<br>"
               html += "Id: " + strs[0] + "<br>";
               html += "Date: " + strs[1] + "<br>";
               html += "Progress: " + strs[2] + "<br>";
@@ -172,7 +178,8 @@
           </form>
 
           <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
-          <ul class="noteList">
+          <!-- 현재는 디버그용으로 용도가 바뀌었음!!! -->
+          <ul class="noteList debugging">
           </ul>
 
         </div>
