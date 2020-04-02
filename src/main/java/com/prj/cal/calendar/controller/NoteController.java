@@ -19,9 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import net.sf.json.JSONArray;
+import com.google.gson.Gson;
 
 import com.prj.cal.calendar.Note;
 import com.prj.cal.calendar.service.NoteService;
@@ -108,72 +107,47 @@ public class NoteController {
 	}
 
 	@RequestMapping("/testYL")
-	public ModelAndView goToTestYL(Note note) {
-		ModelAndView mav = new ModelAndView();
-
-		try {
-			//파라미터 Note note 추가했음
-			List<Note> noteList = service.noteSearchAll();
-			//noteList.getNoteProgress();
-			// for (int i = 0; i < noteList.size(); i++) {
-			// 	System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			// }
-			/* DB에 저장된 noteList를 Javascript에서 사용하기 위해 JSON으로 변환 */
-
-			mav.addObject("jsonList", JSONArray.fromObject(noteList));
-			mav.addObject("noteList", noteList);
-
-			// noteList.getNoteProgress();
-			// for (int i = 0; i < noteList.size(); i++) {
-			// 	System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			// }
-
-			mav.addObject("noteList", noteList);
-		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: There isn't any note in DB!");
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		mav.setViewName("testYL");
-		return mav;
+	public String goToTestYL(Note note) {
+		return "testYL";
 	}
+
+	/* AJAX는 ModelAndView로 return 하면 안 됨? ㅠㅠ return값이 data에 들어가서 그런거지?
+	 * 파라미터에 들어가는 @RequestParam값들은 ajax에서 data: {} 여기 들어가는 애들이겠지?  */
 
 	/* Ajax 쓸 때는 @RequestMapping, @ResponseBody 세트로 사용.
 	 * ResposeBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
-	@RequestMapping(value = "/loadNoteListByMonth", method = RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView loadNoteListByMonth(Model model, HttpSession session, Member member, @RequestParam String year,
+	public String loadNoteListByMonth(HttpSession session, Member member, @RequestParam String year,
 			@RequestParam String month) {
-
-		ModelAndView mav = new ModelAndView();
+		Note noteToSearch = new Note();
 
 		try {
-			//파라미터 Note note 추가했음
-			List<Note> noteList = service.noteSearchAll();
-			//noteList.getNoteProgress();
-			// for (int i = 0; i < noteList.size(); i++) {
-			// 	System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			// }
-			/* DB에 저장된 noteList를 Javascript에서 사용하기 위해 JSON으로 변환 */
+			member = (Member) session.getAttribute("member");
+			noteToSearch.setNoteId(member.getMemId());
+			noteToSearch.setNoteDate(year + "-" + month);
 
-			mav.addObject("jsonList", JSONArray.fromObject(noteList));
-			mav.addObject("noteList", noteList);
+			List<Note> noteList = service.noteSearchAll(noteToSearch);
+			for (int i = 0; i < noteList.size(); i++) {
+				System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
+			}
+			if (!noteList.isEmpty()) {
+				System.out.println("noteList에는 분명히 값이 들어가있다.");
 
-			// noteList.getNoteProgress();
-			// for (int i = 0; i < noteList.size(); i++) {
-			// 	System.out.println("노트 내용 (" + i + ") : " + noteList.get(i).getNoteContent());
-			// }
+				/* DB에 저장된 noteList를 Javascript에서 사용하기 위해 JSON으로 변환 */
+				//GSON : Java객체 <-> JSON 상호 변환 해주는 라이브러리
+				Gson gson = new Gson();
+				String jsonString = gson.toJson(noteList);
 
-			mav.addObject("noteList", noteList);
+				return jsonString;
+			}
+
 		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: There isn't any note in DB!");
+			System.out.println("NullpointerException: There isn't any note in DB for selected month!");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		mav.setViewName("testYL");
-		return mav;
+		System.out.println("There is no matching note in DB for selected month!");
+		return "";
 	}
 
 	@RequestMapping(value = "/loadNoteListByDate", method = RequestMethod.POST)
@@ -222,7 +196,7 @@ public class NoteController {
 			e.printStackTrace();
 		}
 
-		System.out.println("There is no matching note in DB!");
+		System.out.println("There is no matching note with in DB for selected Date!");
 		return "";
 	}
 

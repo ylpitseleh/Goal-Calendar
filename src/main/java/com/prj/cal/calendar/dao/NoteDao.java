@@ -86,27 +86,40 @@ public class NoteDao implements INoteDao {
 	}
 
 	@Override
-	public List<Note> noteSelectAll() {
+	public List<Note> noteSelectAll(final Note noteToSearch) {
+		/* Id와 Month가 매칭되는 모든 데이터를 찾아라 */
+		final String sql = "SELECT * FROM calendar WHERE noteId = ? AND EXTRACT(YEAR FROM noteDate) = ? AND EXTRACT(MONTH FROM noteDate) = ?";
+		List<Note> notes = null;
 
-		final String sql = "SELECT * FROM calendar";
+		try {
+			String noteId = noteToSearch.getNoteId();
 
-		List<Note> notes = template.query(sql, new RowMapper<Note>() {
-			@Override
-			public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Note note = new Note();
+			String getYear = noteToSearch.getNoteDate().substring(0, 4);
+			String getMonth = noteToSearch.getNoteDate().substring(5, 7);
 
-				note.setNoteId(rs.getString("noteId"));
-				note.setNoteDate(rs.getString("noteDate"));
-				note.setNoteProgress(rs.getInt("noteProgress"));
-				note.setNoteContent(rs.getString("noteContent"));
+			//원래처럼 new Object[]가 없으면 쿼리문에서 '?'에 뭐가 들어가는거지?
+			//notes = template.query(sql, new RowMapper<Note>() {
+			notes = template.query(sql, new Object[] { noteId, getYear, getMonth }, new RowMapper<Note>() { // noteId, getYear, getMonth -> '?'에 들어갈 값
+				@Override
+				public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Note note = new Note();
+					//DB에서 가져와서 여기서 하나씩 note로 set해서 notes에 모두 넣어라.
+					note.setNoteId(rs.getString("noteId"));
+					note.setNoteDate(rs.getString("noteDate"));
+					note.setNoteProgress(rs.getInt("noteProgress"));
+					note.setNoteContent(rs.getString("noteContent")); //noteProgress만 보여줄거라서 noteContent는 넣어줄 필요 없긴 함.
+					return note;
+				}
 
-				return note;
+			});
+			if (notes.isEmpty()) {
+				System.out.println("Dao에서 notes는 비어있다.");
+				return null;
 			}
-
-		});
-		if (notes.isEmpty())
-			return null;
-
+		} catch (Exception e) {
+			System.out.println("Date 형식이 잘못되었다.");
+			e.printStackTrace();
+		}
 		return notes;
 	}
 

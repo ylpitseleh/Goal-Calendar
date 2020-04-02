@@ -9,5 +9,5 @@ public interface INoteDao {
 	Note noteSelect(Note note);
 	int noteUpdate(Note note);
 	int noteDelete(Note note);
-	List<Note> noteSelectAll();
+	List<Note> noteSelectAll(final Note noteToSearch);
 }

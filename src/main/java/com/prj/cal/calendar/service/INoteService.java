@@ -9,6 +9,6 @@ public interface INoteService {
 	Note noteSearch(Note note);
 	Note noteModify(Note note);
 	int noteRemove(Note note);
-	List<Note> noteSearchAll();
+	List<Note> noteSearchAll(Note noteToSearch);
 
 }

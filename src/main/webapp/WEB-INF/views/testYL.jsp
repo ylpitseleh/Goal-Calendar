@@ -71,26 +71,48 @@
         });
       }
 
+      /* 페이지를 로드할 때마다 DB에서 현재 로그인 id, year, month와 일치하는 note들을 모두 찾아와서 noteProgress value별로 색깔을 입혀줌. */
       function updateProgressColors() {
         var year = "${curYear}"
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
+        month = month.length == 1 ? "0" + month.slice(0) : month; //1월 -> 01월
 
         $.ajax({
           url: "loadNoteListByMonth",
+          //dataType: 서버에서 return되는 데이터 형식
+          dataType: 'json',
           type: "post",
           data: {
             'year': year,
-            'month': month,
+            'month': month
           },
 
           success: function (data) {
+            for (var i = 0 in data) {
+              var tmp_day = data[i].noteDate;
 
+              if (tmp_day.substr(8, 1) === ('0'))
+                tmp_day = tmp_day.substr(9, 1);
+              else
+                tmp_day = tmp_day.substr(8, 2);
+
+              var el = '#' + tmp_day;
+              var color = "";
+              if (data[i].noteProgress === 1) color = '#E8F8F5';
+              else if (data[i].noteProgress === 2) color = '#D1F2EB';
+              else if (data[i].noteProgress === 3) color = '#A3E4D7';
+              else if (data[i].noteProgress === 4) color = '#76D7C4';
+              else if (data[i].noteProgress === 5) color = '#48C9B0';
+              $(el).css('background-color', color);
+            }
           },
+
           error: function (request, status, error) {
             alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
       }
+
 
       updateNoteList();
       updateProgressColors();
@@ -144,17 +166,18 @@
 
       function successFunction() {
         /* 사용자가 입력한 noteProgress(0~5)만큼 색깔 지정(비동기 방식. 새로고침 하지 않아도 적용됨) */
-        if (document.querySelector("#noteProgress").value == "1") {
-          $(".days li a.selected").css("background-color", "#E8F8F5");
-        } else if (document.querySelector("#noteProgress").value == "2") {
-          $(".days li a.selected").css("background-color", "#D1F2EB");
-        } else if (document.querySelector("#noteProgress").value == "3") {
-          $(".days li a.selected").css("background-color", "#A3E4D7");
-        } else if (document.querySelector("#noteProgress").value == "4") {
-          $(".days li a.selected").css("background-color", "#76D7C4");
-        } else if (document.querySelector("#noteProgress").value == "5") {
-          $(".days li a.selected").css("background-color", "#48C9B0");
-        }
+        var color = "";
+        if (document.querySelector("#noteProgress").value == "1")
+          color = "#E8F8F5";
+        else if (document.querySelector("#noteProgress").value == "2")
+          color = "#D1F2EB";
+        else if (document.querySelector("#noteProgress").value == "3")
+          color = "#A3E4D7";
+        else if (document.querySelector("#noteProgress").value == "4")
+          color = "#76D7C4";
+        else if (document.querySelector("#noteProgress").value == "5")
+          color = "#48C9B0";
+        $(".days li a.selected").css("background-color", color);
       };
     });
   </script>
@@ -263,50 +286,56 @@
             /* noteProgress 수치만큼 날짜에 background-color 입히기 */
 
             //JSON.parse() = String 객체를 json 객체로 형변환 시켜준다.
-            var json_arr = JSON.parse('${jsonList}');
-            for (var i = 0; i < json_arr.length; i++) { // DB에 저장된 모든 noteList 개수만큼 반복
-              // id 확인
-              if ("${member.memId}" == "") { //현재 로그인 상태가 아니면
-                continue;
-              }
-              if ("${member.memId}" != json_arr[i].noteId)
-                continue;
-
-              // 날짜 확인
-              var monthValue = json_arr[i].noteDate.substring(5, 7);
-              if (monthValue.charAt(0) == '0') {
-                monthValue = monthValue.substring(1, 2);
-              }
-
-              var monthSelected = document.querySelector(".months li a.selected").getAttribute("month-value");
-              if (monthSelected != monthValue) { //현재 selected된 monthSelected와 noteList의 monthValue가 같은지 확인
-                continue;
-              }
-
-              var dayValue = json_arr[i].noteDate.substring(8, 10);
-              if (dayValue.charAt(0) == '0') {
-                dayValue = dayValue.substring(1, 2);
-              }
 
 
-              // noteProgress값에 해당하는 backgroundColor 지정
-              if (json_arr[i].noteProgress == 1) {
-                var el = document.getElementById(dayValue);
-                el.style.backgroundColor = "#E8F8F5";
-              } else if (json_arr[i].noteProgress == 2) {
-                var el = document.getElementById(dayValue);
-                el.style.backgroundColor = "#D1F2EB";
-              } else if (json_arr[i].noteProgress == 3) {
-                var el = document.getElementById(dayValue);
-                el.style.backgroundColor = "#A3E4D7";
-              } else if (json_arr[i].noteProgress == 4) {
-                var el = document.getElementById(dayValue);
-                el.style.backgroundColor = "#76D7C4";
-              } else if (json_arr[i].noteProgress == 5) {
-                var el = document.getElementById(dayValue);
-                el.style.backgroundColor = "#48C9B0";
-              }
-            }
+            /*  var json_arr = JSON.parse('${jsonList}');
+            for(var i=0; i<json_arr.length; i++) { // DB에 저장된 모든 noteList 개수만큼 반복
+            	// id 확인
+            	if ("${member.memId}" == "") { //현재 로그인 상태가 아니면
+            		continue ;
+            	}
+    			if ("${member.memId}" != json_arr[i].noteId)
+    				continue ;
+
+            	// 날짜 확인
+            	var monthValue = json_arr[i].noteDate.substring(5,7);
+            	if(monthValue.charAt(0) == '0') {
+            		monthValue = monthValue.substring(1,2);
+            	}
+
+            	var monthSelected = document.querySelector(".months li a.selected").getAttribute("month-value");
+				if (monthSelected != monthValue) { //현재 selected된 monthSelected와 noteList의 monthValue가 같은지 확인
+            		continue ;
+            	}
+
+            	var dayValue = json_arr[i].noteDate.substring(8,10);
+            	if(dayValue.charAt(0) == '0') {
+            		dayValue = dayValue.substring(1,2);
+            	}
+
+
+            	// noteProgress값에 해당하는 backgroundColor 지정
+            	if (json_arr[i].noteProgress == 1) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#E8F8F5";
+            	}
+            	else if (json_arr[i].noteProgress == 2) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#D1F2EB";
+            	}
+            	else if (json_arr[i].noteProgress == 3) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#A3E4D7";
+            	}
+            	else if (json_arr[i].noteProgress == 4) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#76D7C4";
+            	}
+            	else if (json_arr[i].noteProgress == 5) {
+            		var el = document.getElementById(dayValue);
+            		el.style.backgroundColor="#48C9B0";
+            	}
+            } */
           </script>
         </ul>
         <div class="clearfix"></div>
