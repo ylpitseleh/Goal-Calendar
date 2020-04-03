@@ -105,7 +105,7 @@ a {
 .calendar .noteList li {
   font-weight: 300;
   font-size: 14px;
-  font-family: Helvetica, Arial, sans-serif;:
+  font-family: Helvetica, Arial, sans-serif;
   /*font-weight: bold;*/
 }
 
@@ -318,7 +318,7 @@ span {
    top:-15px;
 }
 
-/* Postit Decoration */
+/* Post-it Decoration */
 .postIt {
   height: 115px;
   width: 220px;
