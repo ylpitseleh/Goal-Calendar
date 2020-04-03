@@ -64,7 +64,7 @@ a {
   font-size: 26px;
   line-height: 28px;
   text-transform: uppercase;
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 0px 0px;
 }
 
 .calendar h1 span {
@@ -193,7 +193,7 @@ a {
 .calendar .rightCol h2 {
   color: #C7BEBE;
   text-align: right;
-  margin-bottom: 70px;
+  margin-bottom: 0px;
 }
 
 .calendar .months li,
@@ -351,9 +351,28 @@ span {
   transform: matrix(-1, -0.1, 0, 1, 0, 0);
 }
 
-
-
 #contents {
 	position: relative;
 	top: -80px;
 }
+
+#prevYear,
+#afterYear,
+#year {
+	float: right;
+}
+
+#prevYear,
+#afterYear {
+	border: 0px;
+	outline: 0px;
+ 	background-color: #ffffff;
+ 	color: #aba6a6;
+ 	font-weight: 300;
+ 	font-size: 26px;
+ 	line-height: 28px;
+ 	text-shadow: -1px 0 #F2F1F6, 0 1px #F2F1F6, 1px 0 #F2F1F6, 0 -1px #F2F1F6;
+}
+
+
+
