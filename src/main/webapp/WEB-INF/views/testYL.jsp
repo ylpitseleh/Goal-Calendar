@@ -137,7 +137,7 @@
         // }
         // alert("디버깅!\n" + stringifyEvent(e));
 
-        e.preventDefault();
+        //e.preventDefault();
 
         updateNoteList();
         updateProgressColors();
@@ -285,8 +285,11 @@
 
               <!-- <input type="button" id="saveButton" value="Save" p style="cursor:pointer" /> -->
 
-              <ul class="noteList">
-              </ul>
+              <pre>
+              	<ul class="noteList">
+              	</ul>
+              </pre>
+              
             </div>
           </div>
 
@@ -297,20 +300,113 @@
     <div class="col rightCol">
       <div class="content">
         <h2 class="curYear">${curYear}</h2>
+		<script>
+			/* 클릭된 날짜 Selected class 추가해줌 */
+        	function daySelected(t) {
+          		// 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
+          		var sections = document.querySelectorAll('[day-value]');
+          		for (i = 0; i < sections.length; i++) {
+           	 		sections[i].classList.remove('selected');
+          		}
+          		console.log(t);
+          		document.querySelector('[title="' + t + '"]').classList.add("selected");
+        	}
+			
+			/* 클릭된 날짜 Selected class 추가해주기 */
+            function monthSelected(t) {
+				
+              // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
+              var sections = document.querySelectorAll('[month-value]');
+              for (i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('selected');
+              }
+              console.log(t+", "+typeof(t));
+              document.querySelector('[title="' + t + '"]').classList.add("selected");   
+              
+              /*  Selected month의 Days(1~30) 다시 출력 */
+              var today = new Date(); //오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
+              var date = new Date(); //today의 Date를 세어주는 역할
+              //이번 달의 첫째 날
+              var tmpMonth = 0;
+              if (t === 'Jan')
+            	  tmpMonth = 1;
+              else if (t === 'Feb')
+            	  tmpMonth = 2;
+              else if (t === 'Mar')
+            	  tmpMonth = 3;
+              else if (t === 'Apr')
+            	  tmpMonth = 4;
+              else if (t === 'May')
+            	  tmpMonth = 5;
+              else if (t === 'Jun')
+            	  tmpMonth = 6;
+              else if (t === 'Jul')
+            	  tmpMonth = 7;
+              else if (t === 'Aug')
+            	  tmpMonth = 8;
+              else if (t === 'Sep')
+            	  tmpMonth = 9;
+              else if (t === 'Oct')
+            	  tmpMonth = 10;
+              else if (t === 'Nov')
+            	  tmpMonth = 11;
+              else if (t === 'Dec')
+            	  tmpMonth = 12;
+              console.log("today.getMonth() : "+today.getMonth()+", "+typeof(today.getMonth()));
+              console.log("tmpMonth : "+tmpMonth+", "+typeof(tmpMonth));
+              
+              var thisMonthDay1 = new Date(today.getFullYear(), tmpMonth, 1);
+              //이번 달의 마지막 날
+              //new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데 day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 제대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
+              var lastDate = new Date(today.getFullYear(), tmpMonth + 1, 0);
 
+              var addSpace = '';
+              //ThisMonth.getDay() = 이번 달 1일이 무슨 요일인지
+              //getDay() : 요일을 알아내는 메소드. 반환값은 0부터 7까지이며 0은 일요일, 1은 월요일...
+              //1일 전에 빈 칸 띄워주기
+              $(".days li").remove();
+              for (i = 0; i < thisMonthDay1.getDay(); i++) {
+                //document.write('<li><a href="#">' + ' ' + '</a></li>');
+                document.querySelector('.days').innerHTML += '<li><a href="#">' + ' ' + '</a></li>';
+              }
+              
+  			
+              /* Day(1~30) 출력 */
+              for (var i = 1; i <= lastDate.getDate(); i++) {
+                //document.write('<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              	document.querySelector('.days').innerHTML += '<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
+              }
+              /*
+              var html = "<li class='notes'>\n<p>";
+              html += "<br>=== Debugging ===<br>";
+              html += "Id: " + strs[0] + "<br>";
+              html += "Date: " + strs[1] + "<br>";
+              html += "Progress: " + strs[2] + "<br>";
+              html += "Content: " + strs[3] + "";
+              html += "</p>\n</li>";
+              document.querySelector('.noteList').innerHTML += html;
+              */
+              
+              
+              
+              
+            }
+			
+			
+         </script>
         <ul class="months">
-          <li><a class="reloadTrigger" href="#" title="Jan" month-value="1">Jan</a></li>
-          <li><a class="reloadTrigger" href="#" title="Feb" month-value="2">Feb</a></li>
-          <li><a class="reloadTrigger" href="#" title="Mar" month-value="3">Mar</a></li>
-          <li><a class="reloadTrigger" href="#" title="Apr" month-value="4">Apr</a></li>
-          <li><a class="reloadTrigger" href="#" title="May" month-value="5">May</a></li>
-          <li><a class="reloadTrigger" href="#" title="Jun" month-value="6">Jun</a></li>
-          <li><a class="reloadTrigger" href="#" title="Jul" month-value="7">Jul</a></li>
-          <li><a class="reloadTrigger" href="#" title="Aug" month-value="8">Aug</a></li>
-          <li><a class="reloadTrigger" href="#" title="Sep" month-value="9">Sep</a></li>
-          <li><a class="reloadTrigger" href="#" title="Oct" month-value="10">Oct</a></li>
-          <li><a class="reloadTrigger" href="#" title="Nov" month-value="11">Nov</a></li>
-          <li><a class="reloadTrigger" href="#" title="Dec" month-value="12">Dec</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Jan" month-value="1">Jan</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Feb" month-value="2">Feb</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Mar" month-value="3">Mar</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Apr" month-value="4">Apr</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="May" month-value="5">May</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Jun" month-value="6">Jun</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Jul" month-value="7">Jul</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Aug" month-value="8">Aug</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Sep" month-value="9">Sep</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Oct" month-value="10">Oct</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Nov" month-value="11">Nov</a></li>
+          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Dec" month-value="12">Dec</a></li>
         </ul>
         <script>
           document.querySelector('[month-value="${curMonth}"]').classList.add("selected");
@@ -328,6 +424,7 @@
         <div class="clearfix"></div>
         <ul class="days">
           <script>
+          <!-- jsp는 한 번 쭉 읽고 끝임. onClickEvent로 반복해주는 것임. -->
             var today = new Date(); //오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
             var date = new Date(); //today의 Date를 세어주는 역할
             //이번 달의 첫째 날
@@ -341,12 +438,12 @@
             //ThisMonth.getDay() = 이번 달 1일이 무슨 요일인지
             //getDay() : 요일을 알아내는 메소드. 반환값은 0부터 7까지이며 0은 일요일, 1은 월요일...
             //1일 전에 빈 칸 띄워주기
-            for (i = 0; i < thisMonthDay1.getDay(); i++) { //공백을 줄 수 있는 방법이 a href 뿐인지 모르겠음
+            for (i = 0; i < thisMonthDay1.getDay(); i++) {
               document.write('<li><a href="#">' + ' ' + '</a></li>');
             }
-
-            function callFunction(t) {
-              // t의 자료형 : String
+            
+			/* 클릭된 날짜 Selected class 추가해줌 */
+            function daySelected(t) {
               // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
               var sections = document.querySelectorAll('[day-value]');
               for (i = 0; i < sections.length; i++) {
@@ -355,9 +452,10 @@
               console.log(t);
               document.querySelector('[title="' + t + '"]').classList.add("selected");
             }
-            //1일부터 마지막 일까지 돌림
+			
+            /* Day(1~30) 출력 */
             for (var i = 1; i <= lastDate.getDate(); i++) {
-              document.write('<li><a class="reloadTrigger" href="#" onclick="callFunction(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              document.write('<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
