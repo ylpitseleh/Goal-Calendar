@@ -22,9 +22,13 @@
     // 3. $( window ).on( "load", function() { ... }) 내부 내용 쭉 실행
 
     /* 함수포인터를 전역변수로 선언하면 ready 내부의 function을 밖에서도 쓸 수 있다! */
+
     var addClickEventToUpdateTriggers;
+    var yearCurrent = new Date().getFullYear();
+
 
     $(document).ready(function () {
+      //////////////////////////////////////////////////////////////////////////
       /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
         1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
         2. 그 값들을 $.ajax를 통해 post 방식으로 testYLReloadDBMatching url로 request 한 후
@@ -34,10 +38,6 @@
         6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
          */
-    var yearCurrent = new Date().getFullYear();
-
-     $(document).ready(function () {
-     //////////////////////////////////////////////////////////////////////////
       function updateNoteList() {
         var year = yearCurrent;
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
@@ -312,13 +312,13 @@
       </div>
     </div>
     <script>
-    function printDays () {
-    	var today = new Date(); //오늘 날짜.  내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
+      function printDays() {
+        var today = new Date(); //오늘 날짜.  내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
         var date = new Date(); //today의 Date를 세어주는 역할
 
-    	tmpMonth = document.querySelector(".months li a.selected").getAttribute("month-value");
+        tmpMonth = document.querySelector(".months li a.selected").getAttribute("month-value");
         //var thisMonthDay1 = new Date(today.getFullYear(), tmpMonth-1, 1);
-        var thisMonthDay1 = new Date(yearCurrent, tmpMonth-1, 1);
+        var thisMonthDay1 = new Date(yearCurrent, tmpMonth - 1, 1);
         //이번 달의 마지막 날
         //new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데 day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 제대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
         var lastDate = new Date(yearCurrent, tmpMonth, 0);
@@ -334,126 +334,65 @@
 
         /* Day(1~30) 출력 */
         for (var i = 1; i <= lastDate.getDate(); i++) {
-        	document.querySelector('.days').innerHTML += '<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
+          document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
         }
         document.querySelector('[day-value="1"]').classList.add("selected"); //다른 month 클릭했을 때 임의로 1일에 selected 해줌(안 하면 day=null 에러)
 
 
 
-        } //printDays
-
+      } //printDays
     </script>
     <div class="col rightCol">
       <div class="content">
-      	<input type="button" class="reloadTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" value="  &gt;" p style="cursor:pointer" />
-        <h2 id = "year" class="curYear"></h2>
-      	<input type="button" class="reloadTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" value="&lt;  " p style="cursor:pointer" /><br><br><br><br>
-		<script>
-			/*  < 2020 >   '<' 클릭시 year - 1, '<' 클릭시 year + 1 */
-			//var yearCurrent = new Date().getFullYear();
-			document.getElementById("year").innerHTML = yearCurrent;
+        <input type="button" class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" value="  &gt;" p style="cursor:pointer" />
+        <h2 id="year" class="curYear"></h2>
+        <input type="button" class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" value="&lt;  " p style="cursor:pointer" /><br><br><br><br>
+        <script>
+          /*  < 2020 >   '<' 클릭시 year - 1, '<' 클릭시 year + 1 */
+          //var yearCurrent = new Date().getFullYear();
+          document.getElementById("year").innerHTML = yearCurrent;
 
 
-			function goToPrevYear() {
-				--yearCurrent;
-				document.querySelector("#year").textContent = yearCurrent;
-			}
-			function goToAfterYear() {
-				++yearCurrent;
-				document.querySelector("#year").textContent = yearCurrent;
-			}
+          function goToPrevYear() {
+            --yearCurrent;
+            document.querySelector("#year").textContent = yearCurrent;
+          }
 
-			/* 클릭된 날짜 Selected class 추가해줌 */
-        	function daySelected(t) {
-          		// 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
-          		var sections = document.querySelectorAll('[day-value]');
-          		for (i = 0; i < sections.length; i++) {
-           	 		sections[i].classList.remove('selected');
-          		}
-          		console.log(t);
-          		document.querySelector('[title="' + t + '"]').classList.add("selected");
-        	}
+          function goToAfterYear() {
+            ++yearCurrent;
+            document.querySelector("#year").textContent = yearCurrent;
+          }
 
-			/* 클릭된 날짜 Selected class 추가해주기 */
-            function monthSelected(t) {
-            	console.log("yearCurrent : "+yearCurrent);
+          /* 클릭된 날짜 Selected class 추가해줌 */
+          function daySelected(t) {
+            // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
+            var sections = document.querySelectorAll('[day-value]');
+            for (i = 0; i < sections.length; i++) {
+              sections[i].classList.remove('selected');
+            }
+            console.log(t);
+            document.querySelector('[title="' + t + '"]').classList.add("selected");
+          }
 
-              // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
-              var sections = document.querySelectorAll('[month-value]');
-              for (i = 0; i < sections.length; i++) {
-                sections[i].classList.remove('selected');
-              }
-              console.log(t+", "+typeof(t));
-              document.querySelector('[title="' + t + '"]').classList.add("selected");
+          /* 클릭된 날짜 Selected class 추가해주기 */
+          function monthSelected(t) {
+            console.log("yearCurrent : " + yearCurrent);
 
-              /*  Selected month의 Days(1~30) 다시 출력 */
-
-              printDays();
-
-			  if (addClickEventToUpdateTriggers != undefined)
-              	addClickEventToUpdateTriggers();
-
+            // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
+            var sections = document.querySelectorAll('[month-value]');
+            for (i = 0; i < sections.length; i++) {
+              sections[i].classList.remove('selected');
             }
             console.log(t + ", " + typeof (t));
             document.querySelector('[title="' + t + '"]').classList.add("selected");
 
             /*  Selected month의 Days(1~30) 다시 출력 */
-            var today = new Date(); //오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
-            var date = new Date(); //today의 Date를 세어주는 역할
-            //이번 달의 첫째 날
-            var tmpMonth = 0;
-            if (t === 'Jan')
-              tmpMonth = 1;
-            else if (t === 'Feb')
-              tmpMonth = 2;
-            else if (t === 'Mar')
-              tmpMonth = 3;
-            else if (t === 'Apr')
-              tmpMonth = 4;
-            else if (t === 'May')
-              tmpMonth = 5;
-            else if (t === 'Jun')
-              tmpMonth = 6;
-            else if (t === 'Jul')
-              tmpMonth = 7;
-            else if (t === 'Aug')
-              tmpMonth = 8;
-            else if (t === 'Sep')
-              tmpMonth = 9;
-            else if (t === 'Oct')
-              tmpMonth = 10;
-            else if (t === 'Nov')
-              tmpMonth = 11;
-            else if (t === 'Dec')
-              tmpMonth = 12;
-            console.log("today.getMonth() : " + today.getMonth() + ", " + typeof (today.getMonth()));
-            console.log("tmpMonth : " + tmpMonth + ", " + typeof (tmpMonth));
 
-            var thisMonthDay1 = new Date(today.getFullYear(), tmpMonth - 1, 1);
-            //이번 달의 마지막 날
-            //new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데 day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 제대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
-            var lastDate = new Date(today.getFullYear(), tmpMonth + 1, 0);
+            printDays();
 
-            var addSpace = '';
-            //ThisMonth.getDay() = 이번 달 1일이 무슨 요일인지
-            //getDay() : 요일을 알아내는 메소드. 반환값은 0부터 7까지이며 0은 일요일, 1은 월요일...
-            //1일 전에 빈 칸 띄워주기
-            $(".days li").remove();
-            for (i = 0; i < thisMonthDay1.getDay(); i++) {
-              //document.write('<li><a href="#">' + ' ' + '</a></li>');
-              document.querySelector('.days').innerHTML += '<li><a href="#">' + ' ' + '</a></li>';
-            }
-
-
-            /* Day(1~30) 출력 */
-            for (var i = 1; i <= lastDate.getDate(); i++) {
-              //document.write('<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
-              document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
-            }
-            document.querySelector('[day-value="1"]').classList.add("selected");
-
-            if (addClickEventToUpdateTriggers != undefined)
+            if (addClickEventToUpdateTriggers != undefined) {
               addClickEventToUpdateTriggers();
+            }
           }
         </script>
         <ul class="months">
@@ -493,7 +432,7 @@
             //  jsp는 한 번 쭉 읽고 끝임. onClickEvent로 반복해주는 것임.
             var today = new Date(); //오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
             var date = new Date(); //today의 Date를 세어주는 역할
-            console.log("yearCurrent : "+yearCurrent);
+            console.log("yearCurrent : " + yearCurrent);
             //이번 달의 첫째 날
             //new를 쓰는 이유 : new를 쓰면 이번달의 로컬 월을 정확하게 받아온다. getMonth()는 0~11을 반환하기 때문에 new를 쓰지 않았을때 이번달을 받아오려면 +1 해줘야한다.
             var thisMonthDay1 = new Date(yearCurrent, today.getMonth(), 1);
