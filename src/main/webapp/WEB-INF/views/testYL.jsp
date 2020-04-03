@@ -15,6 +15,15 @@
 
   <script type="text/javascript">
     // https://learn.jquery.com/using-jquery-core/document-ready/
+    //
+    // Code Workflow
+    // 1. 처음 : html css javascript 상관 없이 위에서 아래로 쭉 실행
+    // 2. $(document).ready(function () { ... }) : function() 내부 내용 쭉 실행
+    // 3. $( window ).on( "load", function() { ... }) 내부 내용 쭉 실행
+
+    /* 함수포인터를 전역변수로 선언하면 ready 내부의 function을 밖에서도 쓸 수 있다! */
+    var addClickEventToUpdateTriggers;
+
     $(document).ready(function () {
       /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
         1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
@@ -119,32 +128,6 @@
 
       //////////////////////////////////////////////////////////////////////////
 
-      // 함수 호출
-      updateNoteList();
-      updateProgressColors();
-
-      $('.reloadTrigger').click(function (e) {
-        // function stringifyEvent(e) {
-        //   const obj = {};
-        //   for (let k in e) {
-        //     obj[k] = e[k];
-        //   }
-        //   return JSON.stringify(obj, (k, v) => {
-        //     if (v instanceof Node) return 'Node';
-        //     if (v instanceof Window) return 'Window';
-        //     return v;
-        //   }, ' ');
-        // }
-        // alert("디버깅!\n" + stringifyEvent(e));
-
-        //e.preventDefault();
-        console.log("reloadTrigger가 실행되었습니다.");
-        updateNoteList();
-        updateProgressColors();
-      });
-
-      //////////////////////////////////////////////////////////////////////////
-
       /* modifyButton 누르면 noteContent(입력창)의 값을 post-it값으로 바꾸고 커서 포커싱 */
       $('.modifyButton').click(function (e) {
         $("#noteContent").val(
@@ -246,7 +229,42 @@
         });
       })
 
+      /* 날짜 초기화, 날짜 선택, 달 선택시 아래 함수 콜 */
+      addClickEventToUpdateTriggers = function () {
+        $('.updateTrigger').click(function (e) {
+
+          updateNoteList();
+          updateProgressColors();
+          console.log("updateTrigger가 실행되었습니다.");
+        });
+
+        console.log("addClickEventToUpdateTriggers 실행 완료")
+      };
+
+      addClickEventToUpdateTriggers();
+      updateNoteList();
+      updateProgressColors();
     });
+
+    // $(window).on("load", function () {
+
+    // });
+
+    /* event 가 무엇인지 보고 싶을 때 참고 */
+    // function stringifyEvent(e) {
+    //   const obj = {};
+    //   for (let k in e) {
+    //     obj[k] = e[k];
+    //   }
+    //   return JSON.stringify(obj, (k, v) => {
+    //     if (v instanceof Node) return 'Node';
+    //     if (v instanceof Window) return 'Window';
+    //     return v;
+    //   }, ' ');
+    // }
+    // alert("디버깅!\n" + stringifyEvent(e));
+
+    //e.preventDefault();
   </script>
 
 </head>
@@ -308,6 +326,9 @@
             }
             console.log(t);
             document.querySelector('[title="' + t + '"]').classList.add("selected");
+
+            if (addClickEventToUpdateTriggers != undefined)
+              addClickEventToUpdateTriggers();
           }
 
           /* 클릭된 날짜 Selected class 추가해주기 */
@@ -371,27 +392,28 @@
 
             /* Day(1~30) 출력 */
             for (var i = 1; i <= lastDate.getDate(); i++) {
-              //document.write('<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
-              document.querySelector('.days').innerHTML += '<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
+              //document.write('<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
             }
             document.querySelector('[day-value="1"]').classList.add("selected");
 
-
+            if (addClickEventToUpdateTriggers != undefined)
+              addClickEventToUpdateTriggers();
           }
         </script>
         <ul class="months">
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Jan" month-value="1">Jan</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Feb" month-value="2">Feb</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Mar" month-value="3">Mar</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Apr" month-value="4">Apr</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="May" month-value="5">May</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Jun" month-value="6">Jun</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Jul" month-value="7">Jul</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Aug" month-value="8">Aug</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Sep" month-value="9">Sep</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Oct" month-value="10">Oct</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Nov" month-value="11">Nov</a></li>
-          <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Dec" month-value="12">Dec</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Jan" month-value="1">Jan</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Feb" month-value="2">Feb</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Mar" month-value="3">Mar</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Apr" month-value="4">Apr</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="May" month-value="5">May</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Jun" month-value="6">Jun</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Jul" month-value="7">Jul</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Aug" month-value="8">Aug</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Sep" month-value="9">Sep</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Oct" month-value="10">Oct</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Nov" month-value="11">Nov</a></li>
+          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Dec" month-value="12">Dec</a></li>
         </ul>
         <script>
           document.querySelector('[month-value="${curMonth}"]').classList.add("selected");
@@ -444,10 +466,13 @@
 
             /* Day(1~30) 출력 */
             for (var i = 1; i <= lastDate.getDate(); i++) {
-              document.write('<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              document.write('<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");
+
+            if (addClickEventToUpdateTriggers != undefined)
+              addClickEventToUpdateTriggers();
           </script>
         </ul>
         <div class="clearfix"></div>
