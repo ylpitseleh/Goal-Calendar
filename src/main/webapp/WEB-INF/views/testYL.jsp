@@ -24,6 +24,8 @@
     /* 함수포인터를 전역변수로 선언하면 ready 내부의 function을 밖에서도 쓸 수 있다! */
 
     var addClickEventToUpdateTriggers;
+    var updateNoteList;
+    var updateProgressColors;
     var yearCurrent = new Date().getFullYear();
 
 
@@ -38,7 +40,7 @@
         6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
          */
-      function updateNoteList() {
+      updateNoteList = function () {
         var year = yearCurrent;
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         var day = document.querySelector(".days li a.selected").text;
@@ -82,13 +84,13 @@
           },
 
           error: function (request, status, error) {
-            alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+            alert("[updateNoteList] code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
       }
       //////////////////////////////////////////////////////////////////////////
       /* 페이지를 로드할 때마다 DB에서 현재 로그인 id, year, month와 일치하는 note들을 모두 찾아와서 noteProgress value별로 색깔을 입혀줌. */
-      function updateProgressColors() {
+      updateProgressColors = function () {
         var year = yearCurrent;
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         month = month.length == 1 ? "0" + month.slice(0) : month; //1월 -> 01월
@@ -124,7 +126,7 @@
           },
 
           error: function (request, status, error) {
-            alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+            alert("[updateProgressColors] code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
       }
@@ -177,7 +179,7 @@
             updateProgressColors();
           },
           error: function (request, status, error) {
-            alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+            alert("[saveButton] code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
       });
@@ -227,15 +229,19 @@
             alert("데이터가 정상적으로 삭제되었습니다.");
           },
           error: function (request, status, error) {
-            alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+            alert("[deleteButton] code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
       })
 
       /* 날짜 초기화, 날짜 선택, 달 선택시 아래 함수 콜 */
       addClickEventToUpdateTriggers = function () {
-        $('.updateTrigger').click(function (e) {
+        // $('.updateTrigger').click(function (e) {
 
+        // $('.updateTrigger').unbind("click.addClickEventToUpdateTriggers");
+        // $('.updateTrigger').bind("click.addClickEventToUpdateTriggers", function (e) {
+        $('.updateTrigger').off("click.noMoreDuplicated");
+        $('.updateTrigger').on("click.noMoreDuplicated", function (e) {
           updateNoteList();
           updateProgressColors();
           console.log("updateTrigger가 실행되었습니다.");
@@ -248,10 +254,6 @@
       updateNoteList();
       updateProgressColors();
     });
-
-    // $(window).on("load", function () {
-
-    // });
 
     /* event 가 무엇인지 보고 싶을 때 참고 */
     // function stringifyEvent(e) {
@@ -388,11 +390,15 @@
 
             /*  Selected month의 Days(1~30) 다시 출력 */
 
+            /* Days 생성하는 함수 */
             printDays();
 
             if (addClickEventToUpdateTriggers != undefined) {
               addClickEventToUpdateTriggers();
             }
+
+            updateNoteList();
+            updateProgressColors();
           }
         </script>
         <ul class="months">
