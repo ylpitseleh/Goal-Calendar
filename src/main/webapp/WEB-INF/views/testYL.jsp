@@ -334,7 +334,7 @@
 
         /* Day(1~30) 출력 */
         for (var i = 1; i <= lastDate.getDate(); i++) {
-          document.querySelector('.days').innerHTML += '<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
+          document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
         }
         document.querySelector('[day-value="1"]').classList.add("selected"); //다른 month 클릭했을 때 임의로 1일에 selected 해줌(안 하면 day=null 에러)
 
@@ -344,9 +344,9 @@
     </script>
     <div class="col rightCol">
       <div class="content">
-        <input type="button" class="reloadTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" value="  &gt;" p style="cursor:pointer" />
+        <input type="button" class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" value="  &gt;" p style="cursor:pointer" />
         <h2 id="year" class="curYear"></h2>
-        <input type="button" class="reloadTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" value="&lt;  " p style="cursor:pointer" /><br><br><br><br>
+        <input type="button" class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" value="&lt;  " p style="cursor:pointer" /><br><br><br><br>
         <script>
           /*  < 2020 >   '<' 클릭시 year - 1, '<' 클릭시 year + 1 */
           //var yearCurrent = new Date().getFullYear();
@@ -389,67 +389,6 @@
             /*  Selected month의 Days(1~30) 다시 출력 */
 
             printDays();
-
-            if (addClickEventToUpdateTriggers != undefined)
-              addClickEventToUpdateTriggers();
-
-            console.log(t + ", " + typeof (t));
-            document.querySelector('[title="' + t + '"]').classList.add("selected");
-
-            /*  Selected month의 Days(1~30) 다시 출력 */
-            var today = new Date(); //오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
-            var date = new Date(); //today의 Date를 세어주는 역할
-            //이번 달의 첫째 날
-            var tmpMonth = 0;
-            if (t === 'Jan')
-              tmpMonth = 1;
-            else if (t === 'Feb')
-              tmpMonth = 2;
-            else if (t === 'Mar')
-              tmpMonth = 3;
-            else if (t === 'Apr')
-              tmpMonth = 4;
-            else if (t === 'May')
-              tmpMonth = 5;
-            else if (t === 'Jun')
-              tmpMonth = 6;
-            else if (t === 'Jul')
-              tmpMonth = 7;
-            else if (t === 'Aug')
-              tmpMonth = 8;
-            else if (t === 'Sep')
-              tmpMonth = 9;
-            else if (t === 'Oct')
-              tmpMonth = 10;
-            else if (t === 'Nov')
-              tmpMonth = 11;
-            else if (t === 'Dec')
-              tmpMonth = 12;
-            console.log("today.getMonth() : " + today.getMonth() + ", " + typeof (today.getMonth()));
-            console.log("tmpMonth : " + tmpMonth + ", " + typeof (tmpMonth));
-
-            var thisMonthDay1 = new Date(today.getFullYear(), tmpMonth - 1, 1);
-            //이번 달의 마지막 날
-            //new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데 day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 제대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
-            var lastDate = new Date(today.getFullYear(), tmpMonth + 1, 0);
-
-            var addSpace = '';
-            //ThisMonth.getDay() = 이번 달 1일이 무슨 요일인지
-            //getDay() : 요일을 알아내는 메소드. 반환값은 0부터 7까지이며 0은 일요일, 1은 월요일...
-            //1일 전에 빈 칸 띄워주기
-            $(".days li").remove();
-            for (i = 0; i < thisMonthDay1.getDay(); i++) {
-              //document.write('<li><a href="#">' + ' ' + '</a></li>');
-              document.querySelector('.days').innerHTML += '<li><a href="#">' + ' ' + '</a></li>';
-            }
-
-
-            /* Day(1~30) 출력 */
-            for (var i = 1; i <= lastDate.getDate(); i++) {
-              //document.write('<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
-              document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
-            }
-            document.querySelector('[day-value="1"]').classList.add("selected");
 
             if (addClickEventToUpdateTriggers != undefined) {
               addClickEventToUpdateTriggers();
