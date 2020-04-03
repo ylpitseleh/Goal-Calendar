@@ -18,7 +18,8 @@ body {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-input, textarea {
+input,
+textarea {
   font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -39,7 +40,7 @@ a {
 }
 
 .clearfix {
-  clear: both;
+  /* clear: both; */
 }
 
 /* required */
@@ -103,16 +104,15 @@ a {
 .calendar .notes input,
 .calendar .notes textarea,
 .calendar .noteList li {
+  /*font-weight: bold;*/
   font-weight: 300;
   font-size: 14px;
   font-family: Helvetica, Arial, sans-serif;
-  /*font-weight: bold;*/
 }
 
 .noteList {
-	font-size: 20px;
-	position: relative;
-	top: -70px;
+  font-size: 20px;
+  position: relative;
 }
 
 .calendar .notes input,
@@ -121,39 +121,41 @@ a {
 }
 
 #noteContent {
-   width: 100%;
-   padding: 12px 20px;
-   margin: 8px 0;
-   display: inline-block;
-   border: 1px solid #ccc;
-   border-radius: 4px;
-   box-sizing: border-box;
-   border-radius: 5px;
-   background-color: #f2f2f2;
-   padding: 20px;
-   color: #747978;
-   font-weight: bold;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  color: #747978;
+  font-weight: bold;
 
-   position: relative;
-   top:-10px;
+  position: relative;
+  top: -10px;
 }
+
 #saveButton {
-   position: relative;
-   top:-10px;
-   width: 100%;
-   height: 6%;
+  position: relative;
+  top: -10px;
+  width: 100%;
+  height: 6%;
 
-   background-color: #e3e3cc;
-   text-align: center;
-   color: white;
-   /*padding: 14px 20px;*/
-   margin: 8px 0;
-   border: none;
-   border-radius: 4px;
-   cursor: pointer;
+  background-color: #e3e3cc;
+  text-align: center;
+  color: white;
+  /*padding: 14px 20px;*/
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
+
 #saveButton:hover {
-   background-color: #d1d1b8;
+  background-color: #d1d1b8;
 }
 
 .calendar .deleteButton,
@@ -252,13 +254,13 @@ a {
 }
 
 .calendar .days li .selected {
-   padding-top: 8px;
-   width: 36px;
-     height: 34px;
-   border: 2px solid #8f8989;
-   box-sizing: border-box;
-   /*background-color: #F5A1A3 !important; */
-   /*color: #333333; */
+  padding-top: 8px;
+  width: 36px;
+  height: 34px;
+  border: 2px solid #8f8989;
+  box-sizing: border-box;
+  /*background-color: #F5A1A3 !important; */
+  /*color: #333333; */
 
 
 }
@@ -270,90 +272,110 @@ a {
 
 /* Range Slider(noteProgress) */
 .slideContainer {
-  width: 120px; /* Width of the outside container */
+  width: 120px;
+  /* Width of the outside container */
 }
 
 /* The slider itself */
 .slider {
-  -webkit-appearance: none;  /* Override default CSS styles */
+  -webkit-appearance: none;
+  /* Override default CSS styles */
   appearance: none;
-  width: 250px; /* Full-width */
-  height: 7px; /* Specified height */
-  background: #d3d3d3 !important; /* Grey background */
-  outline: none; /* Remove outline */
-  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  width: 250px;
+  /* Full-width */
+  height: 7px;
+  /* Specified height */
+  background: #d3d3d3 !important;
+  /* Grey background */
+  outline: none;
+  /* Remove outline */
+  opacity: 0.7;
+  /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s;
+  /* 0.2 seconds transition on hover */
   transition: opacity .2s;
   position: relative;
-  top: -10px; left: -10px;
+  top: -10px;
+  left: -10px;
 }
 
 /* Mouse-over effects */
 .slider:hover {
-  opacity: 1; /* Fully shown on mouse-over */
+  opacity: 1;
+  /* Fully shown on mouse-over */
 }
 
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
+  -webkit-appearance: none;
+  /* Override default look */
   appearance: none;
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #e3e3cc; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+  width: 25px;
+  /* Set a specific slider handle width */
+  height: 25px;
+  /* Slider handle height */
+  background: #e3e3cc;
+  /* Green background */
+  cursor: pointer;
+  /* Cursor on hover */
 }
 
 .slider::-moz-range-thumb {
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #e3e3cc; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+  width: 25px;
+  /* Set a specific slider handle width */
+  height: 25px;
+  /* Slider handle height */
+  background: #e3e3cc;
+  /* Green background */
+  cursor: pointer;
+  /* Cursor on hover */
 }
 
 span {
-   color: white;
-   width: 400px;
-   display: inline-block;
-   position: relative;
-   top:-15px;
+  color: white;
+  width: 400px;
+  display: inline-block;
+  position: relative;
+  top: -15px;
 }
 
 /* Post-it Decoration */
 .postIt {
-  height: 115px;
-  width: 220px;
-  margin: 50px;
-  padding: 25px 10px 10px 10px;
-  border:1px solid #9ed7db;
-  border-bottom-right-radius: 60px 20px;
-  position: relative;
+  width: 225px;
+  height: 190px;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid #9ed7db;
+  border-bottom-right-radius: 10px 20px;
+  position: center;
   top: -48px;
-  left:-50px;
+  left: -50px;
   font-weight: bold;
 
   /*text-align: center;*/
   display: inline-block;
   word-wrap: break-word;
 
-  background: linear-gradient(135deg, #9ed7db 81%,#9ed7db  82%,#a5e4e8 82%,#c2f9fc 100%);
-    border-top:60px solid #9ed7db;
+  background: linear-gradient(135deg, #9ed7db 81%, #9ed7db 82%, #a5e4e8 82%, #c2f9fc 100%);
 }
 
 .postIt:after {
   content: "";
-  position:absolute;
-  z-index:-1;
-  right:-0px; bottom:20px;
-  width:200px;
+  position: absolute;
+  z-index: -10;
+  right: -0px;
+  bottom: 20px;
+  width: 200px;
   height: 25px;
   background: rgba(0, 0, 0, 0.2);
-  box-shadow:2px 15px 5px rgba(0, 0, 0, 0.40);
+  box-shadow: 2px 15px 5px rgba(0, 0, 0, 0.40);
   transform: matrix(-1, -0.1, 0, 1, 0, 0);
 }
 
+.postIt .contents {
+  position: relative;
+}
 
-
-#contents {
-	position: relative;
-	top: -80px;
+.postIt .contents input {
+  position: relative;
+  z-index: 1;
 }
