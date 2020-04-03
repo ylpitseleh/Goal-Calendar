@@ -138,7 +138,7 @@
         // alert("디버깅!\n" + stringifyEvent(e));
 
         //e.preventDefault();
-		console.log("reloadTrigger 실행되었습니다.");
+		console.log("reloadTrigger가 실행되었습니다.");
         updateNoteList();
         updateProgressColors();
       });
@@ -354,7 +354,7 @@
               console.log("today.getMonth() : "+today.getMonth()+", "+typeof(today.getMonth()));
               console.log("tmpMonth : "+tmpMonth+", "+typeof(tmpMonth));
               
-              var thisMonthDay1 = new Date(today.getFullYear(), tmpMonth, 1);
+              var thisMonthDay1 = new Date(today.getFullYear(), tmpMonth-1, 1);
               //이번 달의 마지막 날
               //new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데 day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 제대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
               var lastDate = new Date(today.getFullYear(), tmpMonth + 1, 0);
@@ -376,19 +376,6 @@
               	document.querySelector('.days').innerHTML += '<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
               }
               document.querySelector('[day-value="1"]').classList.add("selected");
-              
-              /*
-              var html = "<li class='notes'>\n<p>";
-              html += "<br>=== Debugging ===<br>";
-              html += "Id: " + strs[0] + "<br>";
-              html += "Date: " + strs[1] + "<br>";
-              html += "Progress: " + strs[2] + "<br>";
-              html += "Content: " + strs[3] + "";
-              html += "</p>\n</li>";
-              document.querySelector('.noteList').innerHTML += html;
-              */
-              
-              
               
               
             }
@@ -414,14 +401,18 @@
         </script>
         <div class="clearfix"></div>
         <ul class="weekdays">
-          <li><a href="#" title="Mon" data-value="1">Mon</a></li>
-          <li><a href="#" title="Tue" data-value="2">Tue</a></li>
-          <li><a href="#" title="Wed" data-value="3">Wed</a></li>
-          <li><a href="#" title="Thu" data-value="4">Thu</a></li>
-          <li><a href="#" title="Fri" data-value="5">Fri</a></li>
-          <li><a href="#" title="Say" data-value="6">Sat</a></li>
-          <li><a href="#" title="Sun" data-value="7">Sun</a></li>
+          <li><a id="Sun" data-value="1">Sun</a></li>
+          <li><a id="Mon" data-value="2">Mon</a></li>
+          <li><a id="Tue" data-value="3">Tue</a></li>
+          <li><a id="Wed" data-value="4">Wed</a></li>
+          <li><a id="Thu" data-value="5">Thu</a></li>
+          <li><a id="Fri" data-value="6">Fri</a></li>
+          <li><a id="Sat" data-value="7">Sat</a></li>
         </ul>
+        <script>
+        	$("#Sun").css( "color", "red" );
+        	$("#Sat").css( "color", "blue" );
+        </script>
         <div class="clearfix"></div>
         <ul class="days">
           <script>
