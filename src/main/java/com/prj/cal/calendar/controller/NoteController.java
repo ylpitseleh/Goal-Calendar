@@ -95,7 +95,6 @@ public class NoteController {
 			session.setAttribute("note", note);
 		} catch (NullPointerException e) {
 			System.out.println("NullPointerException: You need to login!");
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -141,12 +140,11 @@ public class NoteController {
 
 		} catch (NullPointerException e) {
 			System.out.println("NullPointerException: There isn't any note in DB for selected month!");
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("There is no matching note in DB for selected month!");
-		return "";
+		return "{}";
 	}
 
 	@RequestMapping(value = "/loadNoteListByDate", produces = "application/text; charset=utf8", method = RequestMethod.POST)
@@ -190,7 +188,6 @@ public class NoteController {
 			}
 		} catch (NullPointerException e) {
 			System.out.println("NullPointerException: You need to login!");
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -214,7 +211,6 @@ public class NoteController {
 
 		} catch (NullPointerException e) {
 			System.out.println("Delete request - NullPointerException: You need to login!");
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -106,6 +106,7 @@
           },
 
           success: function (data) {
+
             for (var i = 0 in data) {
               var tmp_day = data[i].noteDate;
 
