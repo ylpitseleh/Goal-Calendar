@@ -54,7 +54,7 @@
               document.querySelector("#noteProgress").value = strs[2];
 
               // .noteList는 이제 디버깅 용도일 뿐!!
-              var html = "<li class='notes'>\n<pre>";
+              var html = "<li class='notes'>\n<pre wrap='hard'>";
               html += "<br>=== Debugging ===<br>";
               html += "Id: " + strs[0] + "<br>";
               html += "Date: " + strs[1] + "<br>";
