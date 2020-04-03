@@ -115,7 +115,7 @@ public class NoteController {
 	 * 파라미터에 들어가는 @RequestParam값들은 ajax에서 data: {} 여기 들어가는 애들이겠지?  */
 
 	/* Ajax 쓸 때는 @RequestMapping, @ResponseBody 세트로 사용.
-	 * ResposeBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
+	 * ResponseBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
 	@RequestMapping(value = "/loadNoteListByMonth", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
 	public String loadNoteListByMonth(HttpSession session, Member member, @RequestParam String year,
@@ -140,7 +140,7 @@ public class NoteController {
 			}
 
 		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: There isn't any note in DB for selected month!");
+			System.out.println("NullPointerException: There isn't any note in DB for selected month!");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -189,7 +189,7 @@ public class NoteController {
 				return rtn;
 			}
 		} catch (NullPointerException e) {
-			System.out.println("NullpointerException: You need to login!");
+			System.out.println("NullPointerException: You need to login!");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -198,7 +198,6 @@ public class NoteController {
 		System.out.println("There is no matching note with in DB for selected Date!");
 		return "";
 	}
-
 
 	@RequestMapping(value = "/deleteNote", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
@@ -213,17 +212,13 @@ public class NoteController {
 
 			service.noteRemove(noteDelete);
 
-
 		} catch (NullPointerException e) {
-			System.out.println("Delete request - NullpointerException: You need to login!");
+			System.out.println("Delete request - NullPointerException: You need to login!");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-
-
 
 	@ModelAttribute("curYear")
 	public String getCurYear(Locale locale) {
