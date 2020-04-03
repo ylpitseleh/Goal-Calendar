@@ -54,13 +54,13 @@
               document.querySelector("#noteProgress").value = strs[2];
 
               // .noteList는 이제 디버깅 용도일 뿐!!
-              var html = "<li class='notes'>\n<p>";
+              var html = "<li class='notes'>\n<pre>";
               html += "<br>=== Debugging ===<br>";
               html += "Id: " + strs[0] + "<br>";
               html += "Date: " + strs[1] + "<br>";
               html += "Progress: " + strs[2] + "<br>";
               html += "Content: " + strs[3] + "";
-              html += "</p>\n</li>";
+              html += "</pre>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
             } else {
               document.querySelector("#noteProgress").value = "";
@@ -138,7 +138,7 @@
         // alert("디버깅!\n" + stringifyEvent(e));
 
         //e.preventDefault();
-
+		console.log("reloadTrigger 실행되었습니다.");
         updateNoteList();
         updateProgressColors();
       });
@@ -285,10 +285,9 @@
 
               <!-- <input type="button" id="saveButton" value="Save" p style="cursor:pointer" /> -->
 
-              <pre>
               	<ul class="noteList">
               	</ul>
-              </pre>
+              
               
             </div>
           </div>
@@ -376,6 +375,8 @@
                 //document.write('<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
               	document.querySelector('.days').innerHTML += '<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
               }
+              document.querySelector('[day-value="1"]').classList.add("selected");
+              
               /*
               var html = "<li class='notes'>\n<p>";
               html += "<br>=== Debugging ===<br>";
