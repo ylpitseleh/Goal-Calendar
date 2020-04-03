@@ -77,7 +77,7 @@
               html += "</pre>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
             } else {
-              document.querySelector("#noteProgress").value = "";
+              document.querySelector("#noteProgress").value = 0;
               document.querySelector("#noteContent").value = "";
               $(".noteList li").remove();
             }
