@@ -262,7 +262,7 @@
           <form name="inputNote" action="saveNoteContent" id="inputNote">
             <input type="hidden" name="noteId" id="noteId" />
             <input type="hidden" name="noteDate" id="noteDate" />
-            <div class="slidecontainer">
+            <div class="slideContainer">
               <input type="range" name="noteProgress" id="noteProgress" value="0" placeholder="rate progress" min="0" max="5" step="1" class="slider" />
             </div>
             <br>
@@ -289,7 +289,7 @@
               	<ul class="noteList">
               	</ul>
               </pre>
-              
+
             </div>
           </div>
 
@@ -311,18 +311,18 @@
           		console.log(t);
           		document.querySelector('[title="' + t + '"]').classList.add("selected");
         	}
-			
+
 			/* 클릭된 날짜 Selected class 추가해주기 */
             function monthSelected(t) {
-				
+
               // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
               var sections = document.querySelectorAll('[month-value]');
               for (i = 0; i < sections.length; i++) {
                 sections[i].classList.remove('selected');
               }
               console.log(t+", "+typeof(t));
-              document.querySelector('[title="' + t + '"]').classList.add("selected");   
-              
+              document.querySelector('[title="' + t + '"]').classList.add("selected");
+
               /*  Selected month의 Days(1~30) 다시 출력 */
               var today = new Date(); //오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
               var date = new Date(); //today의 Date를 세어주는 역할
@@ -354,7 +354,7 @@
             	  tmpMonth = 12;
               console.log("today.getMonth() : "+today.getMonth()+", "+typeof(today.getMonth()));
               console.log("tmpMonth : "+tmpMonth+", "+typeof(tmpMonth));
-              
+
               var thisMonthDay1 = new Date(today.getFullYear(), tmpMonth, 1);
               //이번 달의 마지막 날
               //new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데 day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 제대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
@@ -369,8 +369,8 @@
                 //document.write('<li><a href="#">' + ' ' + '</a></li>');
                 document.querySelector('.days').innerHTML += '<li><a href="#">' + ' ' + '</a></li>';
               }
-              
-  			
+
+
               /* Day(1~30) 출력 */
               for (var i = 1; i <= lastDate.getDate(); i++) {
                 //document.write('<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
@@ -386,13 +386,13 @@
               html += "</p>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
               */
-              
-              
-              
-              
+
+
+
+
             }
-			
-			
+
+
          </script>
         <ul class="months">
           <li><a class="reloadTrigger" onclick="monthSelected(title);" href="#" title="Jan" month-value="1">Jan</a></li>
@@ -424,7 +424,7 @@
         <div class="clearfix"></div>
         <ul class="days">
           <script>
-          <!-- jsp는 한 번 쭉 읽고 끝임. onClickEvent로 반복해주는 것임. -->
+            //  jsp는 한 번 쭉 읽고 끝임. onClickEvent로 반복해주는 것임.
             var today = new Date(); //오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
             var date = new Date(); //today의 Date를 세어주는 역할
             //이번 달의 첫째 날
@@ -441,7 +441,7 @@
             for (i = 0; i < thisMonthDay1.getDay(); i++) {
               document.write('<li><a href="#">' + ' ' + '</a></li>');
             }
-            
+
 			/* 클릭된 날짜 Selected class 추가해줌 */
             function daySelected(t) {
               // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
@@ -452,7 +452,7 @@
               console.log(t);
               document.querySelector('[title="' + t + '"]').classList.add("selected");
             }
-			
+
             /* Day(1~30) 출력 */
             for (var i = 1; i <= lastDate.getDate(); i++) {
               document.write('<li><a class="reloadTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');

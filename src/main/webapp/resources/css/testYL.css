@@ -105,14 +105,14 @@ a {
 .calendar .noteList li {
   font-weight: 300;
   font-size: 14px;
-  font-family: Helvetica, Arial, sans-serif;: 
+  font-family: Helvetica, Arial, sans-serif;:
   /*font-weight: bold;*/
 }
 
 .noteList {
 	font-size: 20px;
 	position: relative;
-	top: -70px;	
+	top: -70px;
 }
 
 .calendar .notes input,
@@ -269,7 +269,7 @@ a {
 
 
 /* Range Slider(noteProgress) */
-.slidecontainer {
+.slideContainer {
   width: 120px; /* Width of the outside container */
 }
 
@@ -330,7 +330,7 @@ span {
   top: -48px;
   left:-50px;
   font-weight: bold;
-  
+
   /*text-align: center;*/
   display: inline-block;
   word-wrap: break-word;
