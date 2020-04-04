@@ -10,11 +10,11 @@
       이게 귀찮으면, xml configuration에서 webServer의 캐시 기능 자체를 off할 수도 있다.
       참고: https://stackoverflow.com/questions/12717993/stylesheet-not-updating
   -->
-  <link href="<c:url value='/resources/css/testYL.css?${serverTime}' />" rel="stylesheet">
+  <link href="<c:url value='/resources/css/main.css?${serverTime}' />" rel="stylesheet">
   <script src="http://code.jquery.com/jquery-latest.js"></script>
 
   <script type="text/javascript">
-  
+
     // https://learn.jquery.com/using-jquery-core/document-ready/
     //
     // Code Workflow
@@ -34,8 +34,8 @@
       //////////////////////////////////////////////////////////////////////////
       /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
         1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
-        2. 그 값들을 $.ajax를 통해 post 방식으로 testYLReloadDBMatching url로 request 한 후
-        3. NoteController.java의 testYLReloadDBMatching 메소드에서 @RequestParam으로 값을 넘겨 받으면
+        2. 그 값들을 $.ajax를 통해 post 방식으로 mainReloadDBMatching url로 request 한 후
+        3. NoteController.java의 mainReloadDBMatching 메소드에서 @RequestParam으로 값을 넘겨 받으면
         4. 거기서 noteId와 noteDate값을 구한 후 이 둘이 매칭되는 노트를 DB로부터 가져온다.
         5. 이후 가져온 노트와 관련된 데이터를 @ResponseBody 로 리턴하면
         6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.

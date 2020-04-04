@@ -11,7 +11,7 @@
 </head>
 <body>
 	<h1>MEMBER JOIN</h1>
-	
+
 	<form:form action="${cp}/member/join" method="post" commandName="member">
 		<table>
 			<tr>
@@ -34,7 +34,7 @@
 			</tr>
 		</table>
 	</form:form>
-	
-	<a href="${cp}/testYL">MAIN</a>
+
+	<a href="${cp}/main">MAIN</a>
 </body>
 </html>

@@ -50,7 +50,7 @@ public class NoteController {
 	@ResponseBody
 	public void saveNote(Note note, Member member, HttpSession session) {
 		// Member member 는 아무런 값도 할당되지 않은 커맨드 객체이다. (Null값만 들어있는 상태)
-		// Note note는 testYL.jsp 에서 ajax를 활용하여 값이 채워진 커맨드 객체이다.
+		// Note note는 main.jsp 에서 ajax를 활용하여 값이 채워진 커맨드 객체이다.
 
 		// getAttribute() 는 리턴 타입이 Object이므로 사용시 실제 할당된 객체 타입으로 casting 해야 함.
 		member = (Member) session.getAttribute("member");
@@ -77,7 +77,7 @@ public class NoteController {
 		try {
 			System.out.println("=== In NoteController.java ===");
 
-			System.out.println("--- note: command object by ajax at testYL.jsp ---");
+			System.out.println("--- note: command object by ajax at main.jsp ---");
 			System.out.println("note.noteId       : " + note.getNoteId());
 			System.out.println("note.noteDate     : " + note.getNoteDate());
 			System.out.println("note.noteProgress : " + note.getNoteProgress());
@@ -100,9 +100,9 @@ public class NoteController {
 		}
 	}
 
-	@RequestMapping("/testYL")
-	public String goToTestYL(Note note) {
-		return "testYL";
+	@RequestMapping("/main")
+	public String goTomain(Note note) {
+		return "main";
 	}
 
 	/* AJAX는 ModelAndView로 return 하면 안 됨? ㅠㅠ return값이 data에 들어가서 그런거지?

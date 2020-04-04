@@ -34,9 +34,9 @@
       </tr>
     </table>
   </form:form>
-  
+
   <a href="${cp}/member/joinForm">JOIN</a> &nbsp;&nbsp;
-  <a href="${cp}/testYL">MAIN</a>
+  <a href="${cp}/main">MAIN</a>
 
 </body>
 
@@ -44,7 +44,7 @@
 	if ("${loginError}" == 1) {
 		alert("Login Failed.");
 	}
-	
+
 </script>
 
 </html>

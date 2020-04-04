@@ -52,7 +52,7 @@ public class MemberController {
 
 		service.memberRegister(member);
 		model.addAttribute("joinSuccess", 1);
-		return "redirect:/testYL";
+		return "redirect:/main";
 	}
 
 	// Login
@@ -60,7 +60,7 @@ public class MemberController {
 	public String loginForm(Member member) {
 		return "/member/loginForm";
 	}
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String memLogin(Model model, Member member, HttpSession session) {
 		// @@T 노트 출력 조건 noteId == memId && noteDate == selectedDate 를 memberSearch 처럼 구현 가능할 듯.
@@ -72,9 +72,9 @@ public class MemberController {
 		}
 		//"member"란 키에 mem을 저장했다.
 		session.setAttribute("member", mem);
-		
+
 		//로그인 성공
-		return "redirect:/testYL";
+		return "redirect:/main";
 	}
 
 	// Logout
@@ -83,7 +83,7 @@ public class MemberController {
 
 		session.invalidate();
 		model.addAttribute("logoutSuccess", 1);
-		return "redirect:/testYL";
+		return "redirect:/main";
 	}
 
 	// Modify
@@ -111,9 +111,9 @@ public class MemberController {
 		} else {
 			session.setAttribute("member", mem);
 			model.addAttribute("modifySuccess", 1);
-			return "redirect:/testYL";
+			return "redirect:/main";
 		}
-		
+
 	}
 
 	// Remove
@@ -143,9 +143,9 @@ public class MemberController {
 
 		HttpSession session = request.getSession();
 		session.invalidate();
-		
+
 		model.addAttribute("removeSuccess", 1);
-		return "redirect:/testYL";
+		return "redirect:/main";
 	}
 
 }
