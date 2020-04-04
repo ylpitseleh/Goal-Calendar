@@ -13,7 +13,7 @@ public class MemberService implements IMemberService {
 	MemberDao dao;
 	
 	@Override
-	public void memberRegister(Member member) {
+	public int memberRegister(Member member) {
 		int result = dao.memberInsert(member);
 		
 		if (result == 0) {
@@ -21,7 +21,7 @@ public class MemberService implements IMemberService {
 		} else {
 			System.out.println("Join Success!!");
 		}
-		
+		return result;
 	}
 
 	@Override

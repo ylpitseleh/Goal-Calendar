@@ -48,9 +48,13 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String joinReg(RedirectAttributes rttr, Member member) {
+	public String joinReg(Model model, RedirectAttributes rttr, Member member) {
 
-		service.memberRegister(member);
+		int result = service.memberRegister(member);
+		if(result == 0) {
+			model.addAttribute("joinError", 1);
+			return "/member/joinForm";
+		}
 		rttr.addFlashAttribute("joinSuccess", 1);
 		return "redirect:/main";
 	}

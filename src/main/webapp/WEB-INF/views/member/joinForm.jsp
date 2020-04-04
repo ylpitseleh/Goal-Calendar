@@ -6,7 +6,6 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="${cp}/resources/css/custom.css">
   <link rel="stylesheet" href="${cp}/resources/css/bootstrap.min.css">
 	<title>MEMBER LOGIN</title>
 </head>
@@ -25,7 +24,7 @@
   <div class="collapse navbar-collapse" id="#bs-example-navbar-collapse-1">
    <ul class="nav navbar-nav">
     <li><a href="${cp}/main">MAIN</a></li>
-	<li><a href="${cp}/member/joinForm">JOIN</a></li>
+	<li><a href="${cp}/member/loginForm">LOGIN</a></li>
    </ul>
   </div> 
  </nav>
@@ -45,13 +44,10 @@
 				<div class="form-group">
 					<form:password path="memPw" class="form-control" placeholder="Password" name="userPassword" maxlength="20" />
     			</div>
-				<div>
+				<div class="form-group">
 					<form:input type="email" path="memMail" class="form-control" placeholder="Email" name="userEmail" maxlength="30"/>
 				</div>
-				<br>
-				<div>
-					<input type="submit" value="Join" class="btn btn-primary form-control">
-				</div>
+				<input type="submit" value="Join" class="btn btn-primary form-control">
 		</form:form>
 		</div>
 	</div>
@@ -60,6 +56,11 @@
  <!-- 애니매이션 담당 JQUERY -->
  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
  
+ <script type="text/javascript">
+	if ("${joinError}" == 1) {
+		alert("Join Failed. ID already exists.");
+	}
+</script>
 
 </body>
 </html>

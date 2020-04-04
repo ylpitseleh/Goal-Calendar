@@ -6,13 +6,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.prj.cal.member.Member;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.prj.cal.member.Member;
 
 @Repository
 public class MemberDao implements IMemberDao {
@@ -50,16 +51,19 @@ public class MemberDao implements IMemberDao {
 //		});
 
 //      3rd
+		try {
 		result = template.update(sql, new PreparedStatementSetter() {
-
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, member.getMemId());
 				pstmt.setString(2, member.getMemPw());
 				pstmt.setString(3, member.getMemMail());
-
 			}
 		});
+		} catch(DuplicateKeyException e) {
+			System.out.println("DuplicateKeyException: ID already exists");
+			e.printStackTrace();
+		}
 
 		return result;
 
