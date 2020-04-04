@@ -10,7 +10,7 @@
       이게 귀찮으면, xml configuration에서 webServer의 캐시 기능 자체를 off할 수도 있다.
       참고: https://stackoverflow.com/questions/12717993/stylesheet-not-updating
   -->
-  <link href="<c:url value='/resources/css/main.css?${serverTime}' />" rel="stylesheet">
+  <link href="<c:url value='/resources/css_my/main.css?${serverTime}' />" rel="stylesheet">
   <script src="http://code.jquery.com/jquery-latest.js"></script>
 
   <script type="text/javascript">

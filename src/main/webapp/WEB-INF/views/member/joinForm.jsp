@@ -1,40 +1,65 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${cp}/resources/css/normal.css" />
+<link rel="stylesheet" href="${cp}/resources/css/custom.css">
+  <link rel="stylesheet" href="${cp}/resources/css/bootstrap.min.css">
+	<title>MEMBER LOGIN</title>
 </head>
 <body>
-	<h1>MEMBER JOIN</h1>
+<!-- 네비게이션 -->
+ <nav class="navbar navbar-default">
+  <div class="navbar-header">
+   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expaned="false">
+     <span class="icon-bar"></span>
+     <span class="icon-bar"></span>
+     <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand">Goal Calendar</a>
+  </div>
 
-	<form:form action="${cp}/member/join" method="post" commandName="member">
-		<table>
-			<tr>
-				<td>ID</td>
-				<td><form:input path="memId" /></td>
-			</tr>
-			<tr>
-				<td>PW</td>
-				<td><form:password path="memPw" /></td>
-			</tr>
-			<tr>
-				<td>MAIL</td>
-				<td><form:input path="memMail" /></td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<input type="submit" value="Join" >
-					<input type="reset" value="Cancel" >
-				</td>
-			</tr>
-		</table>
-	</form:form>
+  <div class="collapse navbar-collapse" id="#bs-example-navbar-collapse-1">
+   <ul class="nav navbar-nav">
+    <li><a href="${cp}/main">MAIN</a></li>
+	<li><a href="${cp}/member/joinForm">JOIN</a></li>
+   </ul>
+  </div> 
+ </nav>
 
-	<a href="${cp}/main">MAIN</a>
+	<!-- Join Form -->
+	<div class="container">
+  	<div class="col-lg-4"></div>
+  	<div class="col-lg-4">
+  		<!-- 점보트론 -->
+   		<div class="jumbotron" style="padding-top: 20px;">
+
+		<form:form action="${cp}/member/join" method="post" commandName="member">
+			<h3 style="text-align: center;"> JOIN </h3>
+				<div class="form-group">
+					<form:input path="memId" class="form-control" placeholder="ID" name="userID" maxlength="20"/>
+				</div>
+				<div class="form-group">
+					<form:password path="memPw" class="form-control" placeholder="Password" name="userPassword" maxlength="20" />
+    			</div>
+				<div>
+					<form:input type="email" path="memMail" class="form-control" placeholder="Email" name="userEmail" maxlength="30"/>
+				</div>
+				<br>
+				<div>
+					<input type="submit" value="Join" class="btn btn-primary form-control">
+				</div>
+		</form:form>
+		</div>
+	</div>
+</div>
+
+ <!-- 애니매이션 담당 JQUERY -->
+ <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ 
+
 </body>
 </html>
