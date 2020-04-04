@@ -9,11 +9,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.prj.cal.calendar.Note;
 import com.prj.cal.member.Member;
 import com.prj.cal.member.service.MemberService;
 
@@ -46,11 +48,11 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String joinReg(Member member) {
+	public String joinReg(Model model, Member member) {
 
 		service.memberRegister(member);
-
-		return "/member/joinOk";
+		model.addAttribute("joinSuccess", 1);
+		return "redirect:/testYL";
 	}
 
 	// Login
@@ -58,27 +60,30 @@ public class MemberController {
 	public String loginForm(Member member) {
 		return "/member/loginForm";
 	}
-
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String memLogin(Member member, HttpSession session) {
+	public String memLogin(Model model, Member member, HttpSession session) {
 		// @@T 노트 출력 조건 noteId == memId && noteDate == selectedDate 를 memberSearch 처럼 구현 가능할 듯.
 
 		Member mem = service.memberSearch(member);
-		if(mem == null)
+		if(mem == null) {//로그인 실패
+			model.addAttribute("loginError", 1);
 			return "/member/loginForm";
+		}
 		//"member"란 키에 mem을 저장했다.
 		session.setAttribute("member", mem);
-
-		return "/member/loginOk";
+		
+		//로그인 성공
+		return "redirect:/testYL";
 	}
 
 	// Logout
 	@RequestMapping("/logout")
-	public String memLogout(Member member, HttpSession session) {
+	public String memLogout(Model model, Member member, HttpSession session) {
 
 		session.invalidate();
-
-		return "/member/logoutOk";
+		model.addAttribute("logoutSuccess", 1);
+		return "redirect:/testYL";
 	}
 
 	// Modify
@@ -92,27 +97,23 @@ public class MemberController {
 		mav.addObject("member", service.memberSearch(member));
 
 		mav.setViewName("/member/modifyForm");
-
 		return mav;
 	}
 
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public ModelAndView modify(Member member, HttpServletRequest request) {
+	public String modify(Model model, Member member, HttpServletRequest request) {
 
-		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
 
 		Member mem = service.memberModify(member);
 		if(mem == null) {
-			mav.setViewName("/member/modifyForm");
+			return "/member/modifyForm";
 		} else {
 			session.setAttribute("member", mem);
-
-			mav.addObject("memAft", mem);
-			mav.setViewName("/member/modifyOk"); //memAft를 modifyOk에서 쓸 수 있음
+			model.addAttribute("modifySuccess", 1);
+			return "redirect:/testYL";
 		}
-
-		return mav;
+		
 	}
 
 	// Remove
@@ -131,17 +132,20 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public String memRemove(Member member, HttpServletRequest request) {
+	public String memRemove(Model model, Member member, HttpServletRequest request) {
 
 		int result = service.memberRemove(member);
 
-		if(result == 0)
+		if(result == 0) {
+			model.addAttribute("removeError", 1);
 			return "/member/removeForm";
+		}
 
 		HttpSession session = request.getSession();
 		session.invalidate();
-
-		return "/member/removeOk";
+		
+		model.addAttribute("removeSuccess", 1);
+		return "redirect:/testYL";
 	}
 
 }

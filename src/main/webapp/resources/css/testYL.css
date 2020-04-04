@@ -36,7 +36,8 @@ p {
 
 a {
   text-decoration: none;
-  color: #FF462B;
+  color: #747978;
+  font-size: 20px;
 }
 
 .clearfix {
@@ -398,5 +399,11 @@ span {
  	text-shadow: -1px 0 #F2F1F6, 0 1px #F2F1F6, 1px 0 #F2F1F6, 0 -1px #F2F1F6;
 }
 
+.modifyMem {
+	float: right;
+}
+.removeMem {
+	float: right;
+}
 
 

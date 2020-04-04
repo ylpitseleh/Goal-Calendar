@@ -30,12 +30,21 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2"><input type="submit" value="Login"></td>
+        <td colspan="2"><input type="submit" id="submit" value="Login"></td>
       </tr>
     </table>
   </form:form>
+  
+  <a href="${cp}/member/joinForm">JOIN</a> &nbsp;&nbsp;
+  <a href="${cp}/testYL">MAIN</a>
 
-  <a href="${cp}/">MAIN</a>
 </body>
+
+<script type="text/javascript">
+	if ("${loginError}" == 1) {
+		alert("Login Failed.");
+	}
+	
+</script>
 
 </html>

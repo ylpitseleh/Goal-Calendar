@@ -14,6 +14,7 @@
   <script src="http://code.jquery.com/jquery-latest.js"></script>
 
   <script type="text/javascript">
+  
     // https://learn.jquery.com/using-jquery-core/document-ready/
     //
     // Code Workflow
@@ -276,7 +277,20 @@
 </head>
 
 <body>
-  <a href="${cp}">MAIN</a>
+<c:if test="${empty member}">
+    <a href="${cp}/member/loginForm">LOGIN</a> &nbsp;&nbsp;
+  </c:if>
+
+  <c:if test="${!empty member}">
+    <a href="${cp}/member/logout">LOGOUT</a> &nbsp;
+    <div class="removeMem">
+    	<a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp;&nbsp;
+    </div>
+    <div class="modifyMem">
+    	<a href="${cp}/member/modifyForm">MODIFY</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+  </c:if>
+  <!-- <a href="${cp}">MAIN</a> -->
 
   <div class="calendar">
 
@@ -487,5 +501,24 @@
 
 
 </body>
+<script type="text/javascript">
+$(document).ready(function () {
+	if ("${modifySuccess}" == 1) {
+		alert("Member modify success.");
+	}
+	if ("${joinSuccess}" == 1) {
+		alert("Member join success.");
+	}
+	if ("${removeError}" == 1) {
+		alert("Member remove failed.");
+	}
+    if ("${removeSuccess}" == 1) {
+    	alert("Member remove success.");
+    }
+    if ("${logoutSuccess}" == 1) {
+    	alert("Logout success.");
+    }
+});
+</script>
 
 </html>

@@ -35,6 +35,6 @@
 		</table>
 	</form:form>
 	
-	<a href="${cp}/">MAIN</a>
+	<a href="${cp}/testYL">MAIN</a>
 </body>
 </html>

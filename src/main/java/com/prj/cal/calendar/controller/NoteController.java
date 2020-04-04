@@ -100,11 +100,6 @@ public class NoteController {
 		}
 	}
 
-	@RequestMapping("/test")
-	public String memLogout(Note note) {
-		return "test";
-	}
-
 	@RequestMapping("/testYL")
 	public String goToTestYL(Note note) {
 		return "testYL";
