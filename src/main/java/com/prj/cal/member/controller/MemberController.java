@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.prj.cal.calendar.Note;
 import com.prj.cal.member.Member;
 import com.prj.cal.member.service.MemberService;
 
@@ -48,10 +48,10 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String joinReg(Model model, Member member) {
+	public String joinReg(RedirectAttributes rttr, Member member) {
 
 		service.memberRegister(member);
-		model.addAttribute("joinSuccess", 1);
+		rttr.addFlashAttribute("joinSuccess", 1);
 		return "redirect:/main";
 	}
 
@@ -79,10 +79,10 @@ public class MemberController {
 
 	// Logout
 	@RequestMapping("/logout")
-	public String memLogout(Model model, Member member, HttpSession session) {
+	public String memLogout(RedirectAttributes rttr, Member member, HttpSession session) {
 
 		session.invalidate();
-		model.addAttribute("logoutSuccess", 1);
+		rttr.addFlashAttribute("logoutSuccess", 1);
 		return "redirect:/main";
 	}
 
@@ -101,7 +101,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(Model model, Member member, HttpServletRequest request) {
+	public String modify(RedirectAttributes rttr, Member member, HttpServletRequest request) {
 
 		HttpSession session = request.getSession();
 
@@ -110,7 +110,7 @@ public class MemberController {
 			return "/member/modifyForm";
 		} else {
 			session.setAttribute("member", mem);
-			model.addAttribute("modifySuccess", 1);
+			rttr.addFlashAttribute("modifySuccess", 1);
 			return "redirect:/main";
 		}
 
@@ -132,19 +132,19 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public String memRemove(Model model, Member member, HttpServletRequest request) {
+	public String memRemove(RedirectAttributes rttr, Member member, HttpServletRequest request) {
 
 		int result = service.memberRemove(member);
 
 		if(result == 0) {
-			model.addAttribute("removeError", 1);
+			rttr.addFlashAttribute("removeError", 1);
 			return "/member/removeForm";
 		}
 
 		HttpSession session = request.getSession();
 		session.invalidate();
 
-		model.addAttribute("removeSuccess", 1);
+		rttr.addFlashAttribute("removeSuccess", 1);
 		return "redirect:/main";
 	}
 
