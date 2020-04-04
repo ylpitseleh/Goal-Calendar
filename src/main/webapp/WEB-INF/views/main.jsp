@@ -70,11 +70,12 @@
 
               // .noteList는 이제 디버깅 용도일 뿐!!
               var html = "<li class='notes'>\n<pre wrap='hard'>";
-              html += "<br>=== Debugging ===<br>";
-              html += "Id: " + strs[0] + "<br>";
-              html += "Date: " + strs[1] + "<br>";
-              html += "Progress: " + strs[2] + "<br>";
-              html += "Content: " + strs[3] + "";
+              //html += "<br>=== Debugging ===<br>";
+              //html += "Id: " + strs[0] + "<br>";
+              //html += "Date: " + strs[1] + "<br>";
+              //html += "Progress: " + strs[2] + "<br>";
+              //html += "Content: " + strs[3] + "";
+              html += "<br>"+strs[3] + "";
               html += "</pre>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
             } else {
@@ -228,7 +229,7 @@
           success: function (data) {
             $(".noteList li").remove();
             $(".days li a.selected").css("background-color", "#ffffff");
-            alert("데이터가 정상적으로 삭제되었습니다.");
+            alert("Data is successfully deleted.");
           },
           error: function (request, status, error) {
             alert("[deleteButton] code = " + request.status + " message = " + request.responseText + " error = " + error);
