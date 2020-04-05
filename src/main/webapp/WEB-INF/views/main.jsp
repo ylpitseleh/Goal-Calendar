@@ -38,7 +38,7 @@
         5. 이후 가져온 노트와 관련된 데이터를 @ResponseBody 로 리턴하면
         6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
-         */
+       */
 
       function updateNoteList(qId) {
         var year = yearCurrent;
@@ -71,7 +71,7 @@
             // strs = [noteId, noteDate, noteProgress, noteContent];
 
             $(".noteList li").remove();
-            if (strs != "") {
+            if (strs[0] !== "") {
               document.querySelector("#noteProgress").value = strs[2];
 
               // wrap='hard': wraps the words inside the text box and places line breaks at the end of each line
@@ -79,14 +79,17 @@
               html += "<br>" + strs[3] + "";
               html += "</pre>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
-            } else {
+            } else if (strs[0] === "noMatchingData") {
               document.querySelector("#noteProgress").value = 0;
               document.querySelector("#noteContent").value = "";
               $(".noteList li").remove();
 
-              if (qId !== "")
-                if (qId !== "${member.memId}")
-                  alert(strs[0] + ": The user [" + qId + "] does not exist OR has no data!");
+              // // @@T
+              // if (qId !== "${member.memId}")
+              //   alert(strs[0] + ": The user [" + qId + "] does not exist OR has no data!");
+
+            } else {
+              alert("debug: ...!!? something is wrong!")
             }
           },
 
@@ -114,8 +117,10 @@
           },
 
           success: function (data) {
+            // 색 미리 입혀진 거 지워주기 위함
+            $(".days li a").css('background-color', "");
+
             for (var i = 0 in data) {
-              alert(data);
               var tmp_day = data[i].noteDate;
 
               if (tmp_day.substr(8, 1) === ('0'))
