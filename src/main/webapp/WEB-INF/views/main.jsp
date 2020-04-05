@@ -295,16 +295,15 @@
             <span>0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 80&nbsp;&nbsp;&nbsp;&nbsp;100 (%)</span>
             <textarea name="noteContent" id="noteContent" value="" placeholder="New note"></textarea>
-            <input type="button" id="saveButton" value="Save" p style="cursor:pointer" />
+            <button id="saveButton" style="cursor: pointer">Save</button>
           </form>
 
 
-          <!-- 현재는 디버그용으로 용도가 바뀌었음!!! -->
           <div class="postIt" id="postIt">
             <div class="contents" id="contents">
 
-              <input type="button" id="deleteButton" title="Remove note" class="deleteButton" p style="cursor:pointer" value="X" />
-              <input type="button" id="modifyButton" title="Modify note" class="modifyButton" p style="cursor:pointer" value="Modify" />
+              <button id="deleteButton" title="Remove note" class="deleteButton" style="cursor:pointer" >X</button>
+              <button id="modifyButton" title="Modify note" class="modifyButton" style="cursor:pointer" >Modify</button>
 
               <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
               <ul class="noteList">
@@ -349,9 +348,9 @@
     </script>
     <div class="col rightCol">
       <div class="content">
-        <input type="button" class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" value="  &gt;" p style="cursor:pointer" />
+        <button class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" style="cursor:pointer">  &gt;</button>
         <h2 id="year" class="curYear"></h2>
-        <input type="button" class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" value="&lt;  " p style="cursor:pointer" /><br><br><br><br>
+        <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear"  style="cursor:pointer">&lt;  </button><br><br><br>
         <script>
           /*  < 2020 >   '<' 클릭시 year - 1, '<' 클릭시 year + 1 */
           //var yearCurrent = new Date().getFullYear();

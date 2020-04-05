@@ -19,6 +19,7 @@ body {
 }
 
 input,
+button,
 textarea {
   font-family: Helvetica, Arial, sans-serif;
 }
@@ -103,6 +104,7 @@ a {
 
 .calendar .notes p,
 .calendar .notes input,
+.calendar .notes button,
 .calendar .notes textarea,
 .calendar .noteList li {
   /*font-weight: bold;*/
@@ -117,6 +119,7 @@ a {
 }
 
 .calendar .notes input,
+.calendar .notes button,
 .calendar .notes textarea {
   border: none;
 }
@@ -376,7 +379,8 @@ span {
   position: relative;
 }
 
-.postIt .contents input {
+.postIt .contents input,
+.postIt .contents button {
   position: relative;
   z-index: 1;
 }
