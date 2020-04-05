@@ -113,8 +113,8 @@ public class NoteController {
 	 * ResponseBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
 	@RequestMapping(value = "/loadNoteListByMonth", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
-	public String loadNoteListByMonth(HttpSession session, @RequestParam String year,
-			@RequestParam String month, @RequestParam String qId) {
+	public String loadNoteListByMonth(HttpSession session, @RequestParam String year, @RequestParam String month,
+			@RequestParam String qId) {
 		Note noteToSearch = new Note();
 
 		try {

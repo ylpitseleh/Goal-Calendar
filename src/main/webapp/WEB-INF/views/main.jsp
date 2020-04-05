@@ -27,7 +27,6 @@
     var updateAll; // updateNoteList(); updateProgressColors();
     var yearCurrent = new Date().getFullYear();
 
-
     $(document).ready(function () {
       //////////////////////////////////////////////////////////////////////////
       /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
@@ -273,12 +272,45 @@
     </div>
   </c:if>
 
+
   <div class="search-container">
-    <form name="searchId" id="searchId" action="/action_page.php">
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
+    <input id="searchInput" type="text" placeholder="Search user.." name="search" />
+    <button id="searchButton" type="button">Search</button>
   </div>
+  <script>
+    // function sayHo() {
+    //   alert("Ho!")
+    // }
+    //    searchButton.addEventListener("click", function(e){ sayHo() });
+    // == searchButton.onclick = function(e){ sayHo() };
+    // == $("#searchButton").click(function(e) {sayHo()});
+    //
+    // != $("#searchButton").click(sayHo());
+    // click 이벤트가 부여되지도 않고, sayHo(); 1회 자동실행 된 후 먹통
+
+    // Get the input field
+    var searchInput = document.querySelector("#searchInput");
+    var searchButton = document.querySelector("#searchButton");
+
+    // Execute a function when the user releases a key on the keyboard
+    searchInput.addEventListener("keyup", function (event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        searchButton.click();
+      }
+    });
+
+    searchButton.onclick = function (e) {
+      qId = searchInput.value;
+      if (qId != "")
+        updateAll(qId);
+      else
+        alert("No... qId: " + qId);
+    }
+  </script>
 
   <div class="calendar">
 
@@ -302,8 +334,8 @@
           <div class="postIt" id="postIt">
             <div class="contents" id="contents">
 
-              <button id="deleteButton" title="Remove note" class="deleteButton" style="cursor:pointer" >X</button>
-              <button id="modifyButton" title="Modify note" class="modifyButton" style="cursor:pointer" >Modify</button>
+              <button id="deleteButton" title="Remove note" class="deleteButton" style="cursor:pointer">X</button>
+              <button id="modifyButton" title="Modify note" class="modifyButton" style="cursor:pointer">Modify</button>
 
               <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
               <ul class="noteList">
@@ -350,7 +382,7 @@
       <div class="content">
         <button class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" style="cursor:pointer">&nbsp;&nbsp;&gt;</button>
         <h2 id="year" class="curYear"></h2>
-        <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear"  style="cursor:pointer">&lt;&nbsp;&nbsp;</button><br><br><br>
+        <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" style="cursor:pointer">&lt;&nbsp;&nbsp;</button><br><br><br>
         <script>
           /*  < 2020 >   '<' 클릭시 year - 1, '<' 클릭시 year + 1 */
           //var yearCurrent = new Date().getFullYear();
