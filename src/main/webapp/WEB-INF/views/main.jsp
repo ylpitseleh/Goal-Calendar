@@ -14,7 +14,6 @@
   <script src="http://code.jquery.com/jquery-latest.js"></script>
 
   <script type="text/javascript">
-
     // https://learn.jquery.com/using-jquery-core/document-ready/
     //
     // Code Workflow
@@ -41,7 +40,13 @@
         6. $.Ajax에서 리턴된 그 값을 다시 넘겨받는다.
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
          */
-      updateNoteList = function () {
+
+        // 2020-04-05 17:28:40 +0900
+        // updateNoteList() 시에는 memId가 기본값이다.
+        // parameter를 넘기는 경우는 search를 활용했을 때 뿐이다.
+      updateNoteList = function (qId = "${member.memId}") {
+        alert(qId);
+
         var year = yearCurrent;
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         var day = document.querySelector(".days li a.selected").text;
@@ -75,7 +80,7 @@
               //html += "Date: " + strs[1] + "<br>";
               //html += "Progress: " + strs[2] + "<br>";
               //html += "Content: " + strs[3] + "";
-              html += "<br>"+strs[3] + "";
+              html += "<br>" + strs[3] + "";
               html += "</pre>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
             } else {
@@ -92,7 +97,7 @@
       }
       //////////////////////////////////////////////////////////////////////////
       /* 페이지를 로드할 때마다 DB에서 현재 로그인 id, year, month와 일치하는 note들을 모두 찾아와서 noteProgress value별로 색깔을 입혀줌. */
-      updateProgressColors = function () {
+      updateProgressColors = function (qId = "${member.memId}") {
         var year = yearCurrent;
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         month = month.length == 1 ? "0" + month.slice(0) : month; //1월 -> 01월
@@ -278,20 +283,26 @@
 </head>
 
 <body>
-<c:if test="${empty member}">
+  <c:if test="${empty member}">
     <a href="${cp}/member/loginForm">LOGIN</a> &nbsp;&nbsp;
   </c:if>
 
   <c:if test="${!empty member}">
     <a href="${cp}/member/logout">LOGOUT</a> &nbsp;
     <div class="removeMem">
-    	<a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp;&nbsp;
+      <a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp;&nbsp;
     </div>
     <div class="modifyMem">
-    	<a href="${cp}/member/modifyForm">MODIFY</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="${cp}/member/modifyForm">MODIFY</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
   </c:if>
-  <!-- <a href="${cp}">MAIN</a> -->
+
+  <div class="search-container">
+    <form name="searchId" id="searchId" action="/action_page.php">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
 
   <div class="calendar">
 
@@ -503,23 +514,23 @@
 
 </body>
 <script type="text/javascript">
-$(document).ready(function () {
-	if ("${modifySuccess}" == 1) {
-		alert("Member modify success.");
-	}
-	if ("${joinSuccess}" == 1) {
-		alert("Member join success.");
-	}
-	if ("${removeError}" == 1) {
-		alert("Member remove failed.");
-	}
+  $(document).ready(function () {
+    if ("${modifySuccess}" == 1) {
+      alert("Member modify success.");
+    }
+    if ("${joinSuccess}" == 1) {
+      alert("Member join success.");
+    }
+    if ("${removeError}" == 1) {
+      alert("Member remove failed.");
+    }
     if ("${removeSuccess}" == 1) {
-    	alert("Member remove success.");
+      alert("Member remove success.");
     }
     if ("${logoutSuccess}" == 1) {
-    	alert("Logout success.");
+      alert("Logout success.");
     }
-});
+  });
 </script>
 
 </html>
