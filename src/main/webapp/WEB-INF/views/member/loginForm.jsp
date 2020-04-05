@@ -15,7 +15,7 @@
 <!-- 네비게이션  -->
  <nav class="navbar navbar-default">
   <div class="navbar-header">
-   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expaned="false">
+   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
      <span class="icon-bar"></span>
      <span class="icon-bar"></span>
      <span class="icon-bar"></span>
@@ -29,7 +29,7 @@
 	<li><a href="${cp}/member/joinForm">JOIN</a></li>
    </ul>
 
-  </div> 
+  </div>
  </nav>
 
  <!-- Login Form -->
@@ -56,9 +56,9 @@
 
  <!-- 애니매이션 담당 JQUERY -->
  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  
-  
- 
+
+
+
  <script type="text/javascript">
 	if ("${loginError}" == 1) {
 		alert("Login Failed.");

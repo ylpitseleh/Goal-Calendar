@@ -17,7 +17,7 @@
 <!-- 네비게이션  -->
  <nav class="navbar navbar-default">
   <div class="navbar-header">
-   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expaned="false">
+   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
      <span class="icon-bar"></span>
      <span class="icon-bar"></span>
      <span class="icon-bar"></span>
@@ -29,7 +29,7 @@
    <ul class="nav navbar-nav">
     <li><a href="${cp}/main">MAIN</a></li>
    </ul>
-  </div> 
+  </div>
  </nav>
 
 	<!-- Join Form -->
@@ -38,7 +38,7 @@
   	<div class="col-lg-4">
   		<!-- 점보트론 -->
    		<div class="jumbotron" style="padding-top: 20px;">
-   		
+
   	<form:form action="${cp}/member/modify" method="post" commandName="member">
     	<h3 style="text-align: center;"> MODIFY </h3>
     		<div class="form-group">
@@ -58,6 +58,6 @@
 </div>
 <!-- 애니매이션 담당 JQUERY -->
  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
- 
+
 </body>
 </html>
