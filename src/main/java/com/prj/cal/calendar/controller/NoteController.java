@@ -101,12 +101,13 @@ public class NoteController {
 	}
 
 	@RequestMapping("/main")
-	public String goTomain(Note note) {
+	public String goToMain(Note note) {
 		return "main";
 	}
 
 	/* AJAX는 ModelAndView로 return 하면 안 됨? ㅠㅠ return값이 data에 들어가서 그런거지?
-	 * 파라미터에 들어가는 @RequestParam값들은 ajax에서 data: {} 여기 들어가는 애들이겠지?  */
+	 * 파라미터에 들어가는 @RequestParam값들은 ajax에서 data: {} 여기 들어가는 애들이겠지?
+	 */
 
 	/* Ajax 쓸 때는 @RequestMapping, @ResponseBody 세트로 사용.
 	 * ResponseBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
