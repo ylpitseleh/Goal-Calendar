@@ -19,9 +19,9 @@ public class NoteService implements INoteService {
 		int result = nDao.noteInsertOrUpdate(note);
 
 		if (result == 0) {
-			System.out.println("T_T Note: DB register Fail!!");
+			System.out.println("[noteRegister] T_T Note: DB register Fail!!");
 		} else {
-			System.out.println("^_^ Note: DB register Success!!");
+			System.out.println("[noteRegister] ^_^ Note: DB register Success!!");
 		}
 	}
 
@@ -30,7 +30,7 @@ public class NoteService implements INoteService {
 		Note noteMatched = nDao.noteSelect(noteToSearch);
 
 		if(noteMatched == null) {
-			System.out.println("Note is empty.");
+			System.out.println("[noteSearch] Note is empty.");
 		}
 
 		return noteMatched;
@@ -41,7 +41,7 @@ public class NoteService implements INoteService {
 		List<Note> noteList = nDao.noteSelectAll(noteToSearch);
 
 		if(noteList.isEmpty()) {
-			System.out.println("Note is empty.");
+			System.out.println("[noteSearchAll] Note is empty.");
 		}
 
 		return noteList;
@@ -59,9 +59,9 @@ public class NoteService implements INoteService {
 		int result = nDao.noteDelete(note);
 
 		if (result == 0) {
-			System.out.println("T_T Note: DB remove Fail!!");
+			System.out.println("[noteRemove] T_T Note: DB remove Fail!!");
 		} else {
-			System.out.println("^_^ Note: DB remove Success!!");
+			System.out.println("[noteRemove] ^_^ Note: DB remove Success!!");
 		}
 		return result;
 	}

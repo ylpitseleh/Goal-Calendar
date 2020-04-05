@@ -26,6 +26,7 @@
     var addClickEventToUpdateTriggers;
     var updateAll; // updateNoteList(); updateProgressColors();
     var yearCurrent = new Date().getFullYear();
+    var g_qId = "";
 
     $(document).ready(function () {
       //////////////////////////////////////////////////////////////////////////
@@ -46,6 +47,11 @@
         month = month.length == 1 ? "0" + month.slice(0) : month;
         day = day.length == 1 ? "0" + day.slice(0) : day;
 
+        // debugging
+        document.querySelector("#showQId").value = g_qId;
+        document.querySelector("#showMemId").value = "${member.memId}";
+
+
         $.ajax({
           url: "loadNoteListByDate",
           type: "post",
@@ -57,6 +63,7 @@
           },
 
           success: function (data) {
+
             $("#noteContent").val("");
             $("#noteContent").focus();
 
@@ -77,8 +84,9 @@
               document.querySelector("#noteContent").value = "";
               $(".noteList li").remove();
 
-              if (qId != "")
-                alert("The user [" + qId + "] does not exist OR has no data!");
+              if (qId !== "")
+                if (qId !== "${member.memId}")
+                  alert(strs[0] + ": The user [" + qId + "] does not exist OR has no data!");
             }
           },
 
@@ -107,6 +115,7 @@
 
           success: function (data) {
             for (var i = 0 in data) {
+              alert(data);
               var tmp_day = data[i].noteDate;
 
               if (tmp_day.substr(8, 1) === ('0'))
@@ -133,7 +142,9 @@
 
       // 일반적으로 parameter qId에 argument memId 값이 기본값으로 할당된다.
       // 단, searchButton으로 호출되었을 시에는 searchInput의 값이 할당된다.
-      updateAll = function (qId = "${member.memId}") {
+      updateAll = function (qId) {
+        if (qId === "")
+          qId = "${member.memId}"
         updateNoteList(qId);
         updateProgressColors(qId);
       }
@@ -179,7 +190,7 @@
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
-            updateAll();
+            updateAll(g_qId);
           },
           error: function (request, status, error) {
             alert("[saveButton] code = " + request.status + " message = " + request.responseText + " error = " + error);
@@ -229,7 +240,7 @@
         // $('.updateTrigger').bind("click.addClickEventToUpdateTriggers", function (e) {
         $('.updateTrigger').off("click.noMoreDuplicated");
         $('.updateTrigger').on("click.noMoreDuplicated", function (e) {
-          updateAll();
+          updateAll(g_qId);
           console.log("updateTrigger가 실행되었습니다.");
         });
 
@@ -237,7 +248,7 @@
       };
 
       addClickEventToUpdateTriggers();
-      updateAll();
+      updateAll(g_qId);
     });
 
     /* event 가 무엇인지 보고 싶을 때 참고 */
@@ -279,6 +290,17 @@
     <input id="searchInput" type="text" placeholder="Search user.." name="search" />
     <button id="searchButton" type="button">Search</button>
   </div>
+
+  <div class="debugging">
+    <br>
+    <br>
+    <p style="color:black; font-size: 20px;">debugging: in updateNoteList</p style="color:black;">
+    <p style="color:black;">g_qId</p style="color:black;">
+    <input id="showQId" type="text">
+    <br>
+    <p style="color:black;">memId</p style="color:black;">
+    <input id="showMemId" type="text">
+  </div>
   <script>
     // function sayHo() {
     //   alert("Ho!")
@@ -306,9 +328,9 @@
     });
 
     searchButton.onclick = function (e) {
-      qId = searchInput.value;
-      if (qId != "")
-        updateAll(qId);
+      g_qId = searchInput.value;
+      if (g_qId !== "")
+        updateAll(g_qId);
     }
   </script>
 
@@ -431,7 +453,7 @@
               addClickEventToUpdateTriggers();
             }
 
-            updateAll();
+            updateAll(g_qId);
           }
         </script>
         <ul class="months">
@@ -522,19 +544,19 @@
 <script type="text/javascript">
   $(document).ready(function () {
     if ("${modifySuccess}" == 1) {
-      alert("Member modify success.");
+      // alert("Member modify success.");
     }
     if ("${joinSuccess}" == 1) {
-      alert("Member join success.");
+      // alert("Member join success.");
     }
     if ("${removeError}" == 1) {
-      alert("Member remove failed.");
+      // alert("Member remove failed.");
     }
     if ("${removeSuccess}" == 1) {
-      alert("Member remove success.");
+      // alert("Member remove success.");
     }
     if ("${logoutSuccess}" == 1) {
-      alert("Logout success.");
+      // alert("Logout success.");
     }
   });
 </script>

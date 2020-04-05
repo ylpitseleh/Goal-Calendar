@@ -75,26 +75,26 @@ public class NoteController {
 		// Command Object로 등록된 member 객체의 memId 값으로 parse 될 것이다. 필요하다면 찾아보자.
 
 		try {
-			System.out.println("=== In NoteController.java ===");
+			System.out.println("[saveNote] === In NoteController.java ===");
 
-			System.out.println("--- note: command object by ajax at main.jsp ---");
-			System.out.println("note.noteId       : " + note.getNoteId());
-			System.out.println("note.noteDate     : " + note.getNoteDate());
-			System.out.println("note.noteProgress : " + note.getNoteProgress());
-			System.out.println("note.noteContent  : " + note.getNoteContent());
+			System.out.println("[saveNote] --- note: command object by ajax at main.jsp ---");
+			System.out.println("[saveNote] note.noteId       : " + note.getNoteId());
+			System.out.println("[saveNote] note.noteDate     : " + note.getNoteDate());
+			System.out.println("[saveNote] note.noteProgress : " + note.getNoteProgress());
+			System.out.println("[saveNote] note.noteContent  : " + note.getNoteContent());
 
-			System.out.println("--- member: session by memLogin method at MemberController.java ---");
-			System.out.println("member.memId (in session member by ): " + member.getMemId());
-			System.out.println("member.memPw (in session member by ): " + member.getMemPw());
-			System.out.println("member.memMail (in session member by ): " + member.getMemMail());
-			System.out.println("===============================");
+			System.out.println("[saveNote] --- member: session by memLogin method at MemberController.java ---");
+			System.out.println("[saveNote] member.memId (in session member by ): " + member.getMemId());
+			System.out.println("[saveNote] member.memPw (in session member by ): " + member.getMemPw());
+			System.out.println("[saveNote] member.memMail (in session member by ): " + member.getMemMail());
+			System.out.println("[saveNote] ===============================");
 
 			service.noteRegister(note);
 
 			// session에 등록하면 jsp에서 ${note.noteId} 등으로 값을 불러올 수 있음.
 			session.setAttribute("note", note);
 		} catch (NullPointerException e) {
-			System.out.println("NullPointerException: You need to login!");
+			System.out.println("[saveNote] NullPointerException: You need to login!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -115,16 +115,19 @@ public class NoteController {
 	@ResponseBody
 	public String loadNoteListByMonth(HttpSession session, @RequestParam String year, @RequestParam String month,
 			@RequestParam String qId) {
+
 		Note noteToSearch = new Note();
 
 		try {
+			System.out.println("~~~ {loadNoteListByMonth} ~~~");
+
 			// member = (Member) session.getAttribute("member");
 			noteToSearch.setNoteId(qId);
 			noteToSearch.setNoteDate(year + "-" + month);
 
 			List<Note> noteList = service.noteSearchAll(noteToSearch);
 			if (!noteList.isEmpty()) {
-				System.out.println("noteList has data.");
+				System.out.println("[loadNoteListByMonth] noteList has data.");
 
 				/* DB에 저장된 noteList를 Javascript에서 사용하기 위해 JSON으로 변환 */
 				//GSON : Java객체 <-> JSON 상호 변환 해주는 라이브러리
@@ -135,11 +138,12 @@ public class NoteController {
 			}
 
 		} catch (NullPointerException e) {
-			System.out.println("NullPointerException: There isn't any note in DB for selected month!");
+			System.out.println(
+					"[loadNoteListByMonth] NullPointerException: There isn't any note in DB for selected month!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("There is no matching note in DB for selected month!");
+		System.out.println("[loadNoteListByMonth] There is no matching note in DB for selected month!");
 		return "{}";
 	}
 
@@ -151,6 +155,8 @@ public class NoteController {
 		Note noteToSearch = new Note();
 
 		try {
+			System.out.println("~~~ {loadNoteListByDate} ~~~");
+
 			// member = (Member) session.getAttribute("member");
 			noteToSearch.setNoteId(qId);
 			noteToSearch.setNoteDate(year + "-" + month + "-" + day);
@@ -160,8 +166,8 @@ public class NoteController {
 			// noteToSearch.setNoteContent("");
 
 			Note noteMatched = service.noteSearch(noteToSearch);
-			System.out.println("Searched NoteId: " + noteToSearch.getNoteId());
-			System.out.println("Searched NoteDate: " + noteToSearch.getNoteDate());
+			System.out.println("[loadNoteListByDate] Searched NoteId: " + noteToSearch.getNoteId());
+			System.out.println("[loadNoteListByDate] Searched NoteDate: " + noteToSearch.getNoteDate());
 
 			if (noteMatched != null) {
 				ArrayList<String> noteStr = new ArrayList<String>();
@@ -170,10 +176,10 @@ public class NoteController {
 				noteStr.add(Integer.toString(noteMatched.getNoteProgress()));
 				noteStr.add(noteMatched.getNoteContent());
 
-				System.out.println("Matched NoteId: " + noteStr.get(0));
-				System.out.println("Matched NoteDate: " + noteStr.get(1));
-				System.out.println("Matched NoteProgress: " + noteStr.get(2));
-				System.out.println("Matched NoteContent: " + noteStr.get(3));
+				System.out.println("[loadNoteListByDate] Matched NoteId: " + noteStr.get(0));
+				System.out.println("[loadNoteListByDate] Matched NoteDate: " + noteStr.get(1));
+				System.out.println("[loadNoteListByDate] Matched NoteProgress: " + noteStr.get(2));
+				System.out.println("[loadNoteListByDate] Matched NoteContent: " + noteStr.get(3));
 
 				String rtn = "";
 				rtn += noteStr.get(0) + "|";
@@ -183,13 +189,16 @@ public class NoteController {
 				return rtn;
 			}
 		} catch (NullPointerException e) {
-			System.out.println("NullPointerException: You need to login!");
+			System.out.println(
+					"[loadNoteListByDate] NullPointerException: There isn't any note in DB for selected month!");
+
+			return "nullPointer!";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		System.out.println("There is no matching note with in DB for selected Date!");
-		return "";
+		System.out.println("[loadNoteListByDate] There is no matching note in DB for selected Date!");
+		return "noMatchingData";
 	}
 
 	@RequestMapping(value = "/deleteNote", produces = "application/text; charset=utf8", method = RequestMethod.POST)
@@ -206,7 +215,7 @@ public class NoteController {
 			service.noteRemove(noteDelete);
 
 		} catch (NullPointerException e) {
-			System.out.println("Delete request - NullPointerException: You need to login!");
+			System.out.println("[deleteNote] Delete request - NullPointerException: You need to login!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

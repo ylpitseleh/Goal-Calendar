@@ -106,12 +106,12 @@ public class NoteDao implements INoteDao {
 					pstmt.setInt(7, noteProgress);
 					pstmt.setString(8, noteContent);
 
-					System.out.println("NoteId in DB : " + noteId);
-					System.out.println("NoteDate in DB : " + noteDate);
-					System.out.println("NoteProgress in DB : " + noteProgress);
-					System.out.println("NoteContent in DB : " + noteContent);
+					System.out.println("[noteInsertOrUpdate] NoteId in DB : " + noteId);
+					System.out.println("[noteInsertOrUpdate] NoteDate in DB : " + noteDate);
+					System.out.println("[noteInsertOrUpdate] NoteProgress in DB : " + noteProgress);
+					System.out.println("[noteInsertOrUpdate] NoteContent in DB : " + noteContent);
 				} catch (ParseException e) {
-					System.out.println("ParseException: Need to modify some parsing process!");
+					System.out.println("[noteInsertOrUpdate] ParseException: Need to modify some parsing process!");
 					e.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -145,17 +145,18 @@ public class NoteDao implements INoteDao {
 					note.setNoteId(rs.getString("noteId"));
 					note.setNoteDate(rs.getString("noteDate"));
 					note.setNoteProgress(rs.getInt("noteProgress"));
-					note.setNoteContent(rs.getString("noteContent")); //noteProgress만 보여줄거라서 noteContent는 넣어줄 필요 없긴 함.
+					note.setNoteContent(rs.getString("noteContent"));
+					//noteProgress만 보여줄거라서 noteContent는 넣어줄 필요 없긴 함.
 					return note;
 				}
 
 			});
 			if (notes.isEmpty()) {
-				System.out.println("Dao에서 notes는 비어있다.");
+				System.out.println("[noteSelectAll] Dao에서 notes는 비어있다.");
 				return null;
 			}
 		} catch (Exception e) {
-			System.out.println("Date 형식이 잘못되었다.");
+			System.out.println("[noteSelectAll] Date 형식이 잘못되었다.");
 			e.printStackTrace();
 		}
 		return notes;
@@ -192,7 +193,7 @@ public class NoteDao implements INoteDao {
 				return null;
 
 		} catch (ParseException e) {
-			System.out.println("ParseException: Need to modify some parsing process!");
+			System.out.println("[noteSelect] ParseException: Need to modify some parsing process!");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -218,7 +219,7 @@ public class NoteDao implements INoteDao {
 			});
 			return result;
 		} catch (ParseException e) {
-			System.out.println("Delete request - ParseException: Need to modify some parsing process!");
+			System.out.println("[noteDelete] Delete request - ParseException: Need to modify some parsing process!");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
