@@ -24,8 +24,7 @@
     /* 함수포인터를 전역변수로 선언하면 ready 내부의 function을 밖에서도 쓸 수 있다! */
 
     var addClickEventToUpdateTriggers;
-    var updateNoteList;
-    var updateProgressColors;
+    var updateAll; // updateNoteList(); updateProgressColors();
     var yearCurrent = new Date().getFullYear();
 
 
@@ -41,12 +40,7 @@
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
          */
 
-        // 2020-04-05 17:28:40 +0900
-        // updateNoteList() 시에는 memId가 기본값이다.
-        // parameter를 넘기는 경우는 search를 활용했을 때 뿐이다.
-      updateNoteList = function (qId = "${member.memId}") {
-        alert(qId);
-
+      function updateNoteList(qId) {
         var year = yearCurrent;
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         var day = document.querySelector(".days li a.selected").text;
@@ -59,7 +53,8 @@
           data: {
             'year': year,
             'month': month,
-            'day': day
+            'day': day,
+            'qId': qId
           },
 
           success: function (data) {
@@ -97,7 +92,7 @@
       }
       //////////////////////////////////////////////////////////////////////////
       /* 페이지를 로드할 때마다 DB에서 현재 로그인 id, year, month와 일치하는 note들을 모두 찾아와서 noteProgress value별로 색깔을 입혀줌. */
-      updateProgressColors = function (qId = "${member.memId}") {
+      function updateProgressColors(qId) {
         var year = yearCurrent;
         var month = document.querySelector(".months li a.selected").getAttribute("month-value");
         month = month.length == 1 ? "0" + month.slice(0) : month; //1월 -> 01월
@@ -109,7 +104,8 @@
           type: "post",
           data: {
             'year': year,
-            'month': month
+            'month': month,
+            'qId': qId
           },
 
           success: function (data) {
@@ -137,6 +133,13 @@
             alert("[updateProgressColors] code = " + request.status + " message = " + request.responseText + " error = " + error);
           }
         });
+      }
+
+      // 일반적으로 parameter qId에 argument memId 값이 기본값으로 할당된다.
+      // 단, searchButton으로 호출되었을 시에는 searchInput의 값이 할당된다.
+      updateAll = function (qId = "${member.memId}") {
+        updateNoteList(qId);
+        updateProgressColors(qId);
       }
 
       //////////////////////////////////////////////////////////////////////////
@@ -183,8 +186,7 @@
             // alert("Save Success!");
             successFunction();
 
-            updateNoteList();
-            updateProgressColors();
+            updateAll();
           },
           error: function (request, status, error) {
             alert("[saveButton] code = " + request.status + " message = " + request.responseText + " error = " + error);
@@ -250,8 +252,7 @@
         // $('.updateTrigger').bind("click.addClickEventToUpdateTriggers", function (e) {
         $('.updateTrigger').off("click.noMoreDuplicated");
         $('.updateTrigger').on("click.noMoreDuplicated", function (e) {
-          updateNoteList();
-          updateProgressColors();
+          updateAll();
           console.log("updateTrigger가 실행되었습니다.");
         });
 
@@ -259,8 +260,7 @@
       };
 
       addClickEventToUpdateTriggers();
-      updateNoteList();
-      updateProgressColors();
+      updateAll();
     });
 
     /* event 가 무엇인지 보고 싶을 때 참고 */
@@ -424,8 +424,7 @@
               addClickEventToUpdateTriggers();
             }
 
-            updateNoteList();
-            updateProgressColors();
+            updateAll();
           }
         </script>
         <ul class="months">
