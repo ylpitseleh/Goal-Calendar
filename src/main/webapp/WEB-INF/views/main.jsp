@@ -76,6 +76,9 @@
               document.querySelector("#noteProgress").value = 0;
               document.querySelector("#noteContent").value = "";
               $(".noteList li").remove();
+
+              if (qId != "")
+                alert("The user [" + qId + "] does not exist OR has no data!");
             }
           },
 
@@ -103,7 +106,6 @@
           },
 
           success: function (data) {
-
             for (var i = 0 in data) {
               var tmp_day = data[i].noteDate;
 
@@ -307,8 +309,6 @@
       qId = searchInput.value;
       if (qId != "")
         updateAll(qId);
-      else
-        alert("No... qId: " + qId);
     }
   </script>
 
