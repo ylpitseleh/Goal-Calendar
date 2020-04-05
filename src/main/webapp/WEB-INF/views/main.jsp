@@ -68,13 +68,8 @@
             if (strs != "") {
               document.querySelector("#noteProgress").value = strs[2];
 
-              // .noteList는 이제 디버깅 용도일 뿐!!
+              // wrap='hard': wraps the words inside the text box and places line breaks at the end of each line
               var html = "<li class='notes'>\n<pre wrap='hard'>";
-              //html += "<br>=== Debugging ===<br>";
-              //html += "Id: " + strs[0] + "<br>";
-              //html += "Date: " + strs[1] + "<br>";
-              //html += "Progress: " + strs[2] + "<br>";
-              //html += "Content: " + strs[3] + "";
               html += "<br>" + strs[3] + "";
               html += "</pre>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
@@ -183,9 +178,6 @@
           data: $("#inputNote").serialize(),
           cache: false,
           success: function (data) {
-            // alert("Save Success!");
-            successFunction();
-
             updateAll();
           },
           error: function (request, status, error) {
@@ -193,22 +185,6 @@
           }
         });
       });
-
-      function successFunction() {
-        /* 사용자가 입력한 noteProgress(0~5)만큼 색깔 지정(비동기 방식. 새로고침 하지 않아도 적용됨) */
-        var color = "";
-        if (document.querySelector("#noteProgress").value == "1")
-          color = "#E8F8F5";
-        else if (document.querySelector("#noteProgress").value == "2")
-          color = "#D1F2EB";
-        else if (document.querySelector("#noteProgress").value == "3")
-          color = "#A3E4D7";
-        else if (document.querySelector("#noteProgress").value == "4")
-          color = "#76D7C4";
-        else if (document.querySelector("#noteProgress").value == "5")
-          color = "#48C9B0";
-        $(".days li a.selected").css("background-color", color);
-      };
 
       //////////////////////////////////////////////////////////////////////////
 
