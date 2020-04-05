@@ -348,9 +348,9 @@
     </script>
     <div class="col rightCol">
       <div class="content">
-        <button class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" style="cursor:pointer">  &gt;</button>
+        <button class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" style="cursor:pointer">&nbsp;&nbsp;&gt;</button>
         <h2 id="year" class="curYear"></h2>
-        <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear"  style="cursor:pointer">&lt;  </button><br><br><br>
+        <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear"  style="cursor:pointer">&lt;&nbsp;&nbsp;</button><br><br><br>
         <script>
           /*  < 2020 >   '<' 클릭시 year - 1, '<' 클릭시 year + 1 */
           //var yearCurrent = new Date().getFullYear();

@@ -44,6 +44,7 @@ public class NoteController {
 
 		return dateFormat.format(date);
 	}
+
 	// @ResponseBody : 자바 객체를 HTTP 응답 객체로 전송할 수 있다.
 	@RequestMapping(value = "/saveNoteContent", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
@@ -112,13 +113,13 @@ public class NoteController {
 	 * ResponseBody 때문에 return되는 메소드의 객체는 Ajax 내부의 success에서 function의 첫 번째 매개변수 ex) function(data) 형식으로 넘겨받을 수 있다. */
 	@RequestMapping(value = "/loadNoteListByMonth", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
-	public String loadNoteListByMonth(HttpSession session, Member member, @RequestParam String year,
-			@RequestParam String month) {
+	public String loadNoteListByMonth(HttpSession session, @RequestParam String year,
+			@RequestParam String month, @RequestParam String qId) {
 		Note noteToSearch = new Note();
 
 		try {
-			member = (Member) session.getAttribute("member");
-			noteToSearch.setNoteId(member.getMemId());
+			// member = (Member) session.getAttribute("member");
+			noteToSearch.setNoteId(qId);
 			noteToSearch.setNoteDate(year + "-" + month);
 
 			List<Note> noteList = service.noteSearchAll(noteToSearch);
@@ -144,14 +145,14 @@ public class NoteController {
 
 	@RequestMapping(value = "/loadNoteListByDate", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
-	public String loadNoteListByDate(Model model, HttpSession session, Member member, @RequestParam String year,
-			@RequestParam String month, @RequestParam String day) {
+	public String loadNoteListByDate(Model model, HttpSession session, @RequestParam String year,
+			@RequestParam String month, @RequestParam String day, @RequestParam String qId) {
 
 		Note noteToSearch = new Note();
 
 		try {
-			member = (Member) session.getAttribute("member");
-			noteToSearch.setNoteId(member.getMemId());
+			// member = (Member) session.getAttribute("member");
+			noteToSearch.setNoteId(qId);
 			noteToSearch.setNoteDate(year + "-" + month + "-" + day);
 			// SELECT * FROM calendar WHERE noteId = ? AND noteDate = ?
 			// 이므로, 아래의 값들은 필요 없다.
