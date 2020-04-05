@@ -115,7 +115,6 @@
 
           success: function (data) {
             for (var i = 0 in data) {
-              alert(data);
               var tmp_day = data[i].noteDate;
 
               if (tmp_day.substr(8, 1) === ('0'))
