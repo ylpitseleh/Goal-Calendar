@@ -388,32 +388,36 @@ span {
 #prevYear,
 #afterYear,
 #year {
-	float: right;
+  float: right;
 }
 
 #prevYear,
 #afterYear {
-	border: 0px;
-	outline: 0px;
- 	background-color: #ffffff;
- 	color: #aba6a6;
- 	font-weight: 300;
- 	font-size: 26px;
- 	line-height: 28px;
- 	text-shadow: -1px 0 #F2F1F6, 0 1px #F2F1F6, 1px 0 #F2F1F6, 0 -1px #F2F1F6;
+  border: 0px;
+  outline: 0px;
+  background-color: #ffffff;
+  color: #aba6a6;
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 28px;
+  text-shadow: -1px 0 #F2F1F6, 0 1px #F2F1F6, 1px 0 #F2F1F6, 0 -1px #F2F1F6;
 }
 
 .modifyMem {
-	float: right;
+  float: right;
 }
+
 .removeMem {
-	float: right;
+  float: right;
 }
 
 pre {
-	font-size: 15px;
-	font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 
-
+/* 맨 처음부터 보이지 않도록 초기화를 하기 위함!! */
+.needAuthority {
+  display: none;
+}

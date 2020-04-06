@@ -148,8 +148,33 @@
       // 일반적으로 parameter qId에 argument memId 값이 기본값으로 할당된다.
       // 단, searchButton으로 호출되었을 시에는 searchInput의 값이 할당된다.
       updateAll = function (qId) {
-        if (qId === "")
-          qId = "${member.memId}"
+
+        var memId = "${member.memId}"
+        var displayValue = "";
+        var elNoteProgress = document.querySelector("#noteProgress");
+        // qId: 검색한/출력할 아이디, memId: 로그인 한 아이디
+        if (qId === "" && memId === "") {
+          displayValue = "none";
+          elNoteProgress.disabled = true;
+        } else if (qId === "" && memId !== "") {
+          qId = memId;
+          displayValue = "block";
+          elNoteProgress.disabled = false;
+        } else if (qId !== memId) {
+          displayValue = "none";
+          elNoteProgress.disabled = true;
+        } else if (qId === memId) {
+          displayValue = "block";
+          elNoteProgress.disabled = false;
+        }
+
+        $(".needAuthority").css("display", displayValue);
+        // var elements = document.querySelectorAll(".needAuthority");
+        // var length = elements.length;
+        // for (var index = 0; index < length; index++) {
+        //   elements[index].style.display = displayValue;
+        // }
+
         updateNoteList(qId);
         updateProgressColors(qId);
       }
@@ -355,16 +380,15 @@
             <br>
             <span>0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 80&nbsp;&nbsp;&nbsp;&nbsp;100 (%)</span>
-            <textarea name="noteContent" id="noteContent" value="" placeholder="New note"></textarea>
-            <button id="saveButton" style="cursor: pointer">Save</button>
+            <textarea name="noteContent" id="noteContent" value="" placeholder="New note" class="needAuthority"></textarea>
+            <button id="saveButton" class="needAuthority" style="cursor: pointer">Save</button>
           </form>
-
 
           <div class="postIt" id="postIt">
             <div class="contents" id="contents">
 
-              <button id="deleteButton" title="Remove note" class="deleteButton" style="cursor:pointer">X</button>
-              <button id="modifyButton" title="Modify note" class="modifyButton" style="cursor:pointer">Modify</button>
+              <button id="deleteButton" title="Remove note" class="deleteButton needAuthority" style="cursor: pointer;">X</button>
+              <button id="modifyButton" title="Modify note" class="modifyButton needAuthority" style="cursor: pointer;">Modify</button>
 
               <!-- 날짜 클릭시 해당 날짜의 note를 이 곳에 display 해 줌.(noteList 아님. 매칭된 note는 하나임) -->
               <ul class="noteList">
@@ -376,6 +400,7 @@
         </div>
       </div>
     </div>
+
     <script>
       function printDays() {
         var today = new Date(); //오늘 날짜.  내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
@@ -402,10 +427,7 @@
           document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
         }
         document.querySelector('[day-value="1"]').classList.add("selected"); //다른 month 클릭했을 때 임의로 1일에 selected 해줌(안 하면 day=null 에러)
-
-
-
-      } //printDays
+      }
     </script>
     <div class="col rightCol">
       <div class="content">
