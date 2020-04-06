@@ -48,12 +48,10 @@ public class NoteController {
 	// @ResponseBody : 자바 객체를 HTTP 응답 객체로 전송할 수 있다.
 	@RequestMapping(value = "/saveNoteContent", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
-	public void saveNote(Note note, Member member, HttpSession session) {
+	public String saveNote(Note note, Member member, HttpSession session, @RequestParam String qId) {
 		// Member member 는 아무런 값도 할당되지 않은 커맨드 객체이다. (Null값만 들어있는 상태)
 		// Note note는 main.jsp 에서 ajax를 활용하여 값이 채워진 커맨드 객체이다.
 
-		// getAttribute() 는 리턴 타입이 Object이므로 사용시 실제 할당된 객체 타입으로 casting 해야 함.
-		member = (Member) session.getAttribute("member");
 		// loginForm.jsp 에서
 		// form을 작성하고 submit 함으로써
 		// MemberController.java에 member 커맨드 객체가 생성되었고,
@@ -73,6 +71,22 @@ public class NoteController {
 		// Session에 등록된 member 객체의 memId 값으로 parse 된다.
 		// ???는
 		// Command Object로 등록된 member 객체의 memId 값으로 parse 될 것이다. 필요하다면 찾아보자.
+
+		// getAttribute() 는 리턴 타입이 Object이므로 사용시 실제 할당된 객체 타입으로 casting 해야 함.
+		member = (Member) session.getAttribute("member");
+
+		// equals: 같은 값인가?
+		// ==: 같은 주소인가?
+		//
+		// String a = new String("12");
+		// String b = new String("12");
+		// System.out.print(1 == 1); // true
+		// System.out.print("12" == "12"); // true
+		// System.out.print(a == b); // false
+		// System.out.print(a.equals(b)); // true
+		if (!qId.equals("") && !qId.equals(member.getMemId())) {
+			return "detectedHacking";
+		}
 
 		try {
 			System.out.println("[saveNote] === In NoteController.java ===");
@@ -95,9 +109,13 @@ public class NoteController {
 			session.setAttribute("note", note);
 		} catch (NullPointerException e) {
 			System.out.println("[saveNote] NullPointerException: You need to login!");
+			return "error";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
+
+		return "success";
 	}
 
 	@RequestMapping("/main")
@@ -202,12 +220,18 @@ public class NoteController {
 
 	@RequestMapping(value = "/deleteNote", produces = "application/text; charset=utf8", method = RequestMethod.POST)
 	@ResponseBody
-	public void deleteNote(Model model, HttpSession session, Member member, @RequestParam String year,
-			@RequestParam String month, @RequestParam String day) {
+	public String deleteNote(Model model, HttpSession session, Member member, @RequestParam String year,
+			@RequestParam String month, @RequestParam String day, @RequestParam String qId) {
+
+		member = (Member) session.getAttribute("member");
+
+		if (!qId.equals("") && !qId.equals(member.getMemId())) {
+			System.out.println("WTF: " + qId + member.getMemId());
+			return "detectedHacking";
+		}
 
 		Note noteDelete = new Note();
 		try {
-			member = (Member) session.getAttribute("member");
 			noteDelete.setNoteId(member.getMemId());
 			noteDelete.setNoteDate(year + "-" + month + "-" + day);
 
@@ -215,9 +239,12 @@ public class NoteController {
 
 		} catch (NullPointerException e) {
 			System.out.println("[deleteNote] Delete request - NullPointerException: You need to login!");
+			return "error";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "error";
 		}
+		return "success";
 	}
 
 	@ModelAttribute("curYear")

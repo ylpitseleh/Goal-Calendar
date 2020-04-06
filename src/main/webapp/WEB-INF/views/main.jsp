@@ -211,16 +211,23 @@
           alert("You need to login.");
         }
 
+        if (g_qId === "")
+          g_qId = "${member.memId}";
         /* form 태그를 통해 input 값으로 들어온 noteProgress와 noteContent를 비동기 POST 방식으로 전송*/
         $.ajax({
           url: "saveNoteContent",
           type: "post",
           //dataType: "JSON", dataType 주석 처리 하니 에러 없어짐 //왜인지 알아보자!
           //serialize() : 입력된 모든 Element를 문자열의 데이터에 serialize 한다.
-          data: $("#inputNote").serialize(),
+          data: $("#inputNote").serialize() + "&qId=" + g_qId,
           cache: false,
           success: function (data) {
-            updateAll(g_qId);
+            if (data === "success") {
+              updateAll(g_qId);
+            } else if (data === "detectedHacking") {
+              // qId != "" && qId != memId
+              alert("Nice try... you little rat!! Did you think you could ruin other user's data? really? lol lol");
+            }
           },
           error: function (request, status, error) {
             alert("[saveButton] code = " + request.status + " message = " + request.responseText + " error = " + error);
@@ -240,6 +247,8 @@
         month = month.length == 1 ? "0" + month.slice(0) : month;
         day = day.length == 1 ? "0" + day.slice(0) : day;
 
+        if (g_qId === "")
+          g_qId = "${member.memId}";
         $.ajax({
           url: "deleteNote",
           type: "post",
@@ -248,13 +257,18 @@
           data: {
             'year': year,
             'month': month,
-            'day': day
+            'day': day,
+            'qId': g_qId
           },
           cache: false,
           success: function (data) {
-            $(".noteList li").remove();
-            $(".days li a.selected").css("background-color", "#ffffff");
-            alert("Data is successfully deleted.");
+            if (data === "success") {
+              $(".noteList li").remove();
+              $(".days li a.selected").css("background-color", "#ffffff");
+            } else if (data === "detectedHacking") {
+              // qId != "" && qId != memId
+              alert("Nice try... you little rat!! Did you think you could ruin other user's data? really? lol lol");
+            }
           },
           error: function (request, status, error) {
             alert("[deleteButton] code = " + request.status + " message = " + request.responseText + " error = " + error);
