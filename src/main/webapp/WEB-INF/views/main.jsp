@@ -10,6 +10,8 @@
       이게 귀찮으면, xml configuration에서 webServer의 캐시 기능 자체를 off할 수도 있다.
       참고: https://stackoverflow.com/questions/12717993/stylesheet-not-updating
   -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="<c:url value='/resources/css_my/main.css?${serverTime}' />" rel="stylesheet">
   <script src="http://code.jquery.com/jquery-latest.js"></script>
 
@@ -337,13 +339,11 @@
     </div>
   </c:if>
 
-
   <div class="search-container">
-    <br>
-    <input id="searchInput" type="text" placeholder="Search user" name="search" />
-    <button id="searchButton" type="button">Search</button>
+    <input type="text" id="searchInput" placeholder="Search user.." name="search" />
+    <button type="button" id="searchButton"><i class="fa fa-search"></i></button>
   </div>
-<!--
+  <!--
   <div class="debugging">
     <br>
     <br>

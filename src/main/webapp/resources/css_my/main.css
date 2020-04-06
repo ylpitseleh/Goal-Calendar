@@ -421,7 +421,50 @@ pre {
 }
 
 
+/* Imported from w3school */
+
+.search-container {
+  margin: auto;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+div.search-container input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+div.search-container button {
+  float: left;
+  width: 20%;
+  padding: 11.6px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+div.search-container button:hover {
+  background: #0b7dda;
+}
+
+div.search-container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/******************************/
+
+
 /* 맨 처음부터 보이지 않도록 초기화를 하기 위함!! */
+
 .needAuthority {
   display: none;
 }
