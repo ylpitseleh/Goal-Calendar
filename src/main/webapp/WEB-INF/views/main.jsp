@@ -81,6 +81,8 @@
 
             } else if (strs[0] !== "") {
               document.querySelector("#noteProgress").value = strs[2];
+              if (strs[3] === "null")
+                strs[3] = "";
 
               // wrap='hard': wraps the words inside the text box and places line breaks at the end of each line
               var html = "<li class='notes'>\n<pre wrap='hard'>";
@@ -150,30 +152,35 @@
       updateAll = function (qId) {
 
         var memId = "${member.memId}"
+
         var displayValue = "";
-        var elNoteProgress = document.querySelector("#noteProgress");
+        var disableProgressBar;
         // qId: 검색한/출력할 아이디, memId: 로그인 한 아이디
         if (qId === "" && memId === "") {
           displayValue = "none";
-          elNoteProgress.disabled = true;
+          disableProgressBar = true;
         } else if (qId === "" && memId !== "") {
           qId = memId;
           displayValue = "block";
-          elNoteProgress.disabled = false;
+          disableProgressBar = false;
         } else if (qId !== memId) {
           displayValue = "none";
-          elNoteProgress.disabled = true;
+          disableProgressBar = true;
         } else if (qId === memId) {
           displayValue = "block";
-          elNoteProgress.disabled = false;
+          disableProgressBar = false;
         }
 
         $(".needAuthority").css("display", displayValue);
+        document.querySelector("#noteProgress").disabled = disableProgressBar;
+        // ==
         // var elements = document.querySelectorAll(".needAuthority");
         // var length = elements.length;
         // for (var index = 0; index < length; index++) {
         //   elements[index].style.display = displayValue;
         // }
+
+        document.querySelector("#showUser").innerText = qId + "'s Calendar"
 
         updateNoteList(qId);
         updateProgressColors(qId);
@@ -445,6 +452,7 @@
     </script>
     <div class="col rightCol">
       <div class="content">
+        <h2 id="showUser"></h2>
         <button class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" style="cursor:pointer">&nbsp;&nbsp;&gt;</button>
         <h2 id="year" class="curYear"></h2>
         <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" style="cursor:pointer">&lt;&nbsp;&nbsp;</button><br><br><br>

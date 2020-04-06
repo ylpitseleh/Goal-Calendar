@@ -29,7 +29,6 @@ h2,
 h3,
 h4,
 h5,
-
 p {
   line-height: 20px;
   margin-bottom: 10px;
@@ -66,7 +65,7 @@ a {
   font-weight: 300;
   font-size: 26px;
   line-height: 28px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   margin: 0px 0px 0px 0px;
 }
 
@@ -206,7 +205,7 @@ a {
 .calendar .weekdays li,
 .calendar .days li {
   float: left;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .calendar .months li a,
@@ -383,6 +382,11 @@ span {
 .postIt .contents button {
   position: relative;
   z-index: 1;
+}
+
+#showUser {
+  float: left;
+  font-size: 20px;
 }
 
 #prevYear,
