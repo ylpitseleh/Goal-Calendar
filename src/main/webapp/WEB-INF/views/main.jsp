@@ -42,18 +42,10 @@
         7. 넘겨받은 값은 success: function(data) 형식으로 사용할 수 있다. (return 값 == data 값)
        */
 
-      function updateNoteList(qId) {
-        var year = yearCurrent;
-        var month = document.querySelector(".months li a.selected").getAttribute("month-value");
-        var day = document.querySelector(".days li a.selected").text;
-        month = month.length == 1 ? "0" + month.slice(0) : month;
-        day = day.length == 1 ? "0" + day.slice(0) : day;
-
+      function updateNoteList(qId, year, month, day) {
         // ".debugging"
         // document.querySelector("#showQId").value = g_qId;
         // document.querySelector("#showMemId").value = "${member.memId}";
-
-
         $.ajax({
           url: "loadNoteListByDate",
           type: "post",
@@ -70,29 +62,30 @@
             $("#noteContent").focus();
 
             var strs = data.split("|");
-            // strs = [noteId, noteDate, noteProgress, noteContent];
+
+            var noteId = strs[0];
+            if (strs.length === 4) {
+              var noteDate = strs[1];
+              var noteProgress = strs[2];
+              var noteContent = strs[3];
+            }
 
             $(".noteList li").remove();
-            if (strs[0] === "noMatchingData") {
+            if (noteId === "noMatchingData") {
               document.querySelector("#noteProgress").value = 0;
               document.querySelector("#noteContent").value = "";
-
-              // // @@T
-              // if (qId !== "${member.memId}")
-              //   alert(strs[0] + ": The user [" + qId + "] does not exist OR has no data!");
-
-            } else if (strs[0] !== "") {
-              document.querySelector("#noteProgress").value = strs[2];
-              if (strs[3] === "null")
-                strs[3] = "";
+            } else if (noteId !== "") {
+              document.querySelector("#noteProgress").value = noteProgress;
+              if (noteContent === "null")
+                noteContent = "";
 
               // wrap='hard': wraps the words inside the text box and places line breaks at the end of each line
               var html = "<li class='notes'>\n<pre wrap='hard'>";
-              html += "<br>" + strs[3] + "";
+              html += "<br>" + noteContent + "";
               html += "</pre>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
             } else {
-              alert("debug: ...!!? something is wrong!")
+              alert("debug: ...!? something is wrong! noteId can't be null!")
             }
           },
 
@@ -104,11 +97,7 @@
 
       //////////////////////////////////////////////////////////////////////////
       /* 페이지를 로드할 때마다 DB에서 현재 로그인 id, year, month와 일치하는 note들을 모두 찾아와서 noteProgress value별로 색깔을 입혀줌. */
-      function updateProgressColors(qId) {
-        var year = yearCurrent;
-        var month = document.querySelector(".months li a.selected").getAttribute("month-value");
-        month = month.length == 1 ? "0" + month.slice(0) : month; //1월 -> 01월
-
+      function updateProgressColors(qId, year, month) {
         $.ajax({
           url: "loadNoteListByMonth",
           //dataType: 서버에서 return되는 데이터 형식
@@ -149,9 +138,7 @@
         });
       }
 
-      // 일반적으로 parameter qId에 argument memId 값이 기본값으로 할당된다.
-      // 단, searchButton으로 호출되었을 시에는 searchInput의 값이 할당된다.
-      updateAll = function (qId) {
+      updateAll = function (qId, year = "", month = "", day = "") {
 
         var memId = "${member.memId}"
 
@@ -182,10 +169,27 @@
         //   elements[index].style.display = displayValue;
         // }
 
-        document.querySelector("#showUser").innerText = qId + "'s Calendar"
+        if (qId === memId)
+          document.querySelector("#showUser").innerText = "My Calendar"
+        else
+          document.querySelector("#showUser").innerText = qId + "'s Calendar"
 
-        updateNoteList(qId);
-        updateProgressColors(qId);
+        if (year === "") {
+          var year = yearCurrent;
+          var month = document.querySelector(".months li a.selected").getAttribute("month-value");
+          var day = document.querySelector(".days li a.selected").text;
+        } else {
+          // Today 버튼으로 옮겼음.
+          //
+          // var year = today.getFullYear();
+          // var month = today.getMonth();
+          // var day = today.getDate();
+        }
+        month = month.length == 1 ? "0" + month.slice(0) : month;
+        day = day.length == 1 ? "0" + day.slice(0) : day;
+
+        updateNoteList(qId, year, month, day);
+        updateProgressColors(qId, year, month);
       }
 
       //////////////////////////////////////////////////////////////////////////
@@ -447,17 +451,31 @@
 
         /* Day(1~30) 출력 */
         for (var i = 1; i <= lastDate.getDate(); i++) {
-          document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
+          document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="selectDay(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
         }
         document.querySelector('[day-value="1"]').classList.add("selected"); //다른 month 클릭했을 때 임의로 1일에 selected 해줌(안 하면 day=null 에러)
       }
     </script>
+
     <div class="col rightCol">
       <div class="content">
         <h2 id="showUser"></h2>
+
         <button class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" style="cursor:pointer">&nbsp;&nbsp;&gt;</button>
         <h2 id="year" class="curYear"></h2>
-        <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" style="cursor:pointer">&lt;&nbsp;&nbsp;</button><br><br><br>
+        <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" style="cursor:pointer">&lt;&nbsp;&nbsp;</button>
+        <br>
+        <br>
+        <button id="todayButton" onclick="
+          // @@T 뭐지? 왜 selectMonth에 month-value or month_value를 넣어도 안 되고 title를 넣어야만 값이 전달되지?
+          selectMonth(today.toString().split(' ')[1]);
+          selectDay(today.getDate());
+          console.log(' updateTrigger가 실행되었습니다.');
+        ">Today</button>
+        <div class="clearfix"></div>
+        <br>
+
+
         <script>
           /*  < 2020 >   '<' 클릭시 year - 1, '<' 클릭시 year + 1 */
           //var yearCurrent = new Date().getFullYear();
@@ -475,7 +493,7 @@
           }
 
           /* 클릭된 날짜 Selected class 추가해줌 */
-          function daySelected(t) {
+          function selectDay(t) {
             // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
             var sections = document.querySelectorAll('[day-value]');
             for (i = 0; i < sections.length; i++) {
@@ -486,7 +504,7 @@
           }
 
           /* 클릭된 날짜 Selected class 추가해주기 */
-          function monthSelected(t) {
+          function selectMonth(t) {
             console.log("yearCurrent : " + yearCurrent);
 
             // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
@@ -510,23 +528,23 @@
           }
         </script>
         <ul class="months">
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Jan" month-value="1">Jan</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Feb" month-value="2">Feb</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Mar" month-value="3">Mar</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Apr" month-value="4">Apr</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="May" month-value="5">May</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Jun" month-value="6">Jun</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Jul" month-value="7">Jul</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Aug" month-value="8">Aug</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Sep" month-value="9">Sep</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Oct" month-value="10">Oct</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Nov" month-value="11">Nov</a></li>
-          <li><a class="updateTrigger" onclick="monthSelected(title);" href="#" title="Dec" month-value="12">Dec</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Jan" month-value="1">Jan</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Feb" month-value="2">Feb</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Mar" month-value="3">Mar</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Apr" month-value="4">Apr</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="May" month-value="5">May</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Jun" month-value="6">Jun</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Jul" month-value="7">Jul</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Aug" month-value="8">Aug</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Sep" month-value="9">Sep</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Oct" month-value="10">Oct</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Nov" month-value="11">Nov</a></li>
+          <li><a class="updateTrigger" onclick="selectMonth(title);" href="#" title="Dec" month-value="12">Dec</a></li>
         </ul>
         <script>
           document.querySelector('[month-value="${curMonth}"]').classList.add("selected");
         </script>
-        <div class="clearfix"></div>
+        <!-- <div class="clearfix"></div> -->
         <ul class="weekdays">
           <li><a id="Sun" data-value="1">Sun</a></li>
           <li><a id="Mon" data-value="2">Mon</a></li>
@@ -563,7 +581,7 @@
             }
 
             /* 클릭된 날짜 Selected class 추가해줌 */
-            function daySelected(t) {
+            function selectDay(t) {
               // 현재 selected 되어있던것들 모두 remove하고 선택된 것만 selected
               var sections = document.querySelectorAll('[day-value]');
               for (i = 0; i < sections.length; i++) {
@@ -575,7 +593,7 @@
 
             /* Day(1~30) 출력 */
             for (var i = 1; i <= lastDate.getDate(); i++) {
-              document.write('<li><a class="updateTrigger" href="#" onclick="daySelected(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
+              document.write('<li><a class="updateTrigger" href="#" onclick="selectDay(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>');
             }
 
             document.querySelector('[day-value="${curDay}"]').classList.add("selected");

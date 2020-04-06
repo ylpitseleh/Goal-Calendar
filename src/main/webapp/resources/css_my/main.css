@@ -389,6 +389,11 @@ span {
   font-size: 20px;
 }
 
+#todayButton {
+  float: right;
+  right: 20px;
+}
+
 #prevYear,
 #afterYear,
 #year {
