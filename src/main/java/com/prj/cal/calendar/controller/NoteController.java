@@ -191,7 +191,6 @@ public class NoteController {
 		} catch (NullPointerException e) {
 			System.out.println(
 					"[loadNoteListByDate] NullPointerException: There isn't any note in DB for selected month!");
-
 			return "nullPointer!";
 		} catch (Exception e) {
 			e.printStackTrace();

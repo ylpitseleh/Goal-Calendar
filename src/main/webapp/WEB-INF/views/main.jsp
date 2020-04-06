@@ -28,8 +28,8 @@
     var yearCurrent = new Date().getFullYear();
     var g_qId = "";
 
+    //////////////////////////////////////////////////////////////////////////
     $(document).ready(function () {
-      //////////////////////////////////////////////////////////////////////////
       /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
         1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
         2. 그 값들을 $.ajax를 통해 post 방식으로 mainReloadDBMatching url로 request 한 후
@@ -71,7 +71,15 @@
             // strs = [noteId, noteDate, noteProgress, noteContent];
 
             $(".noteList li").remove();
-            if (strs[0] !== "") {
+            if (strs[0] === "noMatchingData") {
+              document.querySelector("#noteProgress").value = 0;
+              document.querySelector("#noteContent").value = "";
+
+              // // @@T
+              // if (qId !== "${member.memId}")
+              //   alert(strs[0] + ": The user [" + qId + "] does not exist OR has no data!");
+
+            } else if (strs[0] !== "") {
               document.querySelector("#noteProgress").value = strs[2];
 
               // wrap='hard': wraps the words inside the text box and places line breaks at the end of each line
@@ -79,15 +87,6 @@
               html += "<br>" + strs[3] + "";
               html += "</pre>\n</li>";
               document.querySelector('.noteList').innerHTML += html;
-            } else if (strs[0] === "noMatchingData") {
-              document.querySelector("#noteProgress").value = 0;
-              document.querySelector("#noteContent").value = "";
-              $(".noteList li").remove();
-
-              // // @@T
-              // if (qId !== "${member.memId}")
-              //   alert(strs[0] + ": The user [" + qId + "] does not exist OR has no data!");
-
             } else {
               alert("debug: ...!!? something is wrong!")
             }
@@ -98,6 +97,7 @@
           }
         });
       }
+
       //////////////////////////////////////////////////////////////////////////
       /* 페이지를 로드할 때마다 DB에서 현재 로그인 id, year, month와 일치하는 note들을 모두 찾아와서 noteProgress value별로 색깔을 입혀줌. */
       function updateProgressColors(qId) {
@@ -285,6 +285,7 @@
     <div class="removeMem">
       <a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp;&nbsp;
     </div>
+
     <div class="modifyMem">
       <a href="${cp}/member/modifyForm">MODIFY</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
@@ -306,6 +307,7 @@
     <p style="color:black;">memId</p style="color:black;">
     <input id="showMemId" type="text">
   </div>
+
   <script>
     // function sayHo() {
     //   alert("Ho!")
