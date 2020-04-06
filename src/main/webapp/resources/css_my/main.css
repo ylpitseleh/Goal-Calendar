@@ -29,7 +29,6 @@ h2,
 h3,
 h4,
 h5,
-
 p {
   line-height: 20px;
   margin-bottom: 10px;
@@ -66,7 +65,7 @@ a {
   font-weight: 300;
   font-size: 26px;
   line-height: 28px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   margin: 0px 0px 0px 0px;
 }
 
@@ -206,7 +205,7 @@ a {
 .calendar .weekdays li,
 .calendar .days li {
   float: left;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .calendar .months li a,
@@ -385,35 +384,92 @@ span {
   z-index: 1;
 }
 
+#showUser {
+  float: left;
+  font-size: 20px;
+}
+
+#todayButton {
+  float: right;
+  right: 20px;
+}
+
 #prevYear,
 #afterYear,
 #year {
-	float: right;
+  float: right;
 }
 
 #prevYear,
 #afterYear {
-	border: 0px;
-	outline: 0px;
- 	background-color: #ffffff;
- 	color: #aba6a6;
- 	font-weight: 300;
- 	font-size: 26px;
- 	line-height: 28px;
- 	text-shadow: -1px 0 #F2F1F6, 0 1px #F2F1F6, 1px 0 #F2F1F6, 0 -1px #F2F1F6;
+  border: 0px;
+  outline: 0px;
+  background-color: #ffffff;
+  color: #aba6a6;
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 28px;
+  text-shadow: -1px 0 #F2F1F6, 0 1px #F2F1F6, 1px 0 #F2F1F6, 0 -1px #F2F1F6;
 }
 
 .modifyMem {
-	float: right;
+  float: right;
 }
+
 .removeMem {
-	float: right;
+  float: right;
 }
 
 pre {
-	font-size: 15px;
-	font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 
+/* Imported from w3school */
 
+.search-container {
+  margin: auto;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+div.search-container input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+div.search-container button {
+  float: left;
+  width: 20%;
+  padding: 11.6px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+div.search-container button:hover {
+  background: #0b7dda;
+}
+
+div.search-container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/******************************/
+
+
+/* 맨 처음부터 보이지 않도록 초기화를 하기 위함!! */
+
+.needAuthority {
+  display: none;
+}
