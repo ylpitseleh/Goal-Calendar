@@ -25,8 +25,8 @@
 
   <div class="collapse navbar-collapse" id="#bs-example-navbar-collapse-1">
    <ul class="nav navbar-nav">
-    <li><a href="${cp}/main">MAIN</a></li>
-	<li><a href="${cp}/member/joinForm">JOIN</a></li>
+    <li><a href="${cp}/main">메인화면</a></li>
+	<li><a href="${cp}/member/joinForm" style="color: red;">회원가입</a></li>
    </ul>
 
   </div>
@@ -61,7 +61,8 @@
 
  <script type="text/javascript">
 	if ("${loginError}" == 1) {
-		alert("Login Failed.");
+		//alert("Login Failed.");
+		alert("로그인을 실패했습니다.");
 	}
 
 </script>

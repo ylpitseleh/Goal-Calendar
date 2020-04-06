@@ -58,7 +58,8 @@
 
  <script type="text/javascript">
 	if ("${joinError}" == 1) {
-		alert("Join Failed. ID already exists.");
+		//alert("Join Failed. ID already exists.");
+		alert("이미 존재하는 ID입니다.");
 	}
 </script>
 
