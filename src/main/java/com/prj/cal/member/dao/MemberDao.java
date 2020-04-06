@@ -202,7 +202,7 @@ public class MemberDao implements IMemberDao {
 
 		int result = 0;
 
-		final String sql = "DELETE member WHERE memId = ? AND memPw = ?";
+		final String sql = "DELETE FROM member WHERE memId = ? AND memPw = ?";
 
 //		1st
 //		result = template.update(sql, member.getMemId(), member.getMemPw());

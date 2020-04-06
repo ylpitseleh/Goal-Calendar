@@ -26,6 +26,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 
   <dependencies>
+  	<!-- Mysql -->
+  	<dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>8.0.19</version>
+	</dependency>
+  
     <!-- GSON -->
     <dependency>
       <groupId>com.google.code.gson</groupId>

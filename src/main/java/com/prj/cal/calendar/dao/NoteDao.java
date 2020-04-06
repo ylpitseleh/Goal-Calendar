@@ -19,7 +19,7 @@ import com.prj.cal.calendar.Note;
 @Repository
 public class NoteDao implements INoteDao {
 	private JdbcTemplate template;
-
+	//<ORACLE>
 	//	CREATE TABLE Calendar (
 	//		noteId VARCHAR2(15),
 	//		noteDate DATE,
@@ -34,6 +34,23 @@ public class NoteDao implements INoteDao {
 	//		memPw VARCHAR2(20),
 	//		memMail VARCHAR2(30)
 	//	);
+	
+	// <Mysql>
+	/*CREATE TABLE Calendar (
+			noteId VARCHAR(15),
+			noteDate DATE,
+			noteContent VARCHAR(150),
+			noteProgress INT(1),
+		  PRIMARY KEY (noteId, noteDate)
+		);
+	
+		------------
+		CREATE TABLE Member (
+			memId VARCHAR(15),
+			memPw VARCHAR(20),
+			memMail VARCHAR(30),
+			primary key(memId)
+		);*/
 
 	@Autowired
 	public NoteDao(ComboPooledDataSource dataSource) {
@@ -60,8 +77,9 @@ public class NoteDao implements INoteDao {
 		//			('존재하는지 확인할 값','insert할 값1', 'insert할 값2')
 
 		// @formatter:off
-		final String sql =
-			"MERGE INTO\n" +
+		//final String sql = "INSERT INTO calendar ( noteId, noteDate, noteProgress, noteContent) Values(?,?,?,?) ON DUPLICATE KEY UPDATE calendar SET noteProgress=?, noteContent=? WHERE noteId=? AND noteDate=?";
+		
+			/*"MERGE INTO\n" +
 			"	calendar\n" +
 			"USING DUAL\n" +
 			"	ON (noteId = ? and noteDate = ?)\n" +
@@ -73,12 +91,14 @@ public class NoteDao implements INoteDao {
 			"		(noteId, noteDate, noteProgress, noteContent)\n" +
 			"	VALUES\n" +
 			"		(?, ?, ?, ?)\n"
-			;
-		// @formatter:on
+			;*/
+		
+			// @formatter:on
 
 		// final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
 		// final String sql = "UPDATE member SET memPw = ?, memMail = ? WHERE memId = ?";
-
+		final String sql = "INSERT INTO calendar ( noteId, noteDate, noteProgress, noteContent) Values(?,?,?,?) ON DUPLICATE KEY UPDATE noteProgress=?, noteContent=?";
+		
 		result = template.update(sql, new PreparedStatementSetter() {
 
 			@Override
@@ -90,7 +110,8 @@ public class NoteDao implements INoteDao {
 
 					java.util.Date date = formatter.parse(note.getNoteDate());
 					java.sql.Date noteDate = new java.sql.Date(date.getTime()); // DB에 넣기 위한 date 형변환
-
+					System.out.println("date : "+date);
+					System.out.println("noteDate : "+noteDate);
 					int noteProgress = note.getNoteProgress();
 					String noteContent = note.getNoteContent();
 
@@ -101,10 +122,12 @@ public class NoteDao implements INoteDao {
 					pstmt.setString(4, noteContent);
 
 					// 아래 4줄 없애려면 https://stackoverflow.com/questions/2309970/named-parameters-in-jdbc 참고
-					pstmt.setString(5, noteId);
-					pstmt.setDate(6, noteDate);
-					pstmt.setInt(7, noteProgress);
-					pstmt.setString(8, noteContent);
+					//pstmt.setString(5, noteId);
+					//pstmt.setDate(6, noteDate);
+					pstmt.setInt(5, noteProgress);
+					pstmt.setString(6, noteContent);
+					//pstmt.setString(7, noteId);
+					//pstmt.setDate(8, noteDate);
 
 					System.out.println("[noteInsertOrUpdate] NoteId in DB : " + noteId);
 					System.out.println("[noteInsertOrUpdate] NoteDate in DB : " + noteDate);
@@ -175,7 +198,7 @@ public class NoteDao implements INoteDao {
 
 			java.util.Date date = formatter.parse(noteToSearch.getNoteDate());
 			java.sql.Date noteDate = new java.sql.Date(date.getTime());
-
+			
 			notes = template.query(sql, new Object[] { noteId, noteDate }, new RowMapper<Note>() {
 
 				@Override
@@ -204,7 +227,7 @@ public class NoteDao implements INoteDao {
 	@Override
 	public int noteDelete(final Note note) {
 		int result = 0;
-		final String sql = "DELETE calendar WHERE noteId = ? AND noteDate = ?";
+		final String sql = "DELETE FROM calendar WHERE noteId = ? AND noteDate = ?";
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			java.util.Date date = formatter.parse(note.getNoteDate());
