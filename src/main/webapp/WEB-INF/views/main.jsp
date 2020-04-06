@@ -32,6 +32,8 @@
 
     //////////////////////////////////////////////////////////////////////////
     $(document).ready(function () {
+      if ("${param.search}" !== "")
+        g_qId = "${param.search}";
       /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
         1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
         2. 그 값들을 $.ajax를 통해 post 방식으로 mainReloadDBMatching url로 request 한 후
@@ -334,6 +336,7 @@
 
   <c:if test="${!empty member}">
     <a href="${cp}/member/logout">LOGOUT</a> &nbsp;
+
     <div class="removeMem">
       <a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp;&nbsp;
     </div>
@@ -343,55 +346,10 @@
     </div>
   </c:if>
 
-  <div class="search-container">
+  <form class="search-container" action="">
     <input type="text" id="searchInput" placeholder="Search user.." name="search" />
-    <button type="button" id="searchButton"><i class="fa fa-search"></i></button>
-  </div>
-  <!--
-  <div class="debugging">
-    <br>
-    <br>
-    <p style="color:black; font-size: 20px;">debugging: in updateNoteList</p style="color:black;">
-    <p style="color:black;">g_qId</p style="color:black;">
-    <input id="showQId" type="text">
-    <br>
-    <p style="color:black;">memId</p style="color:black;">
-    <input id="showMemId" type="text">
-  </div> -->
-
-  <script>
-    // function sayHo() {
-    //   alert("Ho!")
-    // }
-    //    searchButton.addEventListener("click", function(e){ sayHo() });
-    // == searchButton.onclick = function(e){ sayHo() };
-    // == $("#searchButton").click(function(e) {sayHo()});
-    //
-    // != $("#searchButton").click(sayHo());
-    // click 이벤트가 부여되지도 않고, sayHo(); 1회 자동실행 된 후 먹통
-
-    // Get the input field
-    var searchInput = document.querySelector("#searchInput");
-    var searchButton = document.querySelector("#searchButton");
-
-    // Execute a function when the user releases a key on the keyboard
-    searchInput.addEventListener("keyup", function (event) {
-      // Number 13 is the "Enter" key on the keyboard
-      if (event.keyCode === 13) {
-        // Cancel the default action, if needed
-        event.preventDefault();
-        // Trigger the button element with a click
-        searchButton.click();
-      }
-    });
-
-    searchButton.onclick = function (e) {
-      g_qId = searchInput.value;
-      if (g_qId !== "")
-        updateAll(g_qId);
-      searchInput.value = "";
-    }
-  </script>
+    <button type="button" id="searchButton" onclick="form.submit();"><i class="fa fa-search"></i></button>
+  </form>
 
   <div class="calendar">
 

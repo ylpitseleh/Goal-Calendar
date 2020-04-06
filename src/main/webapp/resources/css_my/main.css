@@ -434,7 +434,7 @@ pre {
   box-sizing: border-box;
 }
 
-div.search-container input[type=text] {
+form.search-container input[type=text] {
   padding: 10px;
   font-size: 17px;
   border: 1px solid grey;
@@ -443,7 +443,7 @@ div.search-container input[type=text] {
   background: #f1f1f1;
 }
 
-div.search-container button {
+form.search-container button {
   float: left;
   width: 20%;
   padding: 11.6px;
@@ -455,11 +455,11 @@ div.search-container button {
   cursor: pointer;
 }
 
-div.search-container button:hover {
+form.search-container button:hover {
   background: #0b7dda;
 }
 
-div.search-container::after {
+form.search-container::after {
   content: "";
   clear: both;
   display: table;
