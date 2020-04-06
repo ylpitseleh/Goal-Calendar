@@ -16,6 +16,7 @@ body {
   text-rendering: optimizeLegibility;
   font-size: 96.5%;
   font-family: Helvetica, Arial, sans-serif;
+  /*font-family: 'Nanum Gothic', sans-serif;*/
 }
 
 input,
@@ -205,7 +206,7 @@ a {
 .calendar .weekdays li,
 .calendar .days li {
   float: left;
-  /* text-transform: uppercase; */
+  text-transform: uppercase; 
 }
 
 .calendar .months li a,
@@ -412,14 +413,6 @@ span {
   text-shadow: -1px 0 #F2F1F6, 0 1px #F2F1F6, 1px 0 #F2F1F6, 0 -1px #F2F1F6;
 }
 
-.modifyMem {
-  float: right;
-}
-
-.removeMem {
-  float: right;
-}
-
 pre {
   font-size: 15px;
   font-family: Helvetica, Arial, sans-serif;
@@ -432,6 +425,9 @@ pre {
   margin: auto;
   max-width: 300px;
   box-sizing: border-box;
+  position: absolute;
+  top: 20px;
+  left: 1265px;
 }
 
 div.search-container input[type=text] {
@@ -472,4 +468,13 @@ div.search-container::after {
 
 .needAuthority {
   display: none;
+}
+
+ .memberChange a {
+	width:230px;
+	position: relative;
+	top: 630px;
+	left: 1300px;
+	font-family : 'Nanum Gothic';
+	font-size: 16px;
 }

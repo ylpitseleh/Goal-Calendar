@@ -10,6 +10,7 @@
       이게 귀찮으면, xml configuration에서 webServer의 캐시 기능 자체를 off할 수도 있다.
       참고: https://stackoverflow.com/questions/12717993/stylesheet-not-updating
   -->
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="<c:url value='/resources/css_my/main.css?${serverTime}' />" rel="stylesheet">
@@ -328,19 +329,18 @@
 </head>
 
 <body>
-  <c:if test="${empty member}">
-    <a href="${cp}/member/loginForm">LOGIN</a> &nbsp;&nbsp;
+<c:if test="${empty member}">
+    <a href="${cp}/member/loginForm">LOGIN</a> &nbsp;&nbsp;&nbsp;
+  	<a href="${cp}/main">HOME</a>&nbsp;&nbsp;
   </c:if>
 
   <c:if test="${!empty member}">
-    <a href="${cp}/member/logout">LOGOUT</a> &nbsp;
-    <div class="removeMem">
-      <a href="${cp}/member/removeForm">REMOVE</a> &nbsp;&nbsp;&nbsp;
-    </div>
-
-    <div class="modifyMem">
-      <a href="${cp}/member/modifyForm">MODIFY</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </div>
+    <a href="${cp}/member/logout">LOGOUT</a> &nbsp;&nbsp;&nbsp;
+    <a href="${cp}/main">HOME</a>&nbsp;&nbsp;
+    <div class="memberChange">
+    	<a href="${cp}/member/modifyForm">회원정보변경</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  		<a href="${cp}/member/removeForm">회원삭제</a> &nbsp;&nbsp;&nbsp;
+  	</div>
   </c:if>
 
   <div class="search-container">
@@ -466,14 +466,16 @@
         <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" style="cursor:pointer">&lt;&nbsp;&nbsp;</button>
         <br>
         <br>
-        <button id="todayButton" onclick="
+        <br>
+        <br>
+        <!-- <button id="todayButton" onclick="
           // @@T 뭐지? 왜 selectMonth에 month-value or month_value를 넣어도 안 되고 title를 넣어야만 값이 전달되지?
           selectMonth(today.toString().split(' ')[1]);
           selectDay(today.getDate());
           console.log(' updateTrigger가 실행되었습니다.');
         ">Today</button>
         <div class="clearfix"></div>
-        <br>
+        <br> -->
 
 
         <script>
@@ -615,19 +617,24 @@
 <script type="text/javascript">
   $(document).ready(function () {
     if ("${modifySuccess}" == 1) {
-      // alert("Member modify success.");
+       //alert("Member modify success.");
+       alert("회원 정보가 성공적으로 변경되었습니다.");
     }
     if ("${joinSuccess}" == 1) {
-      // alert("Member join success.");
+       //alert("Member join success.");
+       alert("회원가입이 완료되었습니다.");
     }
     if ("${removeError}" == 1) {
-      // alert("Member remove failed.");
+       //alert("Member remove failed.");
+       alert("회원 삭제에 실패했습니다.");
     }
     if ("${removeSuccess}" == 1) {
-      // alert("Member remove success.");
+       //alert("Member remove success.");
+       alert("회원 탈퇴가 완료되었습니다.");
     }
     if ("${logoutSuccess}" == 1) {
-      // alert("Logout success.");
+       //alert("Logout success.");
+       alert("로그아웃 되었습니다.");
     }
   });
 </script>
