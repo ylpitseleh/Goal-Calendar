@@ -47,9 +47,9 @@
         month = month.length == 1 ? "0" + month.slice(0) : month;
         day = day.length == 1 ? "0" + day.slice(0) : day;
 
-        // debugging
-        document.querySelector("#showQId").value = g_qId;
-        document.querySelector("#showMemId").value = "${member.memId}";
+        // ".debugging"
+        // document.querySelector("#showQId").value = g_qId;
+        // document.querySelector("#showMemId").value = "${member.memId}";
 
 
         $.ajax({
@@ -339,10 +339,11 @@
 
 
   <div class="search-container">
-    <input id="searchInput" type="text" placeholder="Search user.." name="search" />
+    <br>
+    <input id="searchInput" type="text" placeholder="Search user" name="search" />
     <button id="searchButton" type="button">Search</button>
   </div>
-
+<!--
   <div class="debugging">
     <br>
     <br>
@@ -352,7 +353,7 @@
     <br>
     <p style="color:black;">memId</p style="color:black;">
     <input id="showMemId" type="text">
-  </div>
+  </div> -->
 
   <script>
     // function sayHo() {
@@ -384,6 +385,7 @@
       g_qId = searchInput.value;
       if (g_qId !== "")
         updateAll(g_qId);
+      searchInput.value = "";
     }
   </script>
 
