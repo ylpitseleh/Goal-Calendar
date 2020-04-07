@@ -35,6 +35,7 @@
     $(document).ready(function () {
       if ("${param.search}" !== "")
         g_qId = "${param.search}";
+        
       /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
         1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
         2. 그 값들을 $.ajax를 통해 post 방식으로 mainReloadDBMatching url로 request 한 후
@@ -337,7 +338,7 @@
     </div>
   </c:if>
 
-  <form class="search-container" action="">
+  <form class="search-container" autocomplete="on" action="">
     <input type="text" id="searchInput" placeholder="Search user.." name="search" />
     <button type="button" id="searchButton" onclick="form.submit();"><i class="fa fa-search"></i></button>
   </form>
