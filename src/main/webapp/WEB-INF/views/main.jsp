@@ -141,7 +141,7 @@
         });
       }
 
-      updateAll = function (qId, year = "", month = "", day = "") {
+      updateAll = function (qId) {
 
         var memId = "${member.memId}"
 
@@ -177,17 +177,9 @@
         else
           document.querySelector("#showUser").innerText = qId + "'s Calendar"
 
-        if (year === "") {
-          var year = yearCurrent;
-          var month = document.querySelector(".months li a.selected").getAttribute("month-value");
-          var day = document.querySelector(".days li a.selected").text;
-        } else {
-          // Today 버튼으로 옮겼음.
-          //
-          // var year = today.getFullYear();
-          // var month = today.getMonth();
-          // var day = today.getDate();
-        }
+        var year = yearCurrent;
+        var month = document.querySelector(".months li a.selected").getAttribute("month-value");
+        var day = document.querySelector(".days li a.selected").text;
         month = month.length == 1 ? "0" + month.slice(0) : month;
         day = day.length == 1 ? "0" + day.slice(0) : day;
 
@@ -331,18 +323,18 @@
 </head>
 
 <body>
-<c:if test="${empty member}">
+  <c:if test="${empty member}">
     <a href="${cp}/member/loginForm">LOGIN</a> &nbsp;&nbsp;&nbsp;
-  	<a href="${cp}/main">HOME</a>&nbsp;&nbsp;
+    <a href="${cp}/main">HOME</a>&nbsp;&nbsp;
   </c:if>
 
   <c:if test="${!empty member}">
     <a href="${cp}/member/logout">LOGOUT</a> &nbsp;&nbsp;&nbsp;
     <a href="${cp}/main">HOME</a>&nbsp;&nbsp;
     <div class="memberChange">
-    	<a href="${cp}/member/modifyForm">회원정보변경</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  		<a href="${cp}/member/removeForm">회원삭제</a> &nbsp;&nbsp;&nbsp;
-  	</div>
+      <a href="${cp}/member/modifyForm">회원정보변경</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="${cp}/member/removeForm">회원삭제</a> &nbsp;&nbsp;&nbsp;
+    </div>
   </c:if>
 
   <form class="search-container" action="">
@@ -574,24 +566,24 @@
 <script type="text/javascript">
   $(document).ready(function () {
     if ("${modifySuccess}" == 1) {
-       //alert("Member modify success.");
-       alert("회원 정보가 성공적으로 변경되었습니다.");
+      //alert("Member modify success.");
+      alert("회원 정보가 성공적으로 변경되었습니다.");
     }
     if ("${joinSuccess}" == 1) {
-       //alert("Member join success.");
-       alert("회원가입이 완료되었습니다.");
+      //alert("Member join success.");
+      alert("회원가입이 완료되었습니다.");
     }
     if ("${removeError}" == 1) {
-       //alert("Member remove failed.");
-       alert("회원 삭제에 실패했습니다.");
+      //alert("Member remove failed.");
+      alert("회원 삭제에 실패했습니다.");
     }
     if ("${removeSuccess}" == 1) {
-       //alert("Member remove success.");
-       alert("회원 탈퇴가 완료되었습니다.");
+      //alert("Member remove success.");
+      alert("회원 탈퇴가 완료되었습니다.");
     }
     if ("${logoutSuccess}" == 1) {
-       //alert("Logout success.");
-       alert("로그아웃 되었습니다.");
+      //alert("Logout success.");
+      alert("로그아웃 되었습니다.");
     }
   });
 </script>
