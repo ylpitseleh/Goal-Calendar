@@ -26,6 +26,8 @@ public class DBConfig {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+		// 임시 저장
+		// GRANT ALL ON goalCalendar TO 'scott'@'localhost';
 
 		dataSource.setDriverClass("com.mysql.jdbc.Driver");
 		dataSource.setJdbcUrl(
@@ -40,24 +42,24 @@ public class DBConfig {
 		// hmin: 이대로 따라치면 된다구욧!
 		//
 		// mysql -u root -p
-		// CREATE DATABASE goalCalendar
 		// CREATE USER 'scott'@'localhost' IDENTIFIED BY 'tiger';
-		// GRANT ALL PRIVILEGES ON goalCalendar.* TO 'scott'@'localhost';
+		// CREATE DATABASE goalCalendar;
+		// GRANT ALL PRIVILEGES ON goalCalendar TO 'scott'@'localhost';
 		// exit
 		//
 		// mysql -uscott -ptiger
 		// USE goalCalendar;
 		//
 		/* 한 방에 복붙!
-		CREATE TABLE Calendar (
+		CREATE TABLE calendar (
 			noteId VARCHAR(15),
 			noteDate DATE,
-			noteContent VARCHAR(150),
+			noteContent VARCHAR(200),
 			noteProgress INT(1),
 			PRIMARY KEY (noteId, noteDate)
 		);
 
-		CREATE TABLE Member (
+		CREATE TABLE member (
 			memId VARCHAR(15),
 			memPw VARCHAR(20),
 			memMail VARCHAR(30),

@@ -20,7 +20,7 @@ import com.prj.cal.calendar.Note;
 public class NoteDao implements INoteDao {
 	private JdbcTemplate template;
 	//<ORACLE>
-	//	CREATE TABLE Calendar (
+	//	CREATE TABLE calendar (
 	//		noteId VARCHAR2(15),
 	//		noteDate DATE,
 	//		noteContent VARCHAR2(150),
@@ -29,23 +29,23 @@ public class NoteDao implements INoteDao {
 	//	);
 	//
 	//	------------
-	//	CREATE TABLE Member (
+	//	CREATE TABLE member (
 	//		memId VARCHAR2(15) CONSTRAINT memId_pk PRIMARY KEY,
 	//		memPw VARCHAR2(20),
 	//		memMail VARCHAR2(30)
 	//	);
-	
+
 	// <Mysql>
-	/*CREATE TABLE Calendar (
+	/*CREATE TABLE calendar (
 			noteId VARCHAR(15),
 			noteDate DATE,
 			noteContent VARCHAR(150),
 			noteProgress INT(1),
 		  PRIMARY KEY (noteId, noteDate)
 		);
-	
+
 		------------
-		CREATE TABLE Member (
+		CREATE TABLE member (
 			memId VARCHAR(15),
 			memPw VARCHAR(20),
 			memMail VARCHAR(30),
@@ -78,7 +78,7 @@ public class NoteDao implements INoteDao {
 
 		// @formatter:off
 		//final String sql = "INSERT INTO calendar ( noteId, noteDate, noteProgress, noteContent) Values(?,?,?,?) ON DUPLICATE KEY UPDATE calendar SET noteProgress=?, noteContent=? WHERE noteId=? AND noteDate=?";
-		
+
 			/*"MERGE INTO\n" +
 			"	calendar\n" +
 			"USING DUAL\n" +
@@ -92,13 +92,13 @@ public class NoteDao implements INoteDao {
 			"	VALUES\n" +
 			"		(?, ?, ?, ?)\n"
 			;*/
-		
+
 			// @formatter:on
 
 		// final String sql = "INSERT INTO calendar (noteId, noteDate, noteProgress, noteContent) values (?,?,?,?)";
 		// final String sql = "UPDATE member SET memPw = ?, memMail = ? WHERE memId = ?";
 		final String sql = "INSERT INTO calendar ( noteId, noteDate, noteProgress, noteContent) Values(?,?,?,?) ON DUPLICATE KEY UPDATE noteProgress=?, noteContent=?";
-		
+
 		result = template.update(sql, new PreparedStatementSetter() {
 
 			@Override
@@ -198,7 +198,7 @@ public class NoteDao implements INoteDao {
 
 			java.util.Date date = formatter.parse(noteToSearch.getNoteDate());
 			java.sql.Date noteDate = new java.sql.Date(date.getTime());
-			
+
 			notes = template.query(sql, new Object[] { noteId, noteDate }, new RowMapper<Note>() {
 
 				@Override
