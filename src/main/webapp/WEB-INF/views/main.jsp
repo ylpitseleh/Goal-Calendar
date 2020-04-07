@@ -35,7 +35,7 @@
     $(document).ready(function () {
       if ("${param.search}" !== "")
         g_qId = "${param.search}";
-        
+
       /* updateNoteList 함수는 조건에 맞는 note를 DB로부터 끌어온다.
         1. DOM에서 .selected 클래스가 붙은 element를 찾아 year, month, day값을 받아오고
         2. 그 값들을 $.ajax를 통해 post 방식으로 mainReloadDBMatching url로 request 한 후
@@ -404,6 +404,9 @@
           document.querySelector('.days').innerHTML += '<li><a class="updateTrigger" href="#" onclick="selectDay(title);" id="' + i + '"title="' + i + '" day-value="' + i + '"' + addSpace + '>' + i + '</a></li>';
         }
         document.querySelector('[day-value="1"]').classList.add("selected"); //다른 month 클릭했을 때 임의로 1일에 selected 해줌(안 하면 day=null 에러)
+
+        addClickEventToUpdateTriggers();
+        updateAll(g_qId);
       }
     </script>
 
@@ -411,6 +414,7 @@
       <div class="content">
         <h2 id="showUser"></h2>
 
+        <!-- @@F ver 0.0101 에서 printdays에 addClickEvent, updateAll 추가해서 임시 fix는 했지만, month 클릭 시 2번 이벤트 발동하게 되었음 -->
         <button class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" style="cursor:pointer">&nbsp;&nbsp;&gt;</button>
         <h2 id="year" class="curYear"></h2>
         <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" style="cursor:pointer">&lt;&nbsp;&nbsp;</button>
