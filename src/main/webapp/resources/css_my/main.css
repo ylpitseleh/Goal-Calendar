@@ -425,9 +425,9 @@ pre {
   margin: auto;
   max-width: 300px;
   box-sizing: border-box;
-  position: absolute;
-  top: 20px;
-  left: 1265px;
+  position: relative;
+  left: 600px;
+  top: -40px;
 }
 
 form.search-container input[type=text] {
@@ -470,11 +470,33 @@ form.search-container::after {
   display: none;
 }
 
- .memberChange a {
+ .memberChange a, .memberChange {
 	width:230px;
 	position: relative;
-	top: 630px;
-	left: 1300px;
+	top: 320px;
+	/*left: 1300px;*/
 	font-family : 'Nanum Gothic';
 	font-size: 16px;
+}
+
+/* Search, 회원정보변경, 회원 삭제 반응형으로 변경 */
+@media ( max-width: 1023px ) {
+  		.search-container {
+          float: none;
+          width: auto;
+        }
+        .memberChange {
+          float: none;
+          width: auto;
+        }
+}
+@media ( max-width: 480px ) {
+        .search-container {
+          float: none;
+          width: auto;
+        }
+        .memberChange {
+          float: none;
+          width: auto;
+        }
 }
