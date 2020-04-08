@@ -414,7 +414,7 @@
       <div class="content">
         <h2 id="showUser"></h2>
 
-        <!-- @@F ver 0.0101 에서 printdays에 addClickEvent, updateAll 추가해서 임시 fix는 했지만, month 클릭 시 2번 이벤트 발동하게 되었음 -->
+        <!-- @@F ver 0.0101 에서 printDays에 addClickEvent, updateAll 추가해서 임시 fix는 했지만, month 클릭 시 2번 이벤트 발동하게 되었음 -->
         <button class="updateTrigger" onclick="goToAfterYear(); printDays();" id="afterYear" style="cursor:pointer">&nbsp;&nbsp;&gt;</button>
         <h2 id="year" class="curYear"></h2>
         <button class="updateTrigger" onclick="goToPrevYear(); printDays();" id="prevYear" style="cursor:pointer">&lt;&nbsp;&nbsp;</button>
